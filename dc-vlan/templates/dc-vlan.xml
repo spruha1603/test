@@ -1,0 +1,35 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="dc-vlan">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{device}</name>
+      <config>
+        <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm">
+          <vlans>
+            <vlan>
+              <name>{vlan/vlan-name}</name>
+              <vlan-id>{vlan-id}</vlan-id>
+            </vlan>
+          </vlans>
+        </configuration>
+        <vlan xmlns="urn:ios">
+          <vlan-list>
+            <id>{vlan/vlan-id}</id>
+            <name>{vlan-name}</name>
+          </vlan-list>
+        </vlan>
+        <vlan xmlns="http://tail-f.com/ned/arista-dcs">
+          <vlan-list>
+            <id>{vlan/vlan-id}</id>
+            <name>{vlan-name}</name>
+          </vlan-list>
+        </vlan>
+        <vlan xmlns="http://tail-f.com/ned/cisco-nx">
+          <vlan-list>
+             <id>{vlan/vlan-id}</id>
+             <name>{vlan-name}</name>
+          </vlan-list>
+        </vlan>
+      </config>
+    </device>
+  </devices>
+</config-template>
