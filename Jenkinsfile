@@ -1,3 +1,8 @@
+def rastaResultsDir = ''
+node('localhost') {
+  stage('SCM Checkout') {
+    checkout scm
+  }
   stage('Run RASTA Tests') {
     rastaResultsDir = "${WORKSPACE}/rasta/tests/check-dc-vlan-service"
     echo "Rasta results dir ${rastaResultsDir}"
