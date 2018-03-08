@@ -1,0 +1,7 @@
+testbed: /root/rasta/examples/check-dc-vlan-service/testbed.yaml
+timeout: 600
+cli_style: cisco                # CLI style we want to use for NSO (cisco or juniper)
+service_uri: /api/running/services/dc-vlan
+results_dir: /root/rasta/examples/check-dc-vlan-service/test_results
+data_dir: /root/rasta/examples/check-dc-vlan-service/testcases
+nso: ncs

@@ -1,0 +1,69 @@
+tailfned police cirmode
+no service password-encryption
+aaa accounting delay-start
+no cable admission-control preempt priority-voice
+no cable qos permission create
+no cable qos permission update
+no cable qos permission modems
+ip source-route
+no ip gratuitous-arps
+no ip cef
+ip finger
+no ip http server
+no ip http secure-server
+no ip forward-protocol nd
+no ipv6 cef
+no dot11 syslog
+vlan 7
+ name vtest
+!
+vlan 15
+ name vname
+!
+interface Loopback0
+ no shutdown
+ ip address 127.0.0.1 255.0.0.0
+exit
+interface Ethernet0/0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+line console 0
+ exec-timeout 0
+!

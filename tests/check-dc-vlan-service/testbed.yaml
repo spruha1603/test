@@ -1,0 +1,79 @@
+testbed:
+  tacacs:
+    login_prompt: "sername:"
+    password_prompt: "assword:"
+    username: admin
+  passwords:
+    linux: admin
+
+devices:
+  ncs:
+    type: nso
+    os: nso
+    tacacs:
+      username: admin
+    passwords:
+      tacacs: admin
+      line: admin
+      enable: admin
+    connections:
+      defaults:
+        class: unicon.Unicon
+      con:
+        command: ncs_cli -C
+      jsonrpc:
+        username: admin
+        password: admin
+        ip: 127.0.0.1
+        port: 8080
+        protocol: http
+      cli:
+        protocol: ssh
+        ip: 127.0.0.1
+        port: 2024
+        username: admin
+        password: admin
+        command: ssh -oHostKeyAlgorithms=+ssh-dss admin@localhost -p 2024 -o PubkeyAuthentication=no
+      restconf:
+        protocol: http
+        ip: 127.0.0.1
+        port: 8080
+        username: admin
+        password: admin
+  localhost:
+    type: linux
+    os: linux
+    tacacs:
+      username: root
+    passwords:
+      linux: root
+    connections:
+      defaults:
+        class: 'unicon.Unicon'
+      linux:
+        protocol: ssh
+        ip: 127.0.0.1
+      cli:
+        protocol: ssh
+        ip: 127.0.0.1
+  R10:
+    type: router
+    os: ios
+    tacacs:
+      username: admin
+    passwords:
+      tacacs: admin
+      line: admin
+      enable: admin
+    connections:
+      defaults:
+        class: unicon.Unicon
+      con:
+        command: ncs_cli -C
+      cli:
+        protocol: ssh
+        ip: 127.0.0.1
+        port: 10022
+        username: admin
+        password: admin
+        command: ssh -l admin 127.0.0.1 -p 10022 -oHostKeyAlgorithms=+ssh-dss -o PubkeyAuthentication=no

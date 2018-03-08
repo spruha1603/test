@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.2 (Python 3.5.2 on linux)" generated="20180228 19:22:36.273">
+<suite id="s1" source="/root/rasta/examples/check-dc-vlan-service/dcvlan-service.robot" name="Dcvlan-Service">
+<test id="s1-t1" name="Setup dcVlan service">
+<kw name="Set Global Variable" library="BuiltIn">
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<arguments>
+<arg>${TEST_CASE}</arg>
+<arg>dcvlan_create</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.006">${TEST_CASE} = dcvlan_create</msg>
+<status starttime="20180228 19:22:37.005" status="PASS" endtime="20180228 19:22:37.006"></status>
+</kw>
+<kw name="Init test result directory">
+<kw name="Create Directory" library="OperatingSystem">
+<doc>Creates the specified directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.007" html="yes">Directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create&lt;/a&gt;' already exists.</msg>
+<status starttime="20180228 19:22:37.007" status="PASS" endtime="20180228 19:22:37.007"></status>
+</kw>
+<kw name="Empty Directory" library="OperatingSystem">
+<doc>Deletes all the content from the given directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.008" html="yes">Listing contents of directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create&lt;/a&gt;'.</msg>
+<msg level="INFO" timestamp="20180228 19:22:37.008" html="yes">Emptied directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:37.008" status="PASS" endtime="20180228 19:22:37.009"></status>
+</kw>
+<kw name="Create Directory" library="OperatingSystem">
+<doc>Creates the specified directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/configdiffs</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.009" html="yes">Created directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:37.009" status="PASS" endtime="20180228 19:22:37.009"></status>
+</kw>
+<kw name="Create Directory" library="OperatingSystem">
+<doc>Creates the specified directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/before</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.010" html="yes">Created directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:37.010" status="PASS" endtime="20180228 19:22:37.010"></status>
+</kw>
+<kw name="Create Directory" library="OperatingSystem">
+<doc>Creates the specified directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/after</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.011" html="yes">Created directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:37.010" status="PASS" endtime="20180228 19:22:37.011"></status>
+</kw>
+<kw name="Create Directory" library="OperatingSystem">
+<doc>Creates the specified directory.</doc>
+<arguments>
+<arg>${data_dir}/${TEST_CASE}/expected</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:37.012" html="yes">Directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create/expected"&gt;/root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create/expected&lt;/a&gt;' already exists.</msg>
+<status starttime="20180228 19:22:37.011" status="PASS" endtime="20180228 19:22:37.012"></status>
+</kw>
+<status starttime="20180228 19:22:37.006" status="PASS" endtime="20180228 19:22:37.012"></status>
+</kw>
+<kw name="Load Topology and connect to devices">
+<tags>
+<tag>setup</tag>
+</tags>
+<kw name="use testbed &quot;${testbed}&quot;" library="rasta.RASTA">
+<doc>Load testbed YAML file and instantiate testbed object</doc>
+<status starttime="20180228 19:22:37.013" status="PASS" endtime="20180228 19:22:37.045"></status>
+</kw>
+<kw name="connect to device &quot;${nso}&quot;" library="rasta.RASTA">
+<doc>Connect to device via 'cli' connection as defined in testbed.yaml</doc>
+<msg level="INFO" timestamp="20180228 19:22:37.433">2018-02-28T19:22:37: %UNICON-INFO: +++ initializing context +++
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing state_machine +++
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing services +++
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  log_user   :  &lt;unicon.plugins.generic.service_implementation.LogUser object at 0x7f641de279e8&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  sendline   :  &lt;unicon.plugins.generic.service_implementation.Sendline object at 0x7f641de27a90&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  cli_style   :  &lt;unicon.plugins.confd.service_implementation.CliStyle object at 0x7f641de27cc0&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  command   :  &lt;unicon.plugins.confd.service_implementation.Command object at 0x7f641de27b70&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  configure   :  &lt;unicon.plugins.confd.service_implementation.Configure object at 0x7f641de27c50&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  expect   :  &lt;unicon.plugins.generic.service_implementation.Expect object at 0x7f641de27d68&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  send   :  &lt;unicon.plugins.generic.service_implementation.Send object at 0x7f641de27ba8&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  expect_log   :  &lt;unicon.plugins.generic.service_implementation.ExpectLogging object at 0x7f641de27c88&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  execute   :  &lt;unicon.plugins.confd.service_implementation.Execute object at 0x7f641de27c18&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: connection to ncs
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ connection to spawn_command: ssh -oHostKeyAlgorithms=+ssh-dss admin@localhost -p 2024 -o PubkeyAuthentication=no, id: 140067974845272 +++
+admin@localhost's password: 
+
+admin connected from 127.0.0.1 using ssh on akshay-VirtualBox
+[?7hadmin@ncs&gt; 
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing handle +++
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ command  +++
+set screen length 0
+[ok][2018-02-28 19:22:37]
+admin@ncs&gt; 
+2018-02-28T19:22:37: %UNICON-INFO: +++ command  +++
+set screen width 0
+[ok][2018-02-28 19:22:37]
+admin@ncs&gt; 
+2018-02-28T19:22:37: %UNICON-INFO: +++ command  +++
+set idle-timeout 0
+[ok][2018-02-28 19:22:37]
+admin@ncs&gt;</msg>
+<status starttime="20180228 19:22:37.046" status="PASS" endtime="20180228 19:22:37.434"></status>
+</kw>
+<kw name="connect to device &quot;R10&quot;" library="rasta.RASTA">
+<doc>Connect to device via 'cli' connection as defined in testbed.yaml</doc>
+<msg level="INFO" timestamp="20180228 19:22:38.086">2018-02-28T19:22:37: %UNICON-INFO: +++ initializing context +++
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing state_machine +++
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing services +++
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  send   :  &lt;unicon.plugins.generic.service_implementation.Send object at 0x7f641de295c0&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  enable   :  &lt;unicon.plugins.generic.service_implementation.Enable object at 0x7f641de29588&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  configure   :  &lt;unicon.plugins.generic.service_implementation.Configure object at 0x7f641de293c8&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  copy   :  &lt;unicon.plugins.generic.service_implementation.Copy object at 0x7f641de29438&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  expect_log   :  &lt;unicon.plugins.generic.service_implementation.ExpectLogging object at 0x7f641de29518&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  config   :  &lt;unicon.plugins.generic.service_implementation.Config object at 0x7f641de292b0&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  ping   :  &lt;unicon.plugins.generic.service_implementation.Ping object at 0x7f641de29470&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  log_user   :  &lt;unicon.plugins.generic.service_implementation.LogUser object at 0x7f641de29240&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  sendline   :  &lt;unicon.plugins.generic.service_implementation.Sendline object at 0x7f641de294a8&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  expect   :  &lt;unicon.plugins.generic.service_implementation.Expect object at 0x7f641de294e0&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  reload   :  &lt;unicon.plugins.generic.service_implementation.Reload object at 0x7f641de29748&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  execute   :  &lt;unicon.plugins.generic.service_implementation.Execute object at 0x7f641de29710&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: adding service  disable   :  &lt;unicon.plugins.generic.service_implementation.Disable object at 0x7f641de29630&gt;
+
+2018-02-28T19:22:37: %UNICON-INFO: connection to R10
+
+2018-02-28T19:22:37: %UNICON-INFO: +++ connection to spawn_command: ssh -l admin 127.0.0.1 -p 10022 -oHostKeyAlgorithms=+ssh-dss -o PubkeyAuthentication=no, id: 140067974848408 +++
+admin@127.0.0.1's password: 
+
+admin connected from 127.0.0.1 using ssh on akshay-VirtualBox
+[?7hR10&gt; 
+2018-02-28T19:22:37: %UNICON-INFO: +++ initializing handle +++
+enable
+R10# 
+2018-02-28T19:22:37: %UNICON-INFO: +++ execute  +++
+term length 0
+R10# 
+2018-02-28T19:22:37: %UNICON-INFO: +++ execute  +++
+term width 0
+0
+R10# 
+2018-02-28T19:22:37: %UNICON-INFO: +++ execute  +++
+show version
+Cisco IOS Software, NETSIM
+R10# 
+2018-02-28T19:22:37: %UNICON-INFO: +++ config  +++
+config term
+Enter configuration commands, one per line. End with CNTL/Z.
+R10(config)# no logging console
+R10(config)# line console 0
+R10(config-line)# exec-timeout 0
+R10(config-line)# end
+R10#</msg>
+<status starttime="20180228 19:22:37.439" status="PASS" endtime="20180228 19:22:38.087"></status>
+</kw>
+<status starttime="20180228 19:22:37.012" status="PASS" endtime="20180228 19:22:38.087"></status>
+</kw>
+<kw name="Sync NSO device config">
+<kw name="Set NSO cli style to &quot;${cli_style}&quot;" library="nso">
+<doc>Sets the NSO CLI style to cisco/juniper (nso device $nso)</doc>
+<kw name="set cli style to &quot;${style}&quot; on device &quot;${nso}&quot;" library="rasta.RASTA">
+<doc>Set the CLI style for CLI to 'cisco' or 'juniper' using 'switch cli' command (if needed)</doc>
+<msg level="INFO" timestamp="20180228 19:22:38.106">switch cli
+admin@ncs#</msg>
+<status starttime="20180228 19:22:38.091" status="PASS" endtime="20180228 19:22:38.106"></status>
+</kw>
+<status starttime="20180228 19:22:38.089" status="PASS" endtime="20180228 19:22:38.107"></status>
+</kw>
+<kw name="execute command &quot;devices sync-from&quot; on device &quot;${nso}&quot;" library="rasta.RASTA">
+<doc>Execute command on a specific device. "device" name is the name from the testbed file</doc>
+<msg level="INFO" timestamp="20180228 19:22:38.108">Executing command devices sync-from on device ncs session cli</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.377">admin@ncs# 
+2018-02-28T19:22:38: %UNICON-INFO: +++ command  +++
+
+admin@ncs# 
+2018-02-28T19:22:38: %UNICON-INFO: +++ execute  +++
+
+2018-02-28T19:22:38: %UNICON-INFO: +++ command  +++
+devices sync-from
+sync-result {
+    device R10
+    result true
+}
+admin@ncs#</msg>
+<status starttime="20180228 19:22:38.107" status="PASS" endtime="20180228 19:22:40.377"></status>
+</kw>
+<status starttime="20180228 19:22:38.088" status="PASS" endtime="20180228 19:22:40.377"></status>
+</kw>
+<kw name="Retrieve pre-service device configurations">
+<kw name="Empty Directory" library="OperatingSystem">
+<doc>Deletes all the content from the given directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/before</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:40.379" html="yes">Listing contents of directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before&lt;/a&gt;'.</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.379" html="yes">Emptied directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:40.378" status="PASS" endtime="20180228 19:22:40.379"></status>
+</kw>
+<kw name="Empty Directory" library="OperatingSystem">
+<doc>Deletes all the content from the given directory.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/after</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:40.379" html="yes">Listing contents of directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after&lt;/a&gt;'.</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.380" html="yes">Emptied directory '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:40.379" status="PASS" endtime="20180228 19:22:40.380"></status>
+</kw>
+<kw name="execute command &quot;show ver&quot; on device &quot;R10&quot;" library="rasta.RASTA">
+<doc>Execute command on a specific device. "device" name is the name from the testbed file</doc>
+<msg level="INFO" timestamp="20180228 19:22:40.380">Executing command show ver on device R10 session cli</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.460">show ver
+Cisco IOS Software, NETSIM
+R10#</msg>
+<status starttime="20180228 19:22:40.380" status="PASS" endtime="20180228 19:22:40.460"></status>
+</kw>
+<kw name="execute command &quot;show running-config | nomore&quot; on device &quot;R10&quot;" library="rasta.RASTA">
+<doc>Execute command on a specific device. "device" name is the name from the testbed file</doc>
+<msg level="INFO" timestamp="20180228 19:22:40.462">Executing command show running-config | nomore on device R10 session cli</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.931">show running-config | nomore
+tailfned police cirmode
+no service password-encryption
+aaa accounting delay-start
+no cable admission-control preempt priority-voice
+no cable qos permission create
+no cable qos permission update
+no cable qos permission modems
+ip source-route
+no ip gratuitous-arps
+no ip cef
+ip finger
+no ip http server
+no ip http secure-server
+no ip forward-protocol nd
+no ipv6 cef
+no dot11 syslog
+vlan 7
+ name vtest
+!
+vlan 15
+ name vname
+!
+interface Loopback0
+ no shutdown
+ ip address 127.0.0.1 255.0.0.0
+exit
+interface Ethernet0/0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+line console 0
+ exec-timeout 0
+!
+R10#</msg>
+<status starttime="20180228 19:22:40.462" status="PASS" endtime="20180228 19:22:40.931"></status>
+</kw>
+<kw name="store command &quot;show running-config | nomore&quot; from device &quot;R10&quot; as &quot;tmpval&quot;" library="rasta.RASTA">
+<doc>Store the output from the CLI command in a variable</doc>
+<msg level="INFO" timestamp="20180228 19:22:40.933">${tmpval} = tailfned police cirmode
+no service password-encryption
+aaa accounting delay-start
+no cable admission-control preempt priority-voice
+no cable qos permission create
+no cable qos permission update
+...</msg>
+<status starttime="20180228 19:22:40.932" status="PASS" endtime="20180228 19:22:40.933"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/before/R10</arg>
+<arg>${tmpval}</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:40.934" html="yes">Created file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before/R10"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/before/R10&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:40.934" status="PASS" endtime="20180228 19:22:40.934"></status>
+</kw>
+<status starttime="20180228 19:22:40.378" status="PASS" endtime="20180228 19:22:40.934"></status>
+</kw>
+<kw name="Create Service">
+<tags>
+<tag>create</tag>
+</tags>
+<doc>Creates a service instance on NSO via REST</doc>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>${data_dir}/dcvlan_create.json</arg>
+</arguments>
+<assign>
+<var>${Payload}</var>
+</assign>
+<msg level="INFO" timestamp="20180228 19:22:40.936" html="yes">Getting file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create.json"&gt;/root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create.json&lt;/a&gt;'.</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.936">${Payload} = {
+  "dc-vlan" : {
+    "device" : "R10",
+    "vid" : "15",
+    "vname" : "vname"
+  }
+}</msg>
+<status starttime="20180228 19:22:40.935" status="PASS" endtime="20180228 19:22:40.936"></status>
+</kw>
+<kw name="via NSO REST API configure device &quot;${nso}&quot; at URI &quot;${service_uri}&quot; using &quot;PATCH&quot; with &quot;json&quot; payload &quot;${Payload}&quot;" library="rasta.RASTA">
+<doc>Configures NSO using REST.</doc>
+<msg level="INFO" timestamp="20180228 19:22:40.937">Device ncs has no "rest" connection section defined in testbed yaml file. Using its "restconf" definition instead.</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.937">As no header was passed, nso_interact_via_rest() parsed the URI and will use {'Content-type': 'application/vnd.yang.data+json', 'Accept': 'application/vnd.yang.data+json'}
+If this is not correct, please use the low-level keyword "NSO interact via rest" and specify all parameters, including header</msg>
+<msg level="INFO" timestamp="20180228 19:22:40.938">Sending REST PATCH request to http://127.0.0.1:8080/api/running/services/dc-vlan
+Headers: {'Content-type': 'application/vnd.yang.data+json', 'Accept': 'application/vnd.yang.data+json'}
+Payload: b'{\n  "dc-vlan" : {\n    "device" : "R10",\n    "vid" : "15",\n    "vname" : "vname"\n  }\n}'</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.105">Request returned with status code 204 and text ""</msg>
+<status starttime="20180228 19:22:40.937" status="PASS" endtime="20180228 19:22:41.107"></status>
+</kw>
+<status starttime="20180228 19:22:40.935" status="PASS" endtime="20180228 19:22:41.108"></status>
+</kw>
+<kw name="Retrieve post-service device configurations">
+<kw name="execute command &quot;show ver &quot; on device &quot;R10&quot;" library="rasta.RASTA">
+<doc>Execute command on a specific device. "device" name is the name from the testbed file</doc>
+<msg level="INFO" timestamp="20180228 19:22:41.112">Executing command show ver  on device R10 session cli</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.219">show ver 
+Cisco IOS Software, NETSIM
+R10#</msg>
+<status starttime="20180228 19:22:41.111" status="PASS" endtime="20180228 19:22:41.219"></status>
+</kw>
+<kw name="execute command &quot;show running-config | nomore &quot; on device &quot;R10&quot;" library="rasta.RASTA">
+<doc>Execute command on a specific device. "device" name is the name from the testbed file</doc>
+<msg level="INFO" timestamp="20180228 19:22:41.220">Executing command show running-config | nomore  on device R10 session cli</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.681">show running-config | nomore 
+tailfned police cirmode
+no service password-encryption
+aaa accounting delay-start
+no cable admission-control preempt priority-voice
+no cable qos permission create
+no cable qos permission update
+no cable qos permission modems
+ip source-route
+no ip gratuitous-arps
+no ip cef
+ip finger
+no ip http server
+no ip http secure-server
+no ip forward-protocol nd
+no ipv6 cef
+no dot11 syslog
+vlan 7
+ name vtest
+!
+vlan 15
+ name vname
+!
+interface Loopback0
+ no shutdown
+ ip address 127.0.0.1 255.0.0.0
+exit
+interface Ethernet0/0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface FastEthernet1/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/0
+ no shutdown
+ no switchport
+ no ip address
+exit
+interface GigabitEthernet0/1
+ no shutdown
+ no switchport
+ no ip address
+exit
+line console 0
+ exec-timeout 0
+!
+R10#</msg>
+<status starttime="20180228 19:22:41.220" status="PASS" endtime="20180228 19:22:41.681"></status>
+</kw>
+<kw name="store command &quot;show running-config | nomore &quot; from device &quot;R10&quot; as &quot;tmpval&quot;" library="rasta.RASTA">
+<doc>Store the output from the CLI command in a variable</doc>
+<msg level="INFO" timestamp="20180228 19:22:41.682">${tmpval} = tailfned police cirmode
+no service password-encryption
+aaa accounting delay-start
+no cable admission-control preempt priority-voice
+no cable qos permission create
+no cable qos permission update
+...</msg>
+<status starttime="20180228 19:22:41.682" status="PASS" endtime="20180228 19:22:41.682"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/after/R10</arg>
+<arg>${tmpval}</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:41.683" html="yes">Created file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after/R10"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/after/R10&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:41.683" status="PASS" endtime="20180228 19:22:41.683"></status>
+</kw>
+<status starttime="20180228 19:22:41.109" status="PASS" endtime="20180228 19:22:41.683"></status>
+</kw>
+<status starttime="20180228 19:22:37.004" status="PASS" critical="yes" endtime="20180228 19:22:41.684"></status>
+</test>
+<test id="s1-t2" name="Verify Service through Config Diff">
+<kw name="use ciscoconfdiff to compare configs &quot;${results_dir}/${TEST_CASE}/before/R10&quot; and &quot;${results_dir}/${TEST_CASE}/after/R10&quot;" library="rasta.RASTA">
+<doc>compare two IOS or IOS-XR configs using ciscoconfdiff/ciscoconfparse logic.</doc>
+<assign>
+<var>@{diff}</var>
+</assign>
+<msg level="INFO" timestamp="20180228 19:22:41.815" html="yes">&lt;div class=diff_box&gt;&lt;style scoped&gt;
+div.diff_box{
+    font-family: Arial;
+    font-size: 0.9em;
+}
+div.diff_column_header_left{
+    outline-color: black;
+    background: rgb(255, 255, 255);
+    float: left;
+    height: auto;
+    width: 50%;
+    z-index: 1;
+}
+div.diff_column_header_right{
+    outline-color: black;
+    background: rgb(255, 255, 255);
+    float: right;
+    height: auto;
+    width: 50%;
+    z-index: 2;
+}
+div.diff_warning{
+    background: rgb(255, 255, 255);
+    color: rgb(255, 102, 0);
+    float: center;
+    height: auto;
+    width: 90%;
+}
+div.diff_code{
+    float: left;
+}
+table.diff_output {
+    font-family: Courier New,Courier,monospace;
+    
+    table-layout: fixed;
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+td.diff_line_comment{
+    color: rgb(127,127,127);
+}
+td.diff_line_padding{
+    color: rgb(210,210,210);
+    background: rgb(210, 210, 210);
+}
+td.diff_line_matched{
+}
+td.diff_line_child_unmatched{
+    background: rgb(255, 214, 173);
+    color: rgb(255, 102, 0);
+}
+td.diff_line_unmatched{
+    color: red;
+    background: rgb(255, 204, 204);
+    font-weight: bold;
+}
+td.diff_number{
+    text-align: right;
+    vertical-align: text-top;
+    border-right: 1px solid black;
+    border-left: 2px solid black;
+    white-space: nowrap
+    width: 8%;
+}
+.diff_reorder_warning{
+    font-size: smaller;
+}
+td.diff_conf_line{
+    width: 42%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: text-top;
+    white-space: nowrap;
+}
+td.diff_conf_line:hover {
+    text-overflow: inherit;
+    overflow: visible;
+}
+td.diff_collapse{
+    color: rgb(127, 127, 127);
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+td.diff_collapse_number{
+    border-left: 2px solid black;
+}
+td.diff_collapse_count{
+    width: 42%;
+}
+.diff_collapse_block{
+    color: blue;
+    float: left;
+}
+.clickable{
+    color: blue;
+    cursor: pointer;
+}
+textarea {
+    width: 95%;
+    font-family: monospace;
+}
+    &lt;/style&gt;&lt;script src=https://code.jquery.com/jquery-1.12.0.min.js&gt;&lt;/script&gt;&lt;script&gt;
+$(document).ready(function(){
+    /* action for [+] buttons */
+    $("td.diff_collapse_number").find("a").on("click", function(){
+        $(this).parent().parent().parent().children().toggle();
+    });
+    /* action for [-] buttons */
+    $("span.diff_collapse_block").find("a").on("click", function(){
+        $(this).parent().parent().parent().parent().children().toggle();
+    });
+    /* update count of collapsed lines */
+    $("tr.diff_collapse").each(function(){
+        var line_count = $(this).parent().children().length - 1;
+        var warning_count = $(this).parent().find(".diff_reorder_warning").length;
+        var warning = "";
+        if (warning_count){
+            warning = ', &lt;strong style="color:rgb(255,102,0);"&gt;' + warning_count + ' warnings&lt;/strong&gt;';
+        }
+        var content = "(..." + line_count + " lines" + warning + "...)";
+        $(this).find("em").html(content);
+    });
+});
+    &lt;/script&gt;&lt;div class=diff_header&gt;&lt;div class=diff_column_header_left&gt;&lt;p&gt;&lt;b&gt;First config&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Raw diff (parts not in the other config)&lt;/p&gt;&lt;p&gt;&lt;textarea rows=10&gt;&lt;/textarea&gt;&lt;/p&gt;&lt;p&gt;Note: this diff will be stored and returned as reference diff1 for later comparison.&lt;/p&gt;&lt;/div&gt;&lt;div class=diff_column_header_right&gt;&lt;p&gt;&lt;b&gt;Second config&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Raw diff (parts not in the other config)&lt;/p&gt;&lt;p&gt;&lt;textarea rows=10&gt;&lt;/textarea&gt;&lt;/p&gt;&lt;p&gt;Note: this diff will be stored and returned as reference diff2 for later comparison.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=diff_code&gt;&lt;table class=diff_output&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 1. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; tailfned&amp;nbsp;police&amp;nbsp;cirmode &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 1. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; tailfned&amp;nbsp;police&amp;nbsp;cirmode &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 2. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;service&amp;nbsp;password-encryption &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 2. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;service&amp;nbsp;password-encryption &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 3. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; aaa&amp;nbsp;accounting&amp;nbsp;delay-start &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 3. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; aaa&amp;nbsp;accounting&amp;nbsp;delay-start &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 4. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;admission-control&amp;nbsp;preempt&amp;nbsp;priority-voice &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 4. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;admission-control&amp;nbsp;preempt&amp;nbsp;priority-voice &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 5. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;create &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 5. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;create &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 6. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;update &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 6. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;update &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 7. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;modems &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 7. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;cable&amp;nbsp;qos&amp;nbsp;permission&amp;nbsp;modems &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 8. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; ip&amp;nbsp;source-route &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 8. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; ip&amp;nbsp;source-route &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 9. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;gratuitous-arps &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 9. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;gratuitous-arps &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 10. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;cef &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 10. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;cef &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 11. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; ip&amp;nbsp;finger &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 11. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; ip&amp;nbsp;finger &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 12. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;http&amp;nbsp;server &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 12. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;http&amp;nbsp;server &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 13. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;http&amp;nbsp;secure-server &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 13. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;http&amp;nbsp;secure-server &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 14. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;forward-protocol&amp;nbsp;nd &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 14. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ip&amp;nbsp;forward-protocol&amp;nbsp;nd &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 15. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ipv6&amp;nbsp;cef &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 15. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;ipv6&amp;nbsp;cef &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 16. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;dot11&amp;nbsp;syslog &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 16. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; no&amp;nbsp;dot11&amp;nbsp;syslog &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 17. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; vlan&amp;nbsp;7 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 17. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; vlan&amp;nbsp;7 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 18. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;name&amp;nbsp;vtest &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 18. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;name&amp;nbsp;vtest &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 19. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 19. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 20. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; vlan&amp;nbsp;15 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 20. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; vlan&amp;nbsp;15 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 21. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;name&amp;nbsp;vname &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 21. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;name&amp;nbsp;vname &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 22. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 22. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 23. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;Loopback0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 23. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;Loopback0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 24. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 24. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 25. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;ip&amp;nbsp;address&amp;nbsp;127.0.0.1&amp;nbsp;255.0.0.0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 25. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;ip&amp;nbsp;address&amp;nbsp;127.0.0.1&amp;nbsp;255.0.0.0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 26. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 26. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 27. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;Ethernet0/0/0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 27. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;Ethernet0/0/0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 28. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 28. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 29. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 29. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 30. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 30. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 31. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 31. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 32. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 32. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 33. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 33. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 34. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 34. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 35. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 35. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 36. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 36. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 37. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet0/0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 37. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet0/0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 38. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 38. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 39. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 39. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 40. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 40. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 41. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 41. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 42. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet1/0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 42. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet1/0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 43. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 43. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 44. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 44. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 45. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 45. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 46. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 46. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 47. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet1/1 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 47. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;FastEthernet1/1 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 48. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 48. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 49. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 49. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 50. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 50. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 51. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 51. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 52. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 52. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 53. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 53. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 54. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 54. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 55. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 55. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 56. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 56. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 57. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0/0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 57. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0/0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 58. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 58. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 59. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 59. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 60. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 60. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 61. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 61. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 62. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0/1 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 62. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; interface&amp;nbsp;GigabitEthernet0/1 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 63. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 63. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;shutdown &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 64. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 64. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;switchport &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 65. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 65. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;no&amp;nbsp;ip&amp;nbsp;address &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 66. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 66. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; exit &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 67. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; line&amp;nbsp;console&amp;nbsp;0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 67. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; line&amp;nbsp;console&amp;nbsp;0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 68. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;exec-timeout&amp;nbsp;0 &lt;/td&gt;&lt;td class="diff_line_matched diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 68. &lt;/td&gt;&lt;td class="diff_line_matched diff_conf_line"&gt; &amp;nbsp;exec-timeout&amp;nbsp;0 &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tbody&gt;&lt;tr class=diff_collapse title="Lines collapsed for better readability."&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_number"&gt;&lt;a class=clickable title="Expand collapsed lines"&gt;[+]&lt;/a&gt;&lt;/td&gt;&lt;td class="diff_collapse diff_collapse_count"&gt;&lt;em&gt;(...)&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=display:none;&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 69. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;td class="diff_line_comment diff_number"&gt;&lt;span class=diff_collapse_block&gt;&lt;a class=clickable&gt;[-]&lt;/a&gt;&lt;/span&gt; 69. &lt;/td&gt;&lt;td class="diff_line_comment diff_conf_line"&gt; ! &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.816">@{diff} = [  |  ]</msg>
+<status starttime="20180228 19:22:41.685" status="PASS" endtime="20180228 19:22:41.816"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/configdiffs/test_result_1</arg>
+<arg>@{diff}[0]</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:41.817" html="yes">Created file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs/test_result_1"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs/test_result_1&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:41.817" status="PASS" endtime="20180228 19:22:41.818"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${results_dir}/${TEST_CASE}/configdiffs/test_result_2</arg>
+<arg>@{diff}[1]</arg>
+</arguments>
+<msg level="INFO" timestamp="20180228 19:22:41.818" html="yes">Created file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs/test_result_2"&gt;/root/rasta/examples/check-dc-vlan-service/test_results/dcvlan_create/configdiffs/test_result_2&lt;/a&gt;'.</msg>
+<status starttime="20180228 19:22:41.818" status="PASS" endtime="20180228 19:22:41.818"></status>
+</kw>
+<kw name="compare latest ciscoconfdiff with reference diffs in files &quot;${data_dir}/${TEST_CASE}/expected/test_result_1&quot; and &quot;${data_dir}/${TEST_CASE}/expected/test_result_2&quot;" library="rasta.RASTA">
+<doc>Compare the latest diff taken with a reference diff in the two files passed. </doc>
+<msg level="INFO" timestamp="20180228 19:22:41.819">Can't open file /root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create/expected/test_result_1, assuming empty reference</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.819">Can't open file /root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create/expected/test_result_2, assuming empty reference</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.819">ref diff for lines only in config1 matches</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.819">ref diff for lines only in config2 matches</msg>
+<status starttime="20180228 19:22:41.819" status="PASS" endtime="20180228 19:22:41.819"></status>
+</kw>
+<status starttime="20180228 19:22:41.684" status="PASS" critical="yes" endtime="20180228 19:22:41.820"></status>
+</test>
+<test id="s1-t3" name="Teardown">
+<kw name="Delete Service">
+<tags>
+<tag>delete</tag>
+</tags>
+<doc>Delete a service instance on NSO via REST</doc>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>${data_dir}/dcvlan_create.json</arg>
+</arguments>
+<assign>
+<var>${Payload}</var>
+</assign>
+<msg level="INFO" timestamp="20180228 19:22:41.822" html="yes">Getting file '&lt;a href="file:///root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create.json"&gt;/root/rasta/examples/check-dc-vlan-service/testcases/dcvlan_create.json&lt;/a&gt;'.</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.822">${Payload} = {
+  "dc-vlan" : {
+    "device" : "R10",
+    "vid" : "15",
+    "vname" : "vname"
+  }
+}</msg>
+<status starttime="20180228 19:22:41.822" status="PASS" endtime="20180228 19:22:41.822"></status>
+</kw>
+<kw name="via NSO REST API delete service on device &quot;${nso}&quot; with &quot;json&quot; payload &quot;${Payload}&quot;" library="rasta.RASTA">
+<doc>*DEPRECATED* Use keyword `via NSO REST API configure service ..` instead!</doc>
+<msg level="WARN" timestamp="20180228 19:22:41.823">Keyword 'rasta.RASTA.via NSO REST API delete service on device "${nso}" with "json" payload "${Payload}"' is deprecated. Use keyword `via NSO REST API configure service ..` instead!</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.823">Device ncs has no "rest" connection section defined in testbed yaml file. Using its "restconf" definition instead.</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.823">As no header was passed, nso_interact_via_rest() parsed the URI and will use {'Content-type': 'application/vnd.yang.data+json', 'Accept': 'application/vnd.yang.data+json'}
+If this is not correct, please use the low-level keyword "NSO interact via rest" and specify all parameters, including header</msg>
+<msg level="INFO" timestamp="20180228 19:22:41.823">Sending REST DELETE request to http://127.0.0.1:8080/api/running/services
+Headers: {'Content-type': 'application/vnd.yang.data+json', 'Accept': 'application/vnd.yang.data+json'}
+Payload: b'{\n  "dc-vlan" : {\n    "device" : "R10",\n    "vid" : "15",\n    "vname" : "vname"\n  }\n}'</msg>
+<msg level="INFO" timestamp="20180228 19:22:43.052">Request returned with status code 204 and text ""</msg>
+<status starttime="20180228 19:22:41.823" status="PASS" endtime="20180228 19:22:43.052"></status>
+</kw>
+<status starttime="20180228 19:22:41.821" status="PASS" endtime="20180228 19:22:43.052"></status>
+</kw>
+<status starttime="20180228 19:22:41.821" status="PASS" critical="yes" endtime="20180228 19:22:43.052"></status>
+</test>
+<status starttime="20180228 19:22:36.274" status="PASS" endtime="20180228 19:22:43.054"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="0">Critical Tests</stat>
+<stat pass="3" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="3" name="Dcvlan-Service" fail="0" id="s1">Dcvlan-Service</stat>
+</suite>
+</statistics>
+<errors>
+<msg level="WARN" timestamp="20180228 19:22:41.823">Keyword 'rasta.RASTA.via NSO REST API delete service on device "${nso}" with "json" payload "${Payload}"' is deprecated. Use keyword `via NSO REST API configure service ..` instead!</msg>
+</errors>
+</robot>

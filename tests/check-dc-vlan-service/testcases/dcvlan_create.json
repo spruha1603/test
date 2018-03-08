@@ -1,0 +1,7 @@
+{
+  "dc-vlan" : {
+    "device" : "R10",
+    "vid" : "15",
+    "vname" : "vname"
+  }
+}

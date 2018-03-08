@@ -1,0 +1,41 @@
+no service pad
+no ip domain-lookup
+no ip http server
+no ip http secure-server
+ip routing
+ip source-route
+ip vrf my-forward
+ bgp next-hop Loopback 1
+ip community-list 1 permit
+ip community-list 2 deny
+ip community-list standard s permit
+vlan 8
+ name vTest
+interface FastEthernet1/0
+exit
+interface Loopback0
+exit
+class-map match-all a
+class-map match-all cmap1
+ match mpls experimental topmost 1
+ match packet length max 255
+ match packet length min 2
+ match qos-group 1
+policy-map a
+policy-map map1
+ class c1
+  drop
+  estimate bandwidth delay-one-in 500 milliseconds 100
+  priority percent 33
+line console 0
+ exec-timeout 0
+no spanning-tree optimize bpdu transmission
+mpls ip propagate-ttl
+router bgp 64512
+ aggregate-address 10.10.10.1 255.255.255.251
+ neighbor 1.2.3.4 remote-as 1
+ neighbor 1.2.3.4 ebgp-multihop 3
+ neighbor 2.3.4.5 remote-as 1
+ neighbor 2.3.4.5 activate
+ neighbor 2.3.4.5 capability orf prefix-list both
+ neighbor 2.3.4.5 weight 300
