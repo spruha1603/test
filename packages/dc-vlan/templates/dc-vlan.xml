@@ -1,0 +1,15 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="dcvlan">
+ <devices xmlns="http://tail-f.com/ns/ncs">
+               <device>
+                 <name>{device}</name>
+                 <config>
+                   <vlan xmlns="urn:ios">
+                     <vlan-list>
+                       <id>{vid}</id>
+                       <name>{vname}</name>
+                     </vlan-list>
+                   </vlan>
+                 </config>
+               </device>
+             </devices>
+</config-template>

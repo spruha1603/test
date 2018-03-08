@@ -1,0 +1,8 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>dc-vlan</name>
+  <package-version>1.0</package-version>
+  <description>
+    Comcast data center VLAN template-based resource facing service
+  </description>
+  <ncs-min-version>3.4.6</ncs-min-version>
+</ncs-package>

@@ -1,0 +1,571 @@
+1. Introduction
+---------------
+
+   This document describes the NED for Cisco IOS devices.
+
+   The NED connects to the device CLI using either SSH or Telnet.
+   Configuration is done by sending native CLI commands to the
+   device through the communication channel.
+
+
+2. Getting started
+------------------
+
+   Set up the environment in $DIR, change DIR to something suitable
+
+     > tar xvzf ned-cisco-ios.tgz
+     > mv ned-cisco-ios $NCS_DIR/packages/neds/
+
+     > export DIR=/tmp/ncs-cisco-ios
+     > ncs-setup --ned-package $NCS_DIR/packages/neds/cisco-ios --dest $DIR
+     > cd $DIR
+
+   Start ncs:
+     > ncs
+
+   Start NCS CLI:
+     > ncs_cli -C -u admin
+
+
+3. Configure device in NCS
+--------------------------
+
+   In the NCS CLI configure the device. Enter configuration mode:
+     # configure
+
+   Set the required configurables, address, remote user data including
+   remote secondary password, if needed:
+     # devices device iosdev address <device address>
+     # devices device iosdev device-type cli ned-id cisco-ios
+     # devices device iosdev state admin-state unlocked
+
+   Set port and protocol:
+     # devices device iosdev ned-settings cisco-ios-connection method cli
+     # devices device iosdev port <typically 22 or 23>
+     # devices device iosdev device-type cli protocol <telnet or ssh>
+
+   Set authgroup:
+     # devices authgroups group auth-groupname umap admin remote-name <login username>
+     # devices authgroups group auth-groupname umap admin remote-password <login password>
+     # devices authgroups group auth-groupname umap admin remote-secondary-password <the 'enable' password>
+     # devices device iosdev authgroup auth-groupname
+     # commit
+
+   Optional debug and trace configurables:
+
+     Make the NED dump allCLI messages sent to/from the Cisco device
+     # devices global-settings trace raw
+     # commit
+
+     Make the NED print debug log messages
+     # java-vm java-logging logger com.tailf.packages.ned.ios level level-debug
+     # commit
+
+   Exit configure mode:
+     # exit
+
+   Try to connect to the device:
+     # devices device iosdev connect
+
+   Read the configuration from the device:
+     # devices device iosdev sync-from
+
+   Look at the configuration:
+     # show running-config devices device iosdev
+
+
+4. Configure additional config warning exceptions
+-------------------------------------------------
+
+   After having sent a config command to the device the NED will treat
+   any text reply as an error and abort the transaction. The config
+   command that caused the failed transaction will be shown together
+   with the error message returned by the device. Sometimes the text
+   message is not an actual error. It could be a warning that should be
+   ignored. The NED has a static list of known warnings, an example:
+
+            // general
+            "warning: \\S+.*",
+            "%.?note:",
+            "info:",
+            "aaa: warning",
+            ".*success",
+            "enter text message",
+
+            // remove || delete
+            "hqm_tablemap_inform: class_remove error",
+            //"must be removed from child classes",
+            //dcs.ioswarningexpressionsremovecfg=not all config may be removed
+            //%no matching route to delete
+            //please remove bandwidth from the child policy
+
+           etc etc.
+
+   If you stumble upon a warning not already in the NED, which is quite
+   likely due to the large number of warnings, you can configure the
+   NED to ignore them under ned-settings in the cisco-ios-config-warning
+   list. The list resides in three places and you can configure a
+   warning in any of these:
+
+     devices device iosdev ned-settings cisco-ios-config-warning
+     devices global-settings ned-settings cisco-ios-config-warning
+     devices profiles profile cisco-ios ned-settings cisco-ios-config-warning
+
+   cisco-ios-config-warning is a regular expression string list of
+   warnings that should also be ignored.
+
+   For example, to add a new warning exception:
+
+     admin@ncs(config)# devices profiles profile cisco-ios ned-settings
+         cisco-ios-config-warning "Address .* may not be up"
+     admin@ncs(config-profile-cisco-ios)# commit
+     Commit complete.
+     admin@ncs(config-profile-cisco-ios)# devices device iosdev disconnect
+     admin@ncs(config-profile-cisco-ios)# devices device iosdev connect
+     result true
+     info (admin) Connected to iosdev
+
+   Note that in order for the warning exception to take effect, you
+   must disconnect and connect again.
+
+
+5. Sample Device Configuration
+------------------------------
+
+   For instance, create a second Loopback interface that is down:
+
+   admin@ncs(config)# devices device iosdev config
+   admin@ncs(config-config)# interface Loopback 1
+   admin@ncs(config-if)# ip address 128.0.0.1 255.0.0.0
+   admin@ncs(config-if)# shutdown
+
+   See what you are about to commit:
+
+   admin@ncs(config-if)# commit dry-run outformat native
+   device iosdev
+     interface Loopback1
+      ip address 128.0.0.1 255.0.0.0
+      shutdown
+     exit
+
+   Commit new configuration in a transaction:
+
+   admin@ncs(config-if)# commit
+   Commit complete.
+
+   Verify that NCS is in-sync with the device:
+
+    admin@ncs(config-if)# devices device iosdev check-sync
+    result in-sync
+
+   Compare configuration between device and NCS:
+
+    admin@ncs(config-if)# devices device iosdev compare-config
+    admin@ncs(config-if)#
+
+   Note: if no diff is shown, supported config is the same in
+         NCS as on the device.
+
+
+6. Execute native device command
+--------------------------------
+
+   The NED has support for a subset of native Cisco IOS exec commands residing
+   under device live-status. Presently, the following commands are supported:
+
+   admin@ncs# devices device a0 live-status exec ?
+   Possible completions:
+    any          Execute any command on device
+    clear        Reset functions
+    copy         Copy from one file to another
+    license      Smart licensing Commands
+    ping         Send echo messages
+    reload       Halt and perform a cold restart
+    show         Execute show commands
+    traceroute   Trace route to destination
+    verify       Verify a file
+
+   To execute any command, run it in NCS exec mode like this:
+
+    admin@ncs# devices device iosdev live-status exec any "show
+       running-config interface Loopback0"
+    result
+    Building configuration...
+
+    Current configuration : 42 bytes
+    !
+    interface Loopback0
+     no ip address
+    end
+
+   If the command prompts the user for input you can append the
+   answers using '| prompts <answer 1> <answer N>'
+   For example:
+
+   devices device iosdev live-status exec any "reload | prompts yes"
+
+   An alternative way to pass answer to prompts is using
+   ned-settings cisco-ios-auto-prompts, which is a way to register
+   standard answers to standard questions. Note: auto-prompts are
+   checked after '| prompts'. Example setting:
+
+   devices global-settings ned-settings cisco-ios-auto-prompts Q1 question "System configuration has been modified" answer "no"
+   devices global-settings ned-settings cisco-ios-auto-prompts Q2 question "Do you really want to remove these keys" answer "yes"
+   devices global-settings ned-settings cisco-ios-auto-prompts Q3 question "Press RETURN to continue" answer ENTER
+
+   Note:  ENTER means a carriage return + line feed is sent.
+   Note2: A single letter reply is sent without carriage return + line feed.
+
+   Finally, IOS also has some exec commands in config mode. They can
+   be accessed using the 'exec' prefix. For example:
+
+   admin@ncs(config-config)# exec "crypto key zeroize rsa MYKEY | prompts yes"
+
+   Those commands also use | prompts and auto-prompts for answering
+   questions.
+
+
+7. Setting correct format to use for police configurations
+----------------------------------------------------------
+
+    There are a number of different formats used among IOS devices
+    for police configurations.
+
+    The NED usually is able to auto detect the correct format to use.
+    However, in some cases it is necessary to configure this manually.
+    For instance when connecting the NED to a new type of IOS device.
+
+    Do as follows to configure manually:
+
+    admin@ncs# config
+    Entering configuration mode terminal
+    admin@ncs(config)# devices device iosdev
+    admin@ncs(config-device-iosdev)# ned-settings cisco-ios-police-format ?
+     Possible completions:
+      [auto]
+      auto      Let the NED probe the device for the correct format (default)
+      bpsflat   police <bps> bps <byte> byte ACTIONS
+      cirflat   police cir <bps> bc <burst-normal> ACTIONS
+      cirmode   police cir <bps> [[bc <burst-normal>] [be <burst-max>]][pir <bps> [be <burst-bytes>]] ACTIONS
+      numflat   police <bps> <burst> exceed-action {drop | policed-dscp-transmit}]
+    admin@ncs(config-device-ios0)# ned-settings cisco-ios-police-format numflat
+    admin@ncs(config-device-ios0)# commit
+    Commit complete.
+    admin@ncs(config-device-ios0)# devices device ios0 sync-from
+
+   Note that in order for the new police setting to take effect, you
+   must sync-from
+
+
+8. INJECT CONFIG
+----------------
+
+   cisco-ios-inject-config and cisco-ios-inject-interface-config
+   located in global, profile and device ned-settings can be used to
+   insert config lines when syncing from device, hence parsing show
+   running-config. The injected config is inserted first in regexp-
+   specified global or interface, hence overridden if duplicated by
+   the real device config.
+
+   The inject config settings were implemented to solve cases where
+   IOS behaves inconsistently, e.g. hidden defaults which vary from
+   device to device, even vary between interfaces types.
+
+   An example:
+
+   interface / logging event link-status is usually shown
+   as "no logging event link-status" when not set and hidden when
+   set. But on a cat4500 it is the reverse: it is shown when set and
+   hidden when not set. To solve this one can configure as below:
+
+   To inject 'logging event link-status' on all interfaces (works for
+   most device types, hence put globally):
+
+   devices global-settings ned-settings cisco-ios-inject-interface-config 1 interface ".*" config "logging event link-status"
+
+   To inject 'no logging event link-status' on device cat4500 only
+   (after the global setting, hence overriding it):
+
+   devices device cat4500 ned-settings cisco-ios-inject-interface-config 1 interface ".*" config "no logging event link-status"
+
+   The two config entries above will solve compare diff problems with
+   logging event link-status.
+
+   Another example of config injection use is switchport, which may be
+   need to be inserted on some devices types. See section 12.
+
+   Here is an example of injecting global config, which will
+   be injected at the top level of show running-config:
+
+   devices global-settings ned-settings cisco-ios-inject-config glob
+   config "hostname DEFAULT-HOST-NAME"
+
+   Global inject config also take an optional 'regexp' string which can
+   be used to insert config lines after _each_ found match. For example,
+   to insert default-metric after each found router eigrp on a cat4500:
+
+   devices device cat4500-1 ned-settings cisco-ios-inject-config eigrp
+    regexp "router eigrp (\\d+)" config " default-metric $1 100 255 1 1500"
+
+   Up to 9 groups (expr) are supported in the regexp, e.g. $1 - $9.
+
+   Note that in order for the new inject setting to take effect, you
+   must disconnect and disconnect. A sync-from is also needed to
+   populate NCS/NSO CDB with newly configured injection config.
+
+   A final note: config injection is only done on real devices,
+   i.e. not NETSIM devices. The reason is that NETSIM is based on
+   confd and does not have alternating hidden defaults, hence matches
+   the YANG model fine without a compare-config diff due to this.
+
+
+9. Setting mode for how the NED saves applied config to persistent memory
+-------------------------------------------------------------------------
+
+   The NED is configurable regarding how an applied configuration is saved to
+   persistent memory on the device. This is done with the cisco-ios-write-memory-setting.
+   See example below. This setting can be configured globally, per device profile or per single device.
+   By default it is set to "on-commit"
+
+   admin@ncs(config)# devices device iosdev
+   admin@ncs(config-device-iosdev)# ned-settings cisco-ios-write-memory-setting ?
+   Possible completions:
+       disabled     Disable saving the applied config to persistent memory.
+       on-commit    Save configuration immediately after the config has been successfully applied on the device.
+                    If an error occurs when saving the whole running config will be rolled back (default).
+       on-persist   Save configuration during the NED persist handler. Called after the config has been successfully
+                    applied and commited If an error occurs when saving an alarm will be triggered.
+                    No rollback of the running config is done.
+
+
+10. Example of how to configure a device with a slave device (EXEC PROXY)
+-------------------------------------------------------------------------
+
+ Master device:
+
+ devices device 891w address 10.67.16.59 port 23
+ devices device 891w authgroup 891wauth device-type cli ned-id cisco-ios protocol telnet
+ devices device 891w connect-timeout 15 read-timeout 60 write-timeout 60
+ devices device 891w state admin-state unlocked
+
+ Slave device (accessed through master and proxy, a command run in
+ exec mode):
+
+ devices device ap801 address 10.67.16.59 port 23
+ devices device ap801 authgroup 891wauth device-type cli ned-id cisco-ios protocol telnet
+ devices device ap801 connect-timeout 15 read-timeout 60 write-timeout 60
+ devices device ap801 state admin-state unlocked
+ devices device ap801 ned-settings cisco-ios-proxy-settings remote-connection exec
+ devices device ap801 ned-settings cisco-ios-proxy-settings remote-command "service-module wlan-ap 0 session"
+ devices device ap801 ned-settings cisco-ios-proxy-settings remote-prompt "Open"
+ devices device ap801 ned-settings cisco-ios-proxy-settings remote-name cisco
+ devices device ap801 ned-settings cisco-ios-proxy-settings remote-password cisco123
+ !devices device ap801 ned-settings cisco-ios-proxy-settings remote-secondary-password cisco123
+
+
+11. When connecting through a proxy using SSH or TELNET
+-------------------------------------------------------
+
+   Do as follows to setup to connect to a IOS device that resides
+   behind a proxy or terminal server:
+
+   +-----+  A   +-------+   B  +-----+
+   | NCS | <--> | proxy | <--> | IOS |
+   +-----+      +-------+      +-----+
+
+   Setup connection (A):
+
+   # devices device cisco0 address <proxy address>
+   # devices device cisco0 port <proxy port>
+   # devices device cisco0 device-type cli protocol <proxy proto - telnet or ssh>
+   # devices authgroups group ciscogroup umap admin remote-name <proxy username>
+   # devices authgroups group ciscogroup umap admin remote-password <proxy password>
+   # devices device cisco0 authgroup ciscogroup
+
+   Setup connection (B):
+
+   Define the type of connection to the device:
+
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings remote-connection <ssh|telnet>
+
+   Define login credentials for the device:
+
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings remote-name <user name on the IOS device>
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings remote-password <password on the IOS device>
+
+   Define prompt on proxy server:
+
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings proxy-prompt <prompt pattern on proxy>
+
+   Define address and port of IOS device:
+
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings remote-address <address to the IOS device>
+   # devices device cisco0 ned-settings cisco-ios-proxy-settings remote-port <port used on the IOS device>
+   # commit
+
+
+12. When connecting to a terminal server
+----------------------------------------
+
+Use cisco-ios-proxy-settings remote-connection serial when you are
+connecting to a terminal server. The setting triggers sending of extra
+newlines to activate the login sequence.
+
+You may also need to specify remote-name and remote-password if the
+device has a separate set of login credentials.
+
+Finally, you may also need to set the cisco-ios connection-settings
+prompt-timeout ned-setting (in milliseconds) to trigger sending of
+more newlines if the login process requires it. The NED will send one
+newline per timeout until connect-timeout is reached and the the login
+fails.
+
+Example terminal server config:
+
+devices authgroups group term-sj-asr1002 default-map remote-name 1st-username remote-password 1st-password remote-secondary-password cisco
+devices device term-sj-asr1002 address 1.2.3.4 port 1234
+devices device term-sj-asr1002 authgroup term-sj-asr1002 device-type cli ned-id cisco-ios protocol telnet
+devices device term-sj-asr1002 connect-timeout 30 read-timeout 600 write-timeout 600
+devices device term-sj-asr1002 state admin-state unlocked
+devices device term-sj-asr1002 ned-settings cisco-ios-proxy-settings remote-connection serial
+devices device term-sj-asr1002 ned-settings cisco-ios-proxy-settings remote-name 2nd-username
+devices device term-sj-asr1002 ned-settings cisco-ios-proxy-settings remote-password 2nd-password
+devices device term-sj-asr1002 ned-settings cisco-ios connection-settings prompt-timeout 4000
+
+
+13. Fixing switchport issues depending on device and interface type
+-------------------------------------------------------------------
+
+   There are a two main formats used among IOS devices for switchport
+   configurations. Then there is also some devices which do not
+   support the switchport config on some interfaces, or all.
+
+   By default the NED injects 'no switchport' first in all
+   Port-channel and Ethernet interfaces in order to avoid a
+   compare-config diff. This is same as a global config inject rule:
+
+   !devices global-settings ned-settings cisco-ios-inject-interface-config spg interface "Ethernet|Port-channel" config "no switchport"
+
+   For device or interface types which hide 'switchport' when enabled
+   (but still no switchport setting set) a 'switchport' must be
+   injected to avoid a diff. The following are some identified
+   examples:
+
+devices device me3400 ned-settings cisco-ios-inject-interface-config spd interface "Ethernet|Port-channel" config "switchport"
+devices device cat3750 ned-settings cisco-ios-inject-interface-config spd interface "Ethernet|Port-channel" config "switchport"
+devices device me3800 ned-settings cisco-ios-inject-interface-config spd interface "Ethernet|Port-channel" config "switchport"
+
+   Note that in order for the new switchport setting to take effect, you
+   must disconnect and disconnect. A sync-from may also be needed to
+   populate NCS/NSO CDB with the injected config.
+
+
+14. Optimizing transaction id calculation
+-----------------------------------------
+
+  The method to use by the NED for calculating transaction ID is a
+  configurable option. The default method is quite slow since it uses
+  output of show running-config and a software calculated MD5. The
+  advantage though is that it does not change even if the device
+  reboots. Another advantage is that it works on all platforms.
+
+  If you do not care about the transaction id changing if the device
+  reboot,s you may increase performance significantly by changing the
+  method the transaction id is calculated.
+
+  The config option cisco-ios-transaction-id-method is available in
+  three locations:
+
+       /ncs:devices/global-settings/ned-settings/
+       /ncs:devices/ncs:profiles/profile:cisco-ios/ned-settings/
+       /ncs:/device/devices/device:<dev name>/ned-settings/
+
+  Four values are supported:
+
+  config-hash         - Calculate MD5 on a snapshot of the entire running
+                         config for calculation. (Default)
+  last-config-change  - Use the 'Last configuration change' timestamp
+                        in running config only (WARNING: changed at reboot)
+  config-id           - Use the 'show configuration id' command to determine
+                        if config changed. (WARNING: changed at reboot)
+  config-history      - Use the 'show configuration history' command to
+                        determine if config changed. (WARNING: changed at reboot)
+
+  Note: 'show config id|history' is not supported on some platforms,
+  e.g. 3550, cat4500, cat6500 etc. But if the option is not supported,
+  you will get to know this by use of an exception.
+
+
+15. SHOW RUNNING-CONFIG METHOD
+------------------------------
+
+  Normally the NED uses "show running-config" to show
+  configuration. This can be changed with the ned-setting
+  cisco-ios-show-running-method. For example:
+
+  devices device cat4500-1 ned-settings cisco-ios-show-running-method "show running-config full"
+
+
+16. INJECT COMMAND
+------------------
+
+   cisco-ios-inject-command located in global, profile and device
+   ned-setting can be used to insert command lines in a transaction.
+   This can be needed, for example, when deleting crypto config which
+   requires a clear command to be run before delete.
+
+   The ned-settings is configured with:
+
+   config-line
+    The config line where command should be injected (regexp)
+
+   command
+    The command to inject after|before config-line.
+    Start with 'do' if exec command.
+
+   'where', four values are supported:
+
+     before-each
+      insert command before each matching config-line
+
+     before-first
+      insert command before first matching config-line
+
+     after-each
+      insert command after each matching config-line
+
+     after-last
+      insert command after last matching config-line
+
+   An example (of a previously hard coded inject case):
+
+     devices global-settings ned-settings cisco-ios-inject-command C1 config-line "no crypto ikev2 keyring \\S+" command "do clear crypto session" before-first
+     devices global-settings ned-settings cisco-ios-inject-command C2 config-line "no crypto ikev2 keyring \\S+" command "do clear crypto ikev2 sa fast" before-first
+
+   The above inject command configs will cause a delete of ikev2
+   keyring to look like this:
+
+    do clear crypto session
+    do clear crypto ikev2 sa fast
+    no crypto ikev2 keyring XXX
+
+   $i (where i is value from 1 to 9) can also be used to insert
+   matches values from the config line. For example:
+
+devices global-settings ned-settings cisco-ios-inject-command C2 config-line "no interface Tunnel(\\d+)" command "do clear dmvpn session interface Tunnel $1 static" before-first
+
+   with a deletion of interface Tunnel100 results in:
+
+     !do clear dmvpn session interface Tunnel 100 static
+     no interface Tunnel100
+
+   Hence, $1 is replaced with the first group value from the config line,
+   which is (\\d+).
+
+   Finally, command insertion only works on real devices. On netsim
+   the injected command is commented out with a "!". The reason being
+   that netsim does not support all (or almost any) the exec
+   commands. But it is still good to see the insertion when debugging
+   them on netsim.
+
+17. END OF README FILE

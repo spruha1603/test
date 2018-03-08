@@ -1,0 +1,88 @@
+// =========================================================================
+//                          cisco-ios NED
+// =========================================================================
+module tailf-ned-cisco-ios-oper {
+  namespace 'http://tail-f.com/ned/cisco-ios/oper';
+  prefix ios-op;
+
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  import tailf-common {
+    prefix tailf;
+  }
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+
+  // =========================================================================
+  // REVISION
+  // =========================================================================
+
+  revision 2014-10-27 {
+    description
+      "Initial version";
+  }
+
+  // =========================================================================
+  // Description
+  // =========================================================================
+  // This file contains the cdb-oper part of the CISCO IOS YANG model.
+
+
+  /// ========================================================================
+  /// cisco-ios-oper
+  /// ========================================================================
+
+  augment "/ncs:devices/ncs:device/ncs:ned-settings" {
+    when "../ncs:device-type/ncs:cli/ncs:ned-id = 'ios-id:cisco-ios'";
+
+    container cisco-ios-oper {
+      tailf:info "Cisco IOS internal oper data";
+      config false;
+      tailf:cdb-oper {
+        tailf:persistent true;
+      }
+
+      // cisco-ios-oper / secrets *
+      list secrets {
+        tailf:cli-suppress-mode;
+        tailf:cli-delete-when-empty;
+        key "path";
+        leaf "path" {
+          type string;
+        }
+        leaf encrypted {
+          type string;
+        }
+        leaf cleartext {
+          tailf:hidden all;
+          type string;
+        }
+        leaf regexp {
+          tailf:hidden all;
+          type string;
+        }
+      }
+
+      // cisco-ios-oper / defaults *
+      list defaults {
+        tailf:cli-suppress-mode;
+        tailf:cli-delete-when-empty;
+        key "path";
+        leaf "path" {
+          type string;
+        }
+        leaf "value" {
+          type string;
+        }
+        leaf inject {
+          type string;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+module dc-vlan {
+  namespace "http://com/comcast/services/dcvlan";  
+  prefix dcvlan;
+
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  
+
+  organization "Comcast";
+  
+  contact  "Comcast Platform Services";
+  
+  description  "Comcast data center port turn-up service YANG model";
+  
+  revision 2016-11-08 {
+    description "First release of the vlan service";
+    reference "Comcast Yang";
+  }
+    typedef duplex-type {
+    type enumeration {
+      enum full;
+      enum half;
+    }
+  }
+
+  typedef vlan-id-type {
+    type uint16 {
+      range "1..4094";  
+    }
+  }
+
+  typedef role {
+    type enumeration {
+      enum "ur";
+      enum "l3-spine";
+      enum "l3-leaf";
+      enum "l2-topofrack";
+      //enum "l2-spine";
+      //enum “agg-spine”;cd cd YANG
+      
+
+    }
+  }
+  
+  augment /ncs:services {
+    list dc-vlan {
+      tailf:info "Data center VLAN service";
+        key device;
+
+      uses ncs:service-data;
+      ncs:servicepoint "dcvlan";
+
+     
+
+
+   // may replace this with other ways of refering to the devices.
+      leaf device {
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      // replace with your own stuff here
+          leaf vid{
+          mandatory true;
+          tailf:info "VLAN interface";
+           type uint16 {
+          range "1..4096";
+          tailf:info "<0-0>;;VLAN interface number";
+        }
+          }
+          leaf vname{
+           type string;
+          }
+      }
+    }
+  }
+

@@ -1,0 +1,5396 @@
+cisco-ios v5.0.14 [March 17, 2017]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     ip sla * / tcp-connect
+     track * ipv6 route
+     track * / ipv6 vrf
+    (CISCOIOS-556 / RT27423)
+
+  - Additions to the YANG model:
+     l2vpn vfi context * / autodiscovery bgp signaling * template
+    (CISCOIOS-554 / RT27346)
+
+  - Additions to the YANG model:
+     interface * / service-module / t1 timeslots
+    (CISCOIOS-544 / RT27297)
+
+Corrections:
+
+  - Do not re-inject interface ip address after vrf change if interface
+     is being deleted in same transaction.
+    (CISCOIOS-558 / RT27413)
+
+  - Added tailf:cli-remove-before-change on:
+     policy-map * / class * / service-policy
+    (CISCOIOS-557 / RT27426)
+
+  - Added choice around track * ip[v6] route reachability and metric threshold.
+    Solved issue deleting track * / ip[v6] vrf and vrf entry.
+    (CISCOIOS-556 / RT27423)
+
+  - Added tailf:cli-remove-before-change on:
+     ip dhcp pool * network
+    (CISCOIOS-555 / RT27418)
+
+  - Fixed delete order dependency problem between:
+      qos aggregate-police
+      policy-map * / class * / police aggregate
+    (CISCOIOS-553 /
+
+  - Fixed order dependency: snmp-server engineID vs snmp-server user
+    (CISCOIOS-551 / RT27377)
+
+  - Fixed order dependency: delete existing router bgp before adding new.
+    (CISCOIOS-550 / RT27369)
+
+  - Added tailf:cli-remove-before-change on:
+     router eigrp * / address-family ipv4
+    (CISCOIOS-549 / RT27366)
+
+  - Split multiple class-map * / match dscp values into lines of max 8 each.
+    (CISCOIOS-547 / RT27354)
+
+  - Fixed order dependency between:
+     interface * / mtu
+     interface * / service instance * / xconnect / mtu
+    (CISCOIOS-545 / RT27313)
+
+
+cisco-ios v5.0.13 [March 13, 2017]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     line * / modem autoconfigure type
+    (CISCOIOS-543 / RT27298)
+
+Corrections:
+
+  - Added explicit-exit in ip dhcp top container to solve issue with top mode
+     vrf deletion in same transaction.
+    (CISCOIOS-546 / RT27336)
+
+  - Fixed order dependency interface * / access-group vs ip access-list.
+    (CISCOIOS-542 / RT27312)
+
+
+cisco-ios v5.0.12 [March 08, 2017]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     l2vpn vfi context * / mtu
+    (CISCOIOS-539 / RT27258)
+
+  - Additions to the YANG model:
+     cable fiber-node * / downstream Downstream-Cable *
+     cable fiber-node * / downstream sg-channel *
+     cable fiber-node * / upstream Cable *
+     cable fiber-node * / service-group profile
+     cable profile service-group * / mac-domain * / downstream sg-channel * upstream
+     cable profile service-group * / mac-domain * / us-bonding-group * / admission-control
+     cable rpd * / r-dti
+     cable rpd * / rpd-event profile
+    (CISCOIOS-538 / RT27251)
+
+  - Additions to the YANG model:
+     interface * / tunnel protection ipsec profile ? isakmp-profile|shared
+    (CISCOIOS-535 / RT27227)
+
+Corrections:
+
+  - API CHANGE:
+     cable rpd * / core-interface te* -> cable rpd * / core-interface Te*
+    (CISCOIOS-538 / RT27251)
+
+  - Fixed modification order problem with ip access-list's and the ned-setting
+     cisco-ios-api new-ip-access-list by always deleting before adding.
+    (CISCOIOS-541 / RT27269)
+
+  - API CHANGE:
+     service prompt config changed from enum leaf to boolean-no leaf in
+      container, in order to show if set to 'no'. WARNING: do not set to
+      'no' or the NED will get no prompt from device and will deadlock.
+    (CISCOIOS-540 / RT27261)
+
+  - Added missing default values:
+     router bgp * / bgp graceful-restart restart-time 120
+     router bgp * / bgp graceful-restart stalepath-time 360
+    (CISCOIOS-533 / RT27216)
+
+  - Fixed problem with deleting router ospf * / redistribute bgp
+    (CISCOIOS-532 / RT26991)
+
+  - API CHANGE:
+     router ospf * / fast-reroute per-prefix enable
+      Changed from container to list + leaf to support multiple entries.
+    (CISCOIOS-531 / RT27215)
+
+  - Fixed problem with bad transaction ID when commiting config with cleartext
+     passwords encrypted by device in combination with ip vrf entries.
+    (CISCOIOS-530 / RT27190)
+
+  - Fixed order dependency with delete of routes by always deleting them first.
+    (CISCOIOS-530 / RT27190)
+
+  - Do not delete cached NedSecrets entry if differ vs device. This will
+     make it possible to do a secrets resync even after a compare-config diff.
+    (CISCOIOS-527 / RT27166)
+
+
+cisco-ios v5.0.11 [March 03, 2017]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / carrier-delay up|down
+    (CISCOIOS-529 / RT27178)
+
+  - Additions to the YANG model:
+     ip igmp snooping source-only-learning age-timer
+    (CISCOIOS-528 / RT27173)
+
+  - Added an internal live-status command to force a resync of all cached
+     encrypted values used by NedSecrets. Useful to solve an issue where the
+     device rehashes type 7 secrets with a different seed, causing the values
+     to diff from the old ones, even using the same cleartext password.
+     Issue like this:
+      admin@ncs# devices device <devname> live-status exec any "secrets resync"
+     Note: the command will do a "show running-config" from the device, hence
+           may be quote slow for large configs.
+    (CISCOIOS-527 / RT27166)
+
+  - Additions to the YANG model:
+     domain * / border / advanced / smart-probes burst
+    (CISCOIOS-526 / RT27169)
+
+  - Added support for restoring secondary ipv4 and all ipv6 addresses as well
+     when vrf is changed and ned-settings cisco-ios-auto vrf-forwarding-restore
+     is set to true (default = true).
+    (CISCOIOS-525 / RT27164)
+
+  - Additions to the YANG model:
+     interface * / service instance * ethernet / rewrite ingress tag translate
+    (CISCOIOS-524)
+
+  - Additions to the YANG model:
+     interface pseudowire* / mtu
+    (CISCOIOS-523)
+
+Corrections:
+
+  - Support for device encrypted cipher in:
+     router bgp * / address-family ipv[46] * vrf * / neighbor * password
+    (CISCOIOS-530 / RT27190)
+
+
+cisco-ios v5.0.10 [February 24, 2017]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     crypto ikev2 client flexvpn * / peer * track
+    (CISCOIOS-520)
+
+  - Before creating
+     service-insertion appnav-controller-group * / appnav-controller *
+    Make sure any changes to interface Loopback * / ip address are
+    shown first. Required to be able to add this command inject ned-setting
+    for AppNav Controller changes support:
+      devices device ext-isr4431 ned-settings cisco-ios-inject-command ISRWAAS-SCG-ENABLE
+         config-line "appnav-controller \d+.*"
+         command "service-insertion service-context waas/1\n enable" after-last
+    (CISCOIOS-515 / RT26987)
+
+Corrections:
+
+  - Ignore "bridge-domain \\d+ cannot be deleted because it is not empty""
+     since the bridge-domain entry is deleted regardless of the error text.
+    (CISCOIOS-522)
+
+  - API CHANGE:
+    Changed fqdn from container to leaf to allow for new track option:
+     crypto ikev2 client flexvpn * / peer * fqdn
+    Changed source from container to list:
+     crypto ikev2 client flexvpn * / source *
+    (CISCOIOS-520)
+
+  - Removed : after mpls label protocol tdp
+    (CISCOIOS-519 / RT27026)
+
+  - Added /ipv6/prefix-list/prefixes-no-seq list to support prefix lists
+     without seq numbers (available with no ipipv6 prefix-list sequence-number).
+    Delete ipv6 prefix-list entries before creating new.
+    (CISCOIOS-518 / RT27025)
+
+  - Added cli-recursive-delete to virtual-service in ordet to send no activate.
+    (CISCOIOS-517 / RT26989)
+
+  - Added tailf:cli-remove-before-change on:
+     domain * / vrf * / master hub / hub
+      Since the address needs to be removed before changed.
+    (CISCOIOS-516)
+
+  - API CHANGE:
+    Fixed interface * / ip unnumbered dependency problem.
+    Had to change unnumbered type from string to container
+    with interface-name-grouping.
+    (CISCOIOS-386 / RT25698)
+
+
+cisco-ios v5.0.9 [February 16, 2017]
+====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     route-map * / set global
+    (CISCOIOS-514 / RT26945)
+
+  - Support for device encrypted cipher in:
+     router bgp * / neighbor * password
+    (CISCOIOS-512 / RT26961)
+
+Corrections:
+
+  - Fixed problems with '?' character in passwords.
+    (CISCOIOS-512 / RT26961)
+
+  - Added ordered-by user on radius-server and tacacs-server host lists.
+    CISCOIOS-511 / RT26674)
+
+  - API CHANGE:
+     Removed ip/route/ip-route-interface-vasileft-list and
+      ip/route/ip-route-interface-vasiright-list.
+     Use the normal ip-route-interface* lists.
+    (CISCOIOS-510 / RT26934)
+
+  - Fixed problem with ip route 'dhcp' option being discarded by NSO.
+    Added cli-reset-container on ip-route-interface-list.
+    (CISCOIOS-510 / RT26934)
+
+  - Added support for rip entry without process id:
+     router lisp / ipv4 route-import database rip
+    (CISCOIOS-509)
+
+  - API CHANGE:
+     ip sla reaction-configuration *
+      Changed key from operation-number to "operation-number react"
+    (CISCOIOS-508)
+
+  - Fixed problem with router ospf * / area stub and nssa.
+    (CISCOIOS-504 / RT26874, CISCOIOS-506 / RT26899)
+
+  - Strip console log messages from show running output to avoid corrupting
+     transaction id when using config-hash method.
+    (CISCOIOS-502 / RT26795)
+
+  - Fixed problems with new inject of shutdown and delete of entire entry.
+    (CISCOIOS-497 / RT26736)
+
+  - Put back an old fix erronously removed:
+    Removed tailf:cli-delete-when-empty on interface * / standby * preempt
+    (RT23553)
+
+
+cisco-ios v5.0.8 [February 10, 2017]
+====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added new static warning exception:
+     "Only classful networks will be redistributed"
+    (CISCOIOS-503 / RT26867)
+
+  - Additions to the YANG model:
+     domain / master
+     domain / border
+     domain * / master hub / advanced / smart-probes burst
+    (CISCOIOS-420 / RT26025)
+
+Corrections:
+
+  - Delete ip prefix-list entries before creating new.
+    (CISCOIOS-505 / RT26900)
+
+  - Remove router ospf * / area * nssa on device if deleted in NSO.
+    (CISCOIOS-506 / RT26899)
+
+  - Remove router ospf * / area * stub on device if deleted in NSO.
+    (CISCOIOS-504 / RT26874)
+
+  - Fixed newly introduced problem where ned-setting cisco-ios-auto
+     interface-switchport-status did not remove the default inject
+     of "no switchport" on Ethernet/Port-channel interfaces.
+
+  - Fixed problem with inject of shutdown on older NCS/NSO versions.
+
+
+cisco-ios v5.0.7 [February 03, 2017]
+====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Inject shutdown/no shutdown before modifying below containers/lists:
+     pm-agent
+     crypto tls-tunnel
+    (CISCOIOS-497 / RT26736)
+
+  - Support for NedSecrets on non-transaction id setups.
+    (CISCOIOS-494)
+
+  - New ned-setting:
+     cisco-ios connection-settings device-output-delay
+      Delay in milliseconds after each config command output to the device.
+      Can for example be used to not overload link or device. Default 0.
+    (CISCOIOS-491 / RT26671)
+
+  - Support for encrypted authentication-key in
+      router ospf * / area * virtual-link authentication-key
+
+Corrections:
+
+  - Fixed aaa new-model vs tacacs server dependency issue.
+    (CISCOIOS-501 / RT26780)
+
+  - Replaced "show logging" with "show logging xml" for improved performance
+     showing the logging monitor|console|buffered config status.
+    (CISCOIOS-500)
+
+  - Fixed interface * / no nhrp route-watch vs ip nhrp dependency issue.
+    (CISCOIOS-499 / RT26756)
+
+  - Removed unnecessary presence container under cisco-ios-proxy-settings.
+    (CISCOIOS-496)
+
+  - API CHANGE:
+     crypto gkm group * / server address
+      due to support for ipv6 and ordered-by user list.
+    (CISCOIOS-495)
+
+  - Ignore error when deleting non-existant LISP interface.
+
+
+cisco-ios v5.0.6 [January 27, 2017]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     crypto tls-tunnel * / overlay-address
+    (CISCOIOS-493)
+
+  - Additions to the YANG model:
+     crypto ipsec profile * / responder-only
+    (CISCOIOS-490 / RT26655)
+
+  - Additions to the YANG model:
+     ip extcommunity-list *
+     route-map * / match extcommunity *
+     route-map * / set extcomm-list
+    (CISCOIOS-488 / RT26647)
+
+  - Support for cisco-ios-proxy-settings remote-connection serial in order to
+     support terminal server login, and optionally specify a second set of
+     device login credentials. See README file for more details.
+    (CISCOIOS-483 / RT26602)
+
+  - Support for cisco-ios/connection-settings/prompt-timeout millisecond
+     ned-setting. This ned-setting is set to device connect-timeout by default.
+     If prompt-timeout triggers, a newline is sent to the device to wake it.
+    (CISCOIOS-483 / RT26602)
+
+  - Additions to the YANG model:
+     key config-key password-encrypt
+      Note:  password stored in NSO as tailf:aes-cfb-128-encrypted-string type.
+      Note2: previous password deleted before setting new one, rendering all
+             current type 6 encrypted keys useless.
+    (CISCOIOS-480 / RT26580)
+
+  - Removed old revision statements from YANG [internal node].
+
+  - Changed ned-setting log format to match the YANG paths.
+
+  - Suport for $8 maaapi encrypted passwords (previously only $4 was supported)
+
+Corrections:
+
+  - Discontinued support for NSO-4.3.0 due to NSO bug. Use NSO-4.3.1.
+
+  - Added missing default value 'dhe-psk-aes256-cbc-sha1' on
+     crypto tls-tunnel * / protection
+    (CISCOIOS-492)
+
+  - Removed bad navuExist() ERROR log.
+    (CISCOIOS-455 / RT26387)
+
+
+cisco-ios v5.0.5 [January 23, 2017]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    Using NSO-4.3 branch you must upgrade to minimum NSO-4.3.0.2 in order for
+    NedSecrets and NedDefaults to work. If you are not, you will get a compare-
+    config diff when setting cleartext passwords which the device encrypts. You
+    may also get a compare-config diff on some config hidden by the device.
+    The problem can also be seen in the logs as an exception:
+      "... com.tailf.cdb.CdbException: Not a cdb operational data path"
+
+Enhancements:
+
+  - Moved new MaapiCrypto(mm) to place of use to avoid exception with erronous
+     crypto initialization.
+    (RT26604)
+
+Corrections:
+
+
+cisco-ios v5.0.4 [January 20, 2017]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    Using NSO-4.3 branch you must upgrade to minimum NSO-4.3.0.2 in order for
+    NedSecrets and NedDefaults to work. If you are not, you will get a compare-
+    config diff when setting cleartext passwords which the device encrypts. You
+    may also get a compare-config diff on some config hidden by the device.
+    The problem can also be seen in the logs as an exception:
+      "... com.tailf.cdb.CdbException: Not a cdb operational data path"
+
+Enhancements:
+
+  - Additions to the YANG model:
+     controller MediaType *
+     controller * / fdl
+     controller SONET * / rate
+     controller SONET * / sts-1 *
+     controller SONET * / threshold sf-ber
+     controller SONET * / no TU-AIS
+     interface * / esmc mode
+     interface FortyGigabitEthernet0/4/1 *
+    (CISCOIOS-479)
+
+  - Additions to the YANG model:
+     event manager applet * / action * snmp-trap
+    (CISCOIOS-478 / RT26553)
+
+  - Additions to the YANG model:
+     cached-show inventory
+      Caches all entries from "show inventory".
+    (CISCOIOS-475 / RT26471)
+
+  - Additions to the YANG model:
+     interface * / power inline auto|never|static
+    (CISCOIOS-473 / RT26502)
+
+  - Additions to the YANG model:
+     interface * / nhrp group
+    (CISCOIOS-471 / RT26500)
+
+  - Additions to the YANG model:
+     crypto ikev2 policy * / match
+    (CISCOIOS-470 / RT26499)
+
+  - Additions to the YANG model:
+     policy-map * / class * / queue-limit dscp * percent
+    (CISCOIOS-469 / RT26498)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-policy * remove-private-as
+    (CISCOIOS-468 / RT26496)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-policy * / soft-reconfiguration
+    (CISCOIOS-467 / RT26495, CISCOIOS-472 / RT26501)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-session * / disable-connected-check
+    (CISCOIOS-466 / RT26494)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-session * / transport
+    (CISCOIOS-465 / RT26493)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-session * / description
+    (CISCOIOS-464 / RT26492)
+
+  - Additions to the YANG model:
+     bridge-domain * / member * service-instance * encapsulation
+    (CISCOIOS-463)
+
+Corrections:
+
+  - Allow setting router isis * / set-overload-bit with no sub-leaves.
+    (CISCOIOS-481 / RT26583)
+
+  - API CHANGE:
+     controller SONET * / ais-shut
+      changed from type empty to cli-boolean-no type boolean.
+    (CISCOIOS-479)
+
+  - Ignore invalid command error on "no ipv[46] map-cache-persistent
+    (CISCOIOS-477 / RT26552)
+
+  - Fixed order dependency crypto map vs interface * / ipv6 crypto map.
+    (CISCOIOS-477 / RT26552)
+
+
+cisco-ios v5.0.3 [January 13, 2017]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    Using NSO-4.3 branch you must upgrade to minimum NSO-4.3.0.2 in order for
+    NedSecrets and NedDefaults to work. If you are not, you will get a compare-
+    config diff when setting cleartext passwords which the device encrypts. You
+    may also get a compare-config diff on some config hidden by the device.
+    The problem can also be seen in the logs as an exception:
+      "... com.tailf.cdb.CdbException: Not a cdb operational data path"
+
+Enhancements:
+
+  - Additions to the YANG model:
+     ip rsvp signalling refresh reduction
+    (CISCOIOS-461 / RT26460)
+
+  - Additions to the YANG model:
+     logging snmp-authfail
+    (CISCOIOS-459 / RT26449)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-policy * / route-reflector-client
+    (CISCOIOS-458 / RT26426)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-policy * / prefix-list *
+    (CISCOIOS-457 / RT26425)
+
+  - Additions to the YANG model:
+     crypto ikev2 fragmentation
+    (CISCOIOS-456)
+
+Corrections:
+
+  - API CHANGE:
+     crypto pki trustpoint * / revocation-check
+      Changed from leaf to ordered-by user leaf-list.
+    (CISCOIOS-462 / RT26472)
+
+  - API CHANGE:
+     Reverted bad change (CISCOIOS-434 / RT26134) done in cisco-ios 4.4.17.
+     monitor session * destination|source
+      is once more multi-word-key lists.
+    (CISCOIOS-454 / RT26369)
+
+  - Fixed router bgp vs route-map dependency problems: Make sure route-map
+     entries are deleted before router bgp.
+    (CISCOIOS-431 / RT26137)
+
+
+cisco-ios v5.0.2 [January 06, 2017]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    Using NSO-4.3 branch you must upgrade to minimum NSO-4.3.0.2 in order for
+    NedSecrets and NedDefaults to work. If you are not, you will get a compare-
+    config diff when setting cleartext passwords which the device encrypts. You
+    may also get a compare-config diff on some config hidden by the device.
+    The problem can also be seen in the logs as an exception:
+      "... com.tailf.cdb.CdbException: Not a cdb operational data path"
+
+Enhancements:
+
+  - Added type 7 password to crypto-key-grouping used in 10+ places.
+    (CISCOIOS-453 / RT26356)
+
+  - Additions to the YANG model:
+     aaa group server radius * / server-private *
+     interface * / ip pim passive
+     ip tcp selective-ack
+     monitor session * type erspan-source
+     mpls discovery vpn
+     route-map * / match local-preference
+     router bgp * / neighbor * path-attribute discard * in
+     spd headroom
+    (CISCOIOS-451 / RT26310)
+
+  - Include "ip addressd dhcp" in vrf-forwarding-restore ned-setting, i.e. if
+     vrf is modified on an interface with DHCP, the DHCP setting is restored.
+    (CISCOIOS-449 / RT26284)
+
+  - Changed cisco-ios-auto / vrf-forwarding-restore ned-setting to default true.
+
+  - Replaced internal debug command 'show fixed-config' with 'sync-from-file'
+    The internal live-status exec any sync-from-file command is used to inject
+    a config file in NETSIM. The next 1 sync-from will sync-from this file.
+    For example:
+      admin@ncs# devices device netsim-0 live-status exec any "sync-from-file
+         /home/myuser/cisco-test-config.yxy"
+      admin@ncs# devices device netsim-0 sync-from
+
+Corrections:
+
+  - API CHANGE:
+     interface * / ip ospf network
+      Changed from leaf to leaf-list in order to support setting both
+      point-to-multipoint and non-broadcast.
+     (CISCOIOS-452 / RT26319)
+
+  - Set interface * / service instance * ethernet / bridge-domain after
+     interface * / service instance * ethernet / l2protocol.
+    (CISCOIOS-450 / RT26304)
+
+
+cisco-ios v5.0.1 [December 28, 2016]
+====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    NedSecrets and NedDefaults do not work with NSO-4.3 or NSO-4.3.0.1 due to
+    a problem with Navu and CDB. The problem will manifest as a config diff
+    when device encrypts cleartext secrets. To fix this, you must upgrade your
+    NSO-4.3.x to a newer version which includes the fix #15413. Presently none
+    available.
+
+Enhancements:
+
+Corrections:
+
+  - Split monitor session * filter packet-type into good & bad, making it
+     it possible to configure both simultaneously.
+    (CISCOIOS-447 / RT26262)
+
+  - Removed compact-syntax from monitor session *
+    (CISCOIOS-434 / RT26134)
+
+
+cisco-ios v5.0 [December 22, 2016]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+    WARNING:
+    NedSecrets and NedDefaults do not work with NSO-4.3 or NSO-4.3.0.1 due to
+    a problem with Navu and CDB. The problem will manifest as a config diff
+    when device encrypts cleartext secrets. To fix this, you must upgrade your
+    NSO-4.3.x to a newer version which includes the fix #15413. Presently none
+    available.
+
+Enhancements:
+
+  - MAJOR UPGRADE:
+    First version with support for commit queues. This feature only works
+     with the latest versions of NSO (currently 4.3.0.1 and 4.2.2).
+    (CISCOIOS-338 / RT25292, CISCOIOS-385 / RT25700)
+
+  - Additions to the YANG model:
+     monitor session * filter vlan
+    (CISCOIOS-448 / RT26268)
+
+  - Additions to the YANG model:
+     monitor session * filter packet-type
+    (CISCOIOS-447 / RT26262)
+
+  - Additions to the YANG model:
+     interface * / tunnel mpls traffic-eng name
+     interface * / tunnel mpls traffic-eng path-option * verbatim
+     ip explicit-path name * / index * next-address loose
+     template * / control-word
+     template * / mtu
+     template * / preferred-path
+    (CISCOIOS-446 / RT26255)
+
+  - Additions to the YANG model:
+     ip nat settings mode
+    (CISCOIOS-443 / RT26241)
+
+  - Added static warnings:
+     "the email address configured in .* will be used as"
+     "wait for .* license request to succeed"
+    (CISCOIOS-442)
+
+Corrections:
+
+  - API CHANGE:
+     vpdn-group * / l2tp tunnel password
+      Due to support for encrypted vs cleartext mapping to avoid diff.
+
+  - Properly clean up resources when closing NED.
+    (CISCOIOS-445)
+
+  - Remove usage of inets application and httpc in the the netsim PnP code
+     since it is not available in the confd Erlang distribution".
+    (CISCOIOS-382)
+
+
+cisco-ios v4.4.17 [December 16, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - IWAN 3.0 addditions to the YANG model:
+     router lisp / service ipv4 / eid-table default
+     exit-service-ipv4 and exit-service-ipv6
+    (CISCOIOS-441)
+
+  - Additions to the YANG model:
+     router bgp * / neighbor * advertise-map * exist-map *
+    (CISCOIOS-433 / RT26137)
+
+  - Additions to the YANG model:
+     flow exporter * / option application-table
+     flow record * / collect flow sampler
+     flow record * / collect ipv4 id
+     flow record * / collect ipv4 source prefix
+     netconf-yang / cisco-ia snmp-trap-control trap-list
+     netconf-yang / cisco-odm actions
+     parameter-map type regex *
+    (CISCOIOS-429 / RT26098)
+
+  - Aded 'interface-switchport-status' ned-setting for reading Ethernet and
+     Port-channel switchport status using "show int <interface> switchport"
+     If enabled, inject "switchport". If disabled, inject "no switchport".
+     If command not supported on interface, nothing is injected.
+     WARNING: Enabling this option downgrades performance. For optimal
+              performance, see section 12 "Fixing switchport issues" in README.
+    (CISCOIOS-426 / RT26079)
+
+  - Decrypt maaapi encrypted passwords (starting with $4$) before sending
+     them to the device. Cleartext password decrypted by the NED are not
+     logged in NED trace.
+    (CISCOIOS-425 / RT26075)
+
+  - Added static warning:
+     "virtual service .* install has not completed"
+    (CISCOIOS-386 / RT25698)
+
+Corrections:
+
+  - IWAN 3.0 changes to the YANG model:
+     Added presence true to router lisp / service ip[v4|v6] containers.
+    (CISCOIOS-441)
+
+  - Fixed ip[v6] wccp vs interface ip[v6] wccp dependency problems.
+    (CISCOIOS-440)
+
+  - API CHANGE:
+     router isis * / metric
+     Adeds support for wide metric and level-1 & level-2 metric config.
+    (CISCOIOS-439 / RT26182)
+
+  - Fixed ethernet vs ip sla dependency problem.
+    (CISCOIOS-436 / RT26153)
+
+  - API CHANGE:
+     monitor session * destination|source
+      corrected from multi-word-key list to multi-value string.
+    (CISCOIOS-434 / RT26134)
+
+  - API CHANGE:
+     monitor session * filter
+      corrected from multi-word-key to specific model due to duplicate entries.
+    (CISCOIOS-433 / RT26131)
+
+
+cisco-ios v4.4.16 [December 09, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added static warning for graceful-restart timers with active BGP sessions.
+    (CISCOIOS-428 / RT26097)
+
+  - Additions to the YANG model:
+     mpls ldp nsr
+    (CISCOIOS-423 / RT26042)
+
+  - Include device_id in ncs-java-vm.log log entries.
+    (CISCOIOS-421 / RT26028)
+
+  - Additions to the YANG model:
+     mpls traffic-eng auto-tunnel backup
+     router isis * / distribute-list
+     router isis * / microloop avoidance disable
+    (CISCOIOS-418 / RT26022)
+
+  - Additions to the YANG model:
+     interface * / mls qos trust dscp pass-through cos
+    (CISCOIOS-416 / RT26000)
+
+  - Additions to the YANG model:
+     interface * / group
+    (CISCOIOS-415 / RT259921)
+
+  - IWAN 3.0 addditions to the YANG model:
+     control-plane host / management-interface
+     crypto ikev2 authorization policy * / session-lifetime
+     pm-agent / device type
+     router lisp / etr map-server source-address
+    (CISCOIOS-410 / RT25965)
+
+  - API CHANGE:
+    Support for caching cleartext password to avoid compare-config diff
+     for the following config: ntp authentication-key *. Unfortunately
+     the YANG had to be changed in order to enable the feature.
+    (CISCOIOS-409 / RT25964)
+
+Corrections:
+
+  - Added tailf:cli-remove-before-change on new ip access-list in order to
+     be able to update existing entries.
+    (CISCOIOS-427 / RT26088)
+
+  - Removed tailf:cli-diff-dependency on top policy-map list in order to
+     solve bug with diff calculation with policy-map description and
+     class maps.
+    (CISCOIOS-424 / RT26043)
+
+  - Fixed ip nat translation max-entries vs ip vrf order dependency problem.
+    (CISCOIOS-422 / RT26036)
+
+  - Removed tailf:cli-remove-before-change from track list, added
+     when statements on track sub mode config and a mechanism to
+     delete existing track when changing track type.
+    (CISCOIOS-419 / RT26011)
+
+  - Remove router ospf / default-information originate on device
+     if deleted in NSO.
+    (CISCOIOS-417 / RT26010)
+
+  - Fixed interface service instance group and service-group dependency
+     problem.
+    (CISCOIOS-415 / RT259921)
+
+  - Implemented new mechanism for supporting multiple default values hidden
+     by device and still avoid a compare-config diff. Currently used on:
+      interface * / wrr-queue cos-map *
+      interface * / priority-queue cos-map *
+    (CISCOIOS-411 / RT25973)
+
+  - Fixed vrf definition vs router lisp / instance-id dependency problem.
+    (CISCOIOS-410 / RT25965)
+
+  - Added logging trap informational as default value.
+    (CISCOIOS-409 / RT25964)
+
+  - Changed exec command timeout time from connectTimeout to readTimeout.
+
+
+cisco-ios v4.4.15 [December 02, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added static warnings for crypto map * / [no] reverse-route static
+     "this will remove all existing \\S+ on this map"
+     "removing \\S+ will delete all routes and clear current ipsec"
+    (CISCOIOS-413 / RT25977)
+
+  - Additions to the YANG model:
+     interface * / ipv6 policy route-map
+     platform power redundancy-mode nplus1
+     route-map * / match ipv6 route-source
+    (CISCOIOS-412 / RT25974)
+
+  - Add support for new PnP functionality in netsim, more specifically:
+     Https 2-Way Authentication Support
+     support Config Upgrade option for pushing Day0 to CPE
+     Device SUDI Authentication service
+     Certificate installation service
+    (CISCOIOS-382)
+
+Corrections:
+
+  - API CHANGE:
+     crypto map * ipsec-isakmp / set transform-set *
+      changed from leaf to leaf-list
+    (CISCOIOS-414 / RT25981)
+
+  - Fixed crypto map delete problem for Catalyst devices by not including
+     policy value in delete.
+    (CISCOIOS-408 / RT25959)
+
+  - Sort "ip nat translation max-entries vrf" entries prior to calculating hash
+     checksum in order to avoid transaction id changing when device reboots and
+     reorders them.
+    (CISCOIOS-407 / RT25940)
+
+  - Fixed router lisp / eid-table vs locator-set order dependency.
+    (CISCOIOS-406 / RT25943)
+
+  - Fixed interface * / standby version and standby list order dependency.
+    Made "Warning: Current config does not permit HSRP version 1" an error.
+    (CISCOIOS-405 / RT25934)
+
+  - API CHANGE:
+     snmp-server contact|location
+      Removed tailf:cli-multi-value in order to not insert ""
+    (RT25914)
+
+
+cisco-ios v4.4.14 [November 24, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added new optional ned-setting to change how NED writes config to memory:
+     cisco-ios-write-memory-method
+    Example:
+     devices device <devname> ned-settings cisco-ios-write-memory-method
+       "copy running-config startup-config"
+    Note: default is "write memory"
+    (CISCOIOS-401 / RT25863)
+
+  - Additions to the YANG model:
+     interface * / ospfv3 authentication
+    (CISCOIOS-398 / RT25834)
+
+  - Added 'cisco-ios-api new-ip-access-list' ned-setting for a new version of
+     "ip access-list". A standard-extended combined list ordered by mandatory
+     sequence numbers.
+    (CISCOIOS-397 / RT25818)
+
+  - CBR8 additions to the YANG model:
+     cable downstream controller-profile *
+     cable upstream controller-profile *
+     cable profile downstream *
+     cable profile mac-domain *
+     cable profile service-group *
+     cable profile wideband-interface *
+     cable rpd *
+     l2tp-class * / initial retransmit retries
+     interface Wideband-Cable* / cable downstream attribute-mask
+     ptp clock profile *
+    (CISCOIOS-395)
+
+  - Fixed problems with router bgp * / address-family * / redistribute:
+     was not possible to delete redistribute entry in single transaction
+    (CISCOIOS-396 / RT25799)
+
+  - Additions to the YANG model:
+     ip icmp redirect
+     logging snmp-trap
+    (CISCOIOS-379 / RT25639)
+
+  - Added static warning:
+     "configuring anyway"
+    (CISCOIOS-379 / RT25639)
+
+Corrections:
+
+  - New method to solve interface / speed vs duplex ordering issue.
+    (CISCOIOS-399 / RT25858, CISCOIOS-400 / RT25862, CISCOIOS-402)
+
+  - Moved ip sla * / vrf dependency to avoid re-entering ip sla when
+     it's deleted.
+    (CISCOIOS-388 / RT25721)
+
+  - Fixed interface * / ospfv3 vs ipv6 unicast-routing dependency problem.
+    (CISCOIOS-398 / RT25834)
+
+  - Fixed support for reading and writing alias config.
+    API CHANGE:
+     alias
+      changed key from the line itself to "mode name"
+
+
+cisco-ios v4.4.12 [November 18, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added static warning:
+     "%warning:"
+    (CISCOIOS-393 / RT25781)
+
+Corrections:
+
+  - API CHANGE:
+     crypto ipsec transform-set *
+      Enforce cipher type exists in only transform (according to docs), i.e:
+       transform1 = AH transform
+       transform2 = ESP encryption + optional transform2-bits
+       transform3 = ESP authentication
+       transform4 = IP Compression
+    (CISCOIOS-394 / RT25786)
+
+  - Do not retry on "first remove .* from the above" device reply.
+    (CISCOIOS-394 / RT25786)
+
+  - Remove interface standby preempt on device if deleted in NSO.
+    (CISCOIOS-390 / RT25738)
+
+  - Support for configuring router id in route-map * / match source-protocol *
+    (CISCOIOS-390 / RT25718)
+
+  - Fixed ipv6 rip vrf-mode enable vs ipv6 router rip * / address-family ipv6 vrf
+     dependency problem.
+    (CISCOIOS-389 / RT25717)
+
+
+cisco-ios v4.4.11 [November 15, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+Corrections:
+
+  - Changed cli-diff-dependency in order to avoid a serious NSO bug causing
+     existing vlan's to be erronously deleted when a bridge-domain was added
+     in an interface service instance.
+    (CISCOIOS-387 / RT25727)
+
+
+cisco-ios v4.4.10 [November 11, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - IWAN 3.0 addditions to the YANG model:
+     crypto gkm group *
+     crypto map * * ckm
+     crypto tls-tunnel *
+     interface * / ipv6 address dhcp
+     interface * / ipv6 nd autoconfig
+     interface * / ipv6 unnumbered
+     interface * / pm-path
+     logging host ipv6 * vrf
+     pm-agent
+     router lisp / instance-id *
+     router lisp / locator-set * / auto-discover-rlocs
+     router lisp / service
+     router lisp / syslog session changes
+    (CISCOIOS-380 / RT25636)
+
+  - Added static warning:
+      "updated group cp to "
+    (CISCOIOS-384 / RT25683)
+
+Corrections:
+
+  - Support for disabling logging console|monitor|buffered debugging.
+    (CISCOIOS-379 / RT25639)
+
+  - Restored error checking, broken after device reply split in v4.4.6.
+
+  - Fixed router bgp neighbor activate vs inherit peer-session dependency.
+    (CISCOIOS-383 / RT25660)
+
+  - Fixed interface switchport vs ip dhcp snooping problem,
+     correct order is:
+     interface * /
+      no ip dhcp snooping
+      no switchport
+    (CISCOIOS-381 / RT25632)
+
+  - Added missing default 128 on:
+     crypto ipsec transform-set * <transform1-bits>
+    Note: Due to NSO bug with default values the when-statement had to be
+          temporarily removed.
+    (CISCOIOS-376 / RT25595)
+
+  - Added missing default 30:
+     interface * / ip pim query-interval
+    (CISCOIOS-377 / RT25601)
+
+  - Revisited interface speed vs duplex configuration order.
+    (CISCOIOS-375 / RT25592)
+
+  - Fixed interface * / switchport and ip source binding dependency problem,
+     correct order is:
+     ip source binding
+     interface * / switchport
+    (CISCOIOS-374 / RT25591)
+
+  - Fixed useless check if last-config-change cisco-ios-transaction-id-method
+    ned-setting gave a valid reply. If it does not, please change ned-setting
+    to config-hash.
+
+
+cisco-ios v4.4.9 [November 4, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Optimized commit by rewriting special case transformation code.
+    (CISCOIOS-372)
+
+  - Additions to the YANG model:
+     interface * / ipv6 wccp
+    (CISCOIOS-369 / RT25537)
+
+  - Additions to the YANG model:
+     ip dhcp relay prefer known-good-server
+    (CISCOIOS-368 / RT25541)
+
+  - Additions to the YANG model:
+     crypto map * * ipsec-isakmp / qos pre-classify
+     enable secret level *
+     ip ssh break-string
+     ip ssh port *
+     line * / autocommand
+     menu *
+    (CISCOIOS-365)
+
+  - Additions to the YANG model:
+     no service-routing capabilities-manager
+     pnp profile * / transport * localcert|remotecert
+     pnp profile * / transport * vrf
+     voice-card * / no watchdog
+    (CISCOIOS-344 / RT25338)
+
+  - Additions to the YANG model:
+     fabric buffer-reserve queue
+     interface AppNav-Compress*
+     interface AppNav-UnCompress*
+     interface * / glbp * ip * secondary
+     interface * / isdn termination multidrop
+     ip igmp snooping last-member-query-interval
+     ip msdp cache-sa-state
+     ip nbar attribute-map * / attribute application-group
+     mpls ldp password required
+     resource policy / policy * global / system
+     transport-map type persistent *
+
+Corrections:
+
+  - Fixed ethernet evc/cfm and interface * / service * ethernet / cfm
+     dependency problems.
+    (CISCOIOS-367 / RT25531)
+
+  - Split multiple name-server entries into single entries upon sync-from.
+    Added ordered-by user on ip name-server list.
+    (CISCOIOS-371 / RT25557)
+
+  - Removed tailf:cli-reset-siblings from police actions in cirflat mode.
+    (CISCOIOS-337 / RT25289)
+
+  - Fixed problem with abort rollback sending too many exit commands,
+    deadlocking NED connection due to disconnect.
+
+
+cisco-ios v4.4.8 [October 28, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     cable service type *
+     route-map * / set default interface
+     route-map * / set ip next-hop recursive
+    (CISCOIOS-363)
+
+  - Optimized sync-from device by optimizing config transformation after
+     retrieving config from device.
+    (CISCOIOS-359)
+
+  - Added timing info log(s) in ncs-java-vm.log.
+    Note: more detailed with cisco-ios-log-verbose ned-setting.
+    (CISCOIOS-359)
+
+  - Additions to the YANG model:
+     key chain * / key * / accept-lifetime
+     key chain * / key * / send-lifetime
+    (CISCOIOS-360 / RT25491)
+
+  - Additions to the YANG model:
+     router eigrp * / neighbor *
+    (CISCOIOS-361 / RT25492)
+
+Corrections:
+
+  - API CHANGE:
+     route-map * / set ip next-hop
+      Removed choice statement for sub leaves.
+    (CISCOIOS-363)
+
+  - API CHANGE:
+     interface * / ip bandwidth-percent *
+      Changed from container to list.
+    (CISCOIOS-362 / RT25493)
+
+
+cisco-ios v4.4.7 [October 26, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Added /ip/prefix-list/prefixes-no-seq list to support prefix lists
+     without seq numbers (available with no ip prefix-list sequence-number).
+    (CISCOIOS-350 / RT25411)
+
+Corrections:
+
+  - Enable retry on "wait for the current operation to complete"
+    (CISCOIOS-352 / RT25338)
+
+  - Fixed problem with modifying policy-map * / class * / priority
+    (CISCOIOS-358 / RT25455)
+
+  - API CHANGE:
+     policy-map * / class * / police [with tailfned police cirflat]
+      Reason being cirmode only supports one action type.
+    (CISCOIOS-337 / RT25289)
+
+  - Fixed interface standby ip vs ip vrf forwarding dependency problem,
+     correct order is:
+     interface * /
+      ip vrf forwarding
+      standby * ip
+    (CISCOIOS-353 / RT25447)
+
+  - Fixed interface service instance and switchport dependency problem.
+    (CISCOIOS-340 / RT25308)
+
+  - Added cli-replace-all to 'ip host'.
+    (CISCOIOS-357 / RT25452)
+
+  - Fixed interface service instance and no ip address dependency problem,
+     correct order is:
+     interface * /
+      no ip address
+      service instance * ethernet
+    (CISCOIOS-356 / RT25451)
+
+  - Re-insert lacp rate after switchport change on interface since it
+     clears the lacp rate config.
+    (CISCOIOS-354 / RT25448)
+
+  - Fixed interface switchport vs l2vpn xconnect context dependency problem,
+     correct order is:
+      no l2vpn xconnect context *
+      interface * / ip address
+    (CISCOIOS-355 / RT25449)
+
+  - Re-insert duplex after media-type change on interface since media-type
+     clears the duplex setting.
+    (CISCOIOS-329 / RT25263)
+
+
+cisco-ios v4.4.6 [October 21, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     class-map type appnav *
+     domain * / vrf * / master hub / advanced / channel-unreachable-timer
+     domain * / vrf * / master hub / load-balance advanced / path-preference [API CHANGE]
+     domain * / vrf * / master hub / load-balance [API CHANGE]
+     domain * / vrf * / master hub / class * / match application *
+     domain * / vrf * / master hub / class * / path-last-resort
+     flow record * / collect counter bytes long
+     flow record * / collect counter flows
+     flow record * / collect counter packets long
+     flow record * / collect flow
+     flow record * / collect routing vrf
+     flow record * / collect timestamp absolute
+     flow record * / match application name
+     flow record * / match connection transaction-id
+     interface * / service-insertion waas
+     interface VirtualPortGroup *
+     ip nbar attribute-map *
+     ip nbar attribute-set *
+     ip nbar custom * composite
+     ip sla responder udp-echo
+     performance monitor context * profile / traffic-monitor all
+     policy-map type appnav *
+     policy-map * / class * / distribute service-node-group *
+     policy-map * / class * / monitor-load
+     policy-map * / class * / pass-through
+     route-map * / match ip route-source
+     route-map * / set ip next-hop verify-availability
+     route-map * / set ip next-hop verify-availability *
+     router eigrp * / address-family ipv4 / af-interface * / stub-site wan-interface
+     router eigrp * / address-family * / eigrp stub-site
+     service-insertion
+     virtual-service * / profile
+     virtual-service * / vnic gateway VirtualPortGroup*
+    (CISCOIOS-344 / RT25338)
+
+  - Additions to the YANG model:
+     platform punt-policer *
+     platform punt-sbrl subscriber rate
+     platform punt-sbrl wan punt-cause *
+    (CISCOIOS-348)
+
+  - Additions to the YANG model:
+     ip sla * / http get
+    (CISCOIOS-346 / RT25445)
+
+  - Additions to the YANG model:
+     ip sla responder twamp / timeout
+     ip sla server twamp
+    (CISCOIOS-343 / RT25324)
+
+Corrections:
+
+  - Re-insert service-policy after switchport change on interface since it
+     clears the service-policy entries.
+    (CISCOIOS-340 / RT25308)
+
+  - Re-insert speed after media-type change on interface since media-type
+     clears the speed setting.
+    (CISCOIOS-329 / RT25263)
+
+  - Sort "ip route vrf" entries prior to calculating hash checksum in order
+     to avoid transaction id changing when device reloads and reorders them.
+    (CISCOIOS-342 / RT25326)
+
+  - API CHANGE:
+     router bgp * / bgp listen range *
+     Changed from container to list.
+    (CISCOIOS-344 / RT25338)
+
+  - API CHANGE:
+     ip sla reaction-configuration * threshold-type xOfy
+     Corrected to take 2 values.
+    (CISCOIOS-346 / RT25445)
+
+  - Replace interface / no speed with interface / speed auto on ME3600-X
+    (CISCOIOS-329 / RT25263)
+
+  - Split device reply on % and check each string for errors separately.
+    (CISCOIOS-336 / RT25272)
+
+  - Fixed interface switchport vs ip verify dependency problem,
+     correct order is:
+     interface * /
+      [no] ip verify
+      no switchport
+    (CISCOIOS-335)
+
+
+cisco-ios v4.4.5 [October 14, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     event manager applet * / action * regexp
+     event manager applet * / action * syslog
+     event manager applet * / action * wait
+    (CISCOIOS-331)
+
+  - Added static warning:
+     "applying vlan changes may take few minutes"
+    (CISCOIOS-330 / RT25264)
+
+  - Additions to the YANG model:
+     interface * / logging event spanning-tree status
+    (CISCOIOS-327 / RT25238)
+
+  - Additions to the YANG model:
+     bfd-template single-hop * / interval
+     class-map type traffic *
+     logging queue-limit
+
+Corrections:
+
+  - Fixed problems with deleting call-home / profile
+    (CISCOIOS-334 / RT25275)
+
+  - Fixed interface switchport vs ip dhcp snooping problem,
+     correct order is:
+     interface * /
+      switchport
+      [no] ip dhcp snooping
+    (CISCOIOS-333 / RT25270)
+
+  - Fixed interface switchport vs udld dependency problem,
+     correct order is:
+     interface * /
+      no udld
+      switchport
+    (CISCOIOS-332 / RT25272)
+
+
+cisco-ios v4.4.4 [October 10, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Ignore all device errors in abort phase in order to minimize risk of out
+    of sync or config diff due to the reverse transaction failing too.
+
+  - Additions to the YANG model:
+     interface * / ospfv3 area|priority
+     interface * / ipv6 rip * default-information
+     ipv6 rip vrf-mode enable
+     router lisp / ipv4|ipv6 route-import database
+     router ospf * / capability vrf-lite
+     router ospfv3 * / address-family * / capability
+    (CISCOIOS-321 / RT25140)
+
+  - Additions to the YANG model:
+     crypto ikev2 profile * / match address local *
+     crypto ikev2 profile * / virtual-template ? mode auto [API CHANGE]
+    (CISCOIOS-319 / RT25108)
+
+  - Additions to the YANG model:
+     interface * / ip verify source
+     ip source binding *
+    (CISCOIOS-317 / RT25092)
+
+  - Additions to the YANG model:
+     interface * / ip nhrp server-only
+     interface * / ipv6 nhrp server-only
+    (CISCOIOS-326 / RT25183)
+
+  - Additions to the YANG model:
+     crypto isakmp profile * / description
+    (CISCOIOS-316 / RT25021)
+
+  - Additions to the YANG model:
+     crypto map * * ipsec-isakmp / reverse-route
+     crypto map * * gdoi / set reverse-route
+    (CISCOIOS-315 / RT25020)
+
+Corrections:
+
+  - API CHANGE:
+     class-map * / match access-group
+    Changed from leaf to leaf-list due to device support for multiple entries.
+    (CISCOIOS-325 / RT25182)
+
+  - Fixed problem with deleting router LISP and interface LISP.
+    (CISCOIOS-318 / RT25109)
+
+  - Fixed interface service instance and cdp enable dependency problem,
+     correct order is:
+     interface * /
+      no cdp enable
+      service instance * ethernet
+    (CISCOIOS-322 / RT25151)
+
+  - Fixed another dependency problem with moving vlan name. Previous fix only
+    worked if the existing vlan was deleted. This fix also works if only the
+    previous name is deleted.
+    (CISCOIOS-280 / RT24681)
+
+  - Fixed bug with range list compact and mode config.
+
+
+cisco-ios v4.4.3 [September 25, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+    WARNING:
+    Calculating southbounds diffs using nso-4.0.4 may take "forever" due to
+    a NSO bug (Issue tracker: #22205). Manifests when CDB contains many vlans.
+    If you think you are experiencing this problem, upgrade to nso-4.0.5.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     spanning-tree mst configuration / revision
+     spanning-tree mst forward-time
+     spanning-tree portfast edge
+     system jumbomtu
+    (CISCOIOS-313 / RT24985)
+
+  - Additions to the YANG model:
+     ip sla * / profile packet / source-ip-addr
+     ip sla * / service-performance * type ethernet / measurement-type / delay|jitter|receive
+     ip sla * / service-performance * type ip
+    (CISCOIOS-310)
+
+  - Additions to the YANG model:
+     interface HundredGigE *
+    (CISCOIOS-309 / RT24966)
+
+  - Additions to the YANG model:
+     qos account layer2 encapsulation length
+     qos aggregate-policer *
+     no qos rewrite ip dscp
+   (CISCOIOS-307 / RT24922)
+
+  - Added static warning:
+     "setting device to vtp .*"
+
+Corrections:
+
+  - API CHANGE:
+     spanning-tree portfast
+    Due to bad modelling.
+    (CISCOIOS-313 / RT24985)
+
+  - Split vlan lines into maximum 32 comma separated entries per line.
+    (CISCOIOS-304 / RT24916)
+
+  - Fixed interface * / service instance * ethernet / rewrite vs encapsulation
+     dependency issue. Encapsulation must be set before rewrite.
+    (CISCOIOS-311 / RT24981)
+
+  - API CHANGE:
+    Added presence true and cli-delete-when-empty on xconnect container:
+     interface * / service instance * ethernet / xconnect
+     interface ATM* / pvc * / xconnect
+     interface CEM* / cem * / xconnect
+     connect * / xconnect
+    Reason being without it it was not possible to properly delete it. NSO
+    erronously tried to enter xconnect without mandatory mode leaves.
+    (CISCOIOS-311 / RT24981)
+
+  - Removed bad trimming of device hw-module entries, stopping sync-from.
+    (CISCOIOS-285 / RT24749)
+
+  - API CHANGE:
+     qos
+    moved to leaf due to must be able to delete and create separately.
+   (CISCOIOS-306 / RT24922)
+
+
+cisco-ios v4.4.2 [September 21, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     ethernet cfm enable
+     interface * / no ethernet cfm enable
+    (CISCOIOS-303 / RT24905)
+
+  - Additions to the YANG model:
+     crypto ikev2 profile * / match identity any
+     crypto map * gdoi fail-close
+     interface * / ipv6 tcp adjust-mss
+     interface * / tunnel protection ipsec profile ? ikev2-profile
+     ipv6 flowset
+    (CISCOIOS-297 / RT24835)
+
+  - Additions to the YANG model:
+     mpls label range static
+    (CISCOIOS-301)
+
+  - Additions to the YANG model:
+     l2vpn vfi context * / autodiscovery bgp signaling ldp / vpls-id
+    (CISCOIOS-298)
+
+  - Additions to the YANG model:
+     interface pseudowire* / pseudowire type
+    (CISCOIOS-296)
+
+Corrections:
+
+  - Added ordered-by user on ip dns view * / domain name-server vrf *
+    (CISCOIOS-302 / RT24884)
+
+  - Fixed interface pseudowire* / signaling protocol, label and pseudowire type
+    dependencies, correct order is:
+     interface pseudowire* /
+      signaling protocol none
+      label
+      pseudowire type
+    (CISCOIOS-301)
+
+  - Fixed dependency between interface GigabitEthernet* / service instance
+    and l2vpn evpn instance * point-to-point / vpws context * / member
+    correct order is:
+     no l2vpn evpn instance * point-to-point / vpws context * / member
+     no interface GigabitEthernet0/0/2 / service instance
+    (CISCOIOS-300)
+
+  - API CHANGE:
+     l2vpn vfi context * / autodiscovery bgp signaling bgp
+    due to support for 'autodiscovery bgp signaling ldp'
+    (CISCOIOS-298)
+
+  - Fixed interface * / mtu vs channel-group dependency issue,
+     interface * /
+      mtu
+      channel-group
+    (CISCOIOS-299 / RT24842)
+
+  - Improved interface Serial pattern for main and subif.
+    (CISCOIOS-305)
+
+
+cisco-ios v4.4.1 [September 16, 2016]
+=====================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Add vtp mode, pruning, version and domain to show running-config (sync-from)
+    (CISCOIOS-295 / RT24820)
+
+  - Added static warning:
+     "changing vtp domain name from"
+    (CISCOIOS-295 / RT24820)
+
+  - Added (optional) sequence number fo access-list *
+     Note: Shown on device when "ip access-list persistent" is set.
+          Must do a sync-from after changing ip access-list persistent.
+    (CISCOIOS-287 / RT24757)
+
+  - Additions to the YANG model:
+     hw-module module * port-group *
+    (CISCOIOS-285 / RT24749)
+
+  - Additions to the YANG model:
+     call-home / profile * / destination address
+     call-home / source-interface
+     ip http client proxy-server
+     ip wccp source-interface
+     ip wccp vrf *
+     ipv6 wccp
+     router bgp * / address-family * / redistribute lisp
+     router lisp / ipv4 map-resolver map-request validate source
+     router lisp / syslog verbose
+    (CISCOIOS-288 / RT24761)
+
+Corrections:
+
+  - Fixed router bgp * / neighbor * inherit peer-session dependency issue,
+    correct order is:
+     router bgp * /
+      neighbor * inherit peer-session
+      neighbor * description
+    (CISCOIOS-292 / RT24814)
+
+  - Fixed interface * / switchport vs channel-group dependency issue,
+    correct order is:
+     interface * /
+      no channel-group
+      no switchport
+    (CISCOIOS-291 / RT24791)
+
+  - Fixed problem in setting:
+     route-map * / match ipv6 address
+    Entry must be deleted before being set.
+    (CISCOIOS-293 / RT24818)
+
+  - REVERTED API CHANGE in v4.4:
+     interface speed and media-type changed back to enum leaves due to
+     NSO bugs with default values and choice statements. This change
+     also restored the XML backwards compatibility.
+    (CISCOIOS-276 / RT24046)
+
+  - API CHANGE:
+     ip http client source-interface - changed from multi-value leaf to container
+     interface * / ip multicast boundary - changed from list to container
+     router lisp / ipv6 proxy-itr - allow v4 address before v6
+    (CISCOIOS-288 / RT24761)
+
+  - API CHANGE:
+     no ip igmp snooping
+     no ip igmp snooping vlan *
+     ip igmp snooping l2-entry-limit
+    Changed because it was not possible to send 'no ip igmp snooping'
+    (CISCOIOS-286 / RT24751)
+
+  - Fixed problem with # triggering prompt and aborting output of live-status
+     exec any show commands.
+    (CISCOIOS-289 / RT24711)
+
+
+cisco-ios v4.4 [September 09, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Optimized creation/deletion of range list config entries:
+     vlan *
+     spanning-tree mst *
+     spanning-tree vlan *
+    Individual entries compacted to range syntax upon commit.
+    (CISCOIOS-269 / RT24210, CISCOIOS-283 / RT24728)
+
+  - Additions to the YANG model:
+     spanning-tree uplinkfast
+     spanning-tree uplinkfast max-update-rate
+    (CISCOIOS-282 / RT24726)
+
+  - Additions to the YANG model:
+     firewall vlan-group *
+     interface * / cablelength
+     interface * / tunnel mpls traffic-eng auto-bw
+     mls ipv6 vrf
+     network-clock input-source * ptp domain
+     network-clock-participate T1 *
+     route-map * / match ipv6 next-hop
+     spanning-tree pathcost method
+   (CISCOIOS-274)
+
+
+Corrections:
+
+  - API CHANGE:
+    interface media-type and speed changed from enum leaf to container with
+    leaves in choice statement in order to fix media-type rj45 vs mdix and
+    speed dependency issues, correct order is:
+     interface *
+      [no] mdix auto
+      [no] speed
+      no media-type rj45
+    (CISCOIOS-276 / RT24046)
+
+  - Fixed interface * / media-type sfp vs speed and mdix auto dependency,
+    correct order is:
+     interface * /
+      [no] speed
+      [no] mdix auto
+      media-type sfp
+    (CISCOIOS-276 / RT24046)
+
+  - Fixed interface * / switchport vs ip route-cache dependency,
+    correct order is:
+     interface * /
+      no switchport
+      [no] ip route-cache
+     Note: By means of new meta-data interface diff move
+    (CISCOIOS-277)
+
+  - Fixed dependency problem with moving vlan name from one vlan to another.
+    Must delete the vlan with the name before setting the name on the new vlan.
+    (CISCOIOS-280 / RT24681)
+
+  - Dependency fix in interface *
+     Remove tunnel mpls traffic-eng before tunnel mode mpls traffic-eng
+    (CISCOIOS-275)
+
+  - Strip duplicate 'no switchport' in interface (inserted by NSO bug)
+
+  - Fixed interface * / switchport vs service-policy input|output dependency,
+    correct order is:
+     interface * /
+      no switchport
+      service-policy input|output
+
+
+
+cisco-ios v4.3.11 [September 02, 2016]
+======================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     crypto map * ipsec-isakmp / set security-association dfbit
+     crypto map * ipsec-isakmp / set security-association ecn
+     crypto map * ipsec-isakmp / set security-association idle-time
+     crypto map * ipsec-isakmp / set security-association level per-host
+    (CISCOIOS-268 / RT24616)
+
+  - Additions to the YANG model:
+     ip msdp description *
+     ip msdp keepalive *
+     ip msdp sa-filter in|out *
+     ip pim spt-threshold
+    (CISCOIOS-267 / RT24607)
+
+  - Added optional 'regexp' leaf to cisco-ios-inject-config in order to be
+    able to insert config at specified location(s). See README for more info
+    and example.
+    (CISCOIOS-266 / RT24606)
+
+Corrections:
+
+  - API CHANGE:
+     ip pim rp-address changed from container to list.
+    (CISCOIOS-267 / RT24607)
+
+  - Fixed problems with router bgp * / address-family * / redistribute:
+    sub leaf values were lost on device when changing entry
+   (CISCOIOS-264 / RT24564, CISCOIOS-265 / RT24565)
+
+  - API CHANGE:
+     router bgp * / address-family * / redistribute ospf *
+    changed due to bad vrf representation (only one needed).
+
+  - Fixed problems with router bgp * / address-family * / redistribute:
+     was not possible to delete redistribute entry in single transaction
+    (CISCOIOS-259 / RT24516)
+
+  - Re-fixed version string extraction for ios-xe devices (broken in 4.3.10).
+
+
+cisco-ios v4.3.10 [August 26, 2016]
+===================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+    performance monitor context * profile / exporter destination *
+   (CISCOIOS-257 / RT24510)
+
+  - Additions to the YANG model:
+     event manager applet * / event ipsla
+     event manager applet * / event snmp
+     event manager applet * / trigger / correlate
+     exception data-corruption buffer truncate
+     firewall multiple-vlan-interfaces
+     ip wccp web-cache
+     mls mpls tunnel-recir
+     no monitor session servicemodule
+
+  - Expanded interface ucse *
+
+  - Additions to the YANG model:
+     power-supply dual
+    (CISCOIOS-245 / RT24351)
+
+  - Additions to the YANG model:
+     interface * / mls qos trust cos pass-through dscp
+     interface * / mls qos monitor
+     mls qos cos policy-map
+     rtr responder
+    (CISCOIOS-255 / RT2440)
+
+  - Added 2nd group leaf in aaa authentication login|enable|ppp config.
+    (CISCOIOS-254 / RT24119)
+
+  - Additions to the YANG model:
+     l2vpn xconnect context * / no remote link failure notification
+    (CISCOIOS-256)
+
+  - Added static warning:
+     "is not a legal lat node name"
+    (CISCOIOS-242 / RT24315)
+
+  - Added static warning:
+     "conform burst size \\S+creased to"
+    (CISCOIOS-213 / RT24105)
+
+  - Additions to the YANG model:
+     interface Service-Engine *
+     platform qos match-statistics|performance-monitor|punt-path-matching
+    (CISCOIOS-236 / RT24273)
+
+  - Support for kbps in
+     platform hardware throughput level
+    (CISCOIOS-236 / RT24273)
+
+Corrections:
+
+  - Raised ip route * track range from 1-500 to 1-1000.
+    (CISCOIO-261 / RT24531)
+
+  - API CHANGE:
+     router bgp * / neighbor * fall-over bfd
+    changed PATH due to inconsistency vs device.
+    (CISCOIOS-262 / RT24518)
+
+  - Added workaround for old Maapi.attach() bug which could cause an error, now
+     uses 2-arg version of attach() which avoids problem in NCS prior to 4.1.
+    (CISCOIOS-260)
+
+  - Fixed interface * / performance monitor vs performance monitor * / exporter
+    destination dependency, correct order is:
+     interface * / no performance monitor context
+     performance monitor context * / no exporter destination
+   (CISCOIOS-257 / RT24510)
+
+  - Fixed IOS version string extraction for cat3550 and cat6500.
+
+  - Fixed support for sending commands ending with ?
+
+  - Fixed interface * / switchport vs standby and ip redirects dependency,
+    correct order is:
+     interface * /
+      no standby *
+      ip redirects
+      switchport
+
+  - Fixed interface * / switchport vs service instance * ethernet
+    dependency issue, correct order is:
+     interface *
+      no service instance * ethernet
+      no switchport
+    (CISCOIOS-252 / RT24421)
+
+  - Fixed interface * / speed vs media-type dependency issue, correct order is:
+     interface *
+      no media-type
+      speed
+     (CISCOIOS-251 / RT24402)
+
+  - Fixed ip vrf * / rd vs router bgp * / address-family * vrf * / neighbor
+    dependency issue, correct order is:
+     router bgp * / address-family * vrf / no neighbor *
+     ip vrf * / [no ]rd
+    (CISCOIOS-211 / RT24079)
+
+
+cisco-ios v4.3.9 [August 19, 2016]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Mapped host ping from netsim.
+    (CISCOIOS-250)
+
+  - Additions to the YANG model:
+     interface ucse*    (note: template only, no ucse specific config)
+    (CISCOIOS-216 / RT24128)
+
+  - Additions to the YANG model:
+     service password-recovery
+    (CISCOIOS-248 / RT24348)
+
+  - Additions to the YANG model:
+     stackmaker name
+    (CISCOIOS-247 / RT24349)
+
+  - Removed auto-inject of the following hard coded commands (before 'no crypto ikev2 keyring')
+     do clear crypto session
+     do clear crypto ikev2 sa fast
+    Use new cisco-ios-inject-command ned-setting to register commands to inject:
+     devices global-settings ned-settings cisco-ios-inject-command C1 config-line "no crypto ikev2 keyring \\S+" command "do clear crypto session" before-first
+     devices global-settings ned-settings cisco-ios-inject-command C2 config-line "no crypto ikev2 keyring \\S+" command "do clear crypto ikev2 sa fast" before-first
+    See README for more information.
+    (CISCOIOS-204 / RT23918)
+
+Corrections:
+
+  - Added ordered-by user on router eigrp * / address-family * / af-interface
+    (CISCOIOS-244 / RT24356)
+
+  - Fixed interface * / service instance * ethernet / rewrite vs xconnect
+    dependency issue, correct order is:
+     interface *
+      service instance * ethernet
+       no xconnect *
+       rewrite ingress tag pop 1 symmetric
+    (CISCOIOS-224 / RT24150)
+
+  - Fixed interface * / service instance * ethernet / rewrite vs encapsulation
+    untagged dependency issue, correct order is:
+     interface *
+      service instance * ethernet
+       no rewrite ingress tag pop 1 symmetric
+       encapsulation untagged
+    (CISCOIOS-224 / RT24150)
+
+
+cisco-ios v4.3.8 [August 12, 2016]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / clock rate
+    (CISCOIOS-229 / RT24190)
+
+  - Additions to the YANG model:
+     controller nid *
+     l2vpn vfi context * / member *
+     l2vpn vfi context * / autodiscovery bgp signaling ldp
+     l2vpn evpn instance * point-to-point
+     router isis * / segment-routing mpls
+     segment-routing mpls
+    (CISCOIOS-237)
+
+  - Added static warning:
+    "% ospf will not operate on this interface until ip is configured on it"
+
+Corrections:
+
+  - Fixed problems with checksum calculation.
+     Strip left over whitespaces in show running-config after filtering.
+     Strip 'No configuration change since last restart line' comment.
+    (CISCOIOS-225 / RT24153)
+
+  - API CHANGE: Moved cisco-ios-oper data used to cache encrypted secrets
+     from devices/device to devices/device/ned-settings in order to optimize
+     the CLI when used with a large number of devices.
+    (CISCOIOS-239)
+
+  - Added new package parameter "requires-transaction-states".
+     This will instruct the NSO that this NED can not be used together
+     with commit queues.
+    (CISCOIOS-238)
+
+  - Reverted bad API CHANGE in v4.3.7 in:
+     aaa authentication login *
+     aaa authorization exex *
+     aaa authorization commands *
+    Fixed problem with aaa local and local-case.
+    Fixed if-authenticated and local order in aaa authorization.
+    (CISCOIOS-214) (CISCOIOS-231)
+
+
+cisco-ios v4.3.7 [August 05, 2016]
+==================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / ip multicast limit
+     interface POS.* / aps
+    (CISCOIOS-215)
+
+  - Additions to the YANG model:
+     ip access-list persistent
+    (CISCOIOS-225)
+
+  - Additions to the YANG model:
+     logging console filtered
+     logging monitor
+    (CISCOIOS-217)
+
+  - Additions to the YANG model:
+     archive / log config / notify
+     archive / log config / record
+    (CISCOIOS-218)
+
+  - Additions to the YANG model:
+     interface * / glbp *
+     ip dhcp pool * / netbios-node-type
+    (CISCOIOS-232)
+
+  - Added support for new tailf:meta-data "suppress-no-command" annotation. This annotation
+    can be used to suppress the 'no *' command, that can not be removed on the device.
+    Added above annotation in // aaa session-id
+    (CISCOIOS-223 / RT24134)
+
+Corrections:
+
+  - NED sorts reverse order of 'no line vty .*' commands
+    for example consider following two commands:
+      - no line vty 12 15
+      - no line vty 16 25
+    when NED executes 'no line vty 12 15' device also deletes 'no line vty 16 25,
+    and when NED sends 'no line vty 16 25' device throws '% Invalid input detected' error,
+    so to handle this NED sort the above command in reverse order. delete bigger number first.
+    (CISCOIOS-221 / RT24125)
+
+  - Removed when expression in following leafs due to circular references,
+     interface/Port-channel/port-channel/load-balance/link
+     interface/Port-channel/port-channel/load-balance/flow-based
+    (CISCOIOS-226)
+
+  - API CHANGE: changed from individual leaves to single multi-value leaf in following lists
+     aaa/authentication/login *
+     aaa/authorization/exex *
+     aaa/authorization/commands *
+    (CISCOIOS-214)
+
+  - API CHANGE: Changed "instance" leaf to list in "/ip/dhcp/pool */option *"
+    and changed child leafs(ascii,hex,ip) as choice.
+    (CISCOIOS-227)
+
+
+cisco-ios v4.3.6 [July 29, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     service-instance mdns-sd
+    (CISCOIOS-209)
+
+Corrections:
+
+  - Added default delete in /ip/ssh/client/algorithm/mac and /ip/ssh/client/algorithm/encryption
+     correct command to remove above config is:
+      - default ip ssh client algorithm mac
+      - default ip ssh client algorithm encryption
+    (CISCOIOS-205)
+
+  - Changed(revert) following leafs type to boolean combined with 'tailf:cli-boolean-no'
+      - /cdp/run
+      - /interface * /cdp/enable
+    (When above leafs have 'tailf:cli-show-no', it  displayed as 'no <name>' when it does not exist.
+    This is an issue because not all interface supports 'cdp' command)
+    (CISCOIOS-200)
+
+  - Removed / interface * / ip mroute-cache distributed
+    (Added ned-settings / cisco-ios-use-ip-mroute-cache-distributed)
+    - set to true, if 'ip mroute-cache distributed' should be used instead of 'ip mroute-cache'
+    - some devices/versions only allows 'ip mroute-cache distributed' and some devices/versions
+      only allows 'ip mroute-cache'. but devices shows 'ip mroute-cache'
+      when show running-config is executed. To avoid compare-config diff and
+      rollback issue, we can use this ned-setting.
+    (CISCOIOS-201)
+
+  - Added tailf:cli-reset-container in /aaa authentication login *
+    (CISCOIOS-214)
+
+  - Added tailf:cli-diff-dependency (dependency to /interface *) in // logging source-interface *
+    ("logging source-interface" is removed before "interface" when both deleted)
+       no logging source-interface .*
+       no interface .*
+    (CISCOIOS-219)
+
+
+cisco-ios v4.3.5 [July 15, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / ethernet cfm interface
+     interface * / no ethernet cfm interface
+    (CISCOIOS-198)
+
+  - Additions to the YANG model:
+     interface * / ip mroute-cache distributed
+    (CISCOIOS-201)
+
+Corrections:
+
+  - Added 'name' and 'service-instance' as keys in /bridge-domain/member/service-instance
+    Now it is possible to create multiple service-instances:
+     bridge-domain <integer>
+       member GigabitEthernet.* service-instance <integer>
+       member GigabitEthernet.* service-instance <integer>
+     !
+    (CISCOIOS-199)
+
+  - Changed following leafs type to empty and added 'tailf:cli-show-no'
+      - /cdp/run
+      - /interface * /cdp/enable
+    (CISCOIOS-200)
+
+  - Added presence statement in route-map * /continue
+    (continue command can be configured without sequence-number)
+    (CISCOIOS-203)
+
+
+cisco-ios v4.3.4 [July 8, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     policy-map * / class * / shape average * / account
+     interface * / ipv6 rip *
+     router ospfv3 * / address-family [ipv4 | ipv6 | <vrf> ] summary-prefix *
+     ip pim dm-fallback
+     ipv6 router eigrp * / shutdown
+    (CISCOIOS-193)
+
+Corrections:
+
+  - Added cli-replace-all to next-server, default-router, dns-server and
+     netbios-name-server leaf-lists in ip dhcp pool.
+    (CISCOIOS-191)
+
+  - Use IOS version instead of XE version string.
+    (RT22867)
+
+  - Added dependency between /l2vpn/xconnect/context/member/service-instance and
+    /interface/*/service/instance, correct order is:
+     l2vpn xconnect context .*
+        no member .* service-instance .*
+     !
+     interface .*
+      no service instance .*
+     exit
+     no l2vpn xconnect context .*
+    (CISCOIOS-194)
+
+  - Added default delete in /ip/ssh/server/algorithm/mac and /ip/ssh/server/algorithm/encryption
+     correct command to remove above config is:
+      - default ip ssh server algorithm mac
+      - default ip ssh server algorithm encryption
+    (CISCOIOS-196)
+
+
+cisco-ios v4.3.3 [June 30, 2016]
+================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     cable modulation-profile * tdma
+     cable modulation-profile * mixed
+    (CISCOIOS-190)
+
+  - Additions to the YANG model:
+     dot11 arp-cache optional
+     dot11 ssid * / authentication open eap
+     dot11 ssid * / authentication network-eap
+     dot11 ssid * / mbssid
+     interface Dot11Radio* / broadcast-key vlan *
+     interface Dot11Radio* / mbssid
+     interface Dot11Radio* / packet retries
+     interface Dot11Radio* / power client local
+     interface Dot11Radio* / rts
+     interface Dot11Radio* / speed
+     interface Dot11Radio* / world-mode dot11d
+    (CISCOIOS-138)
+
+  - Improved exec proxy login, enabling support for login without username.
+
+  - Let '| prompts' answers override auto-prompts ned-setting in live-status
+    exec and config exec commands.
+    (RT23699)
+
+Corrections:
+
+  - Strip year prefix in version string extraction.
+    (RT22867)
+
+  - API CHANGE:
+     Implemented support for interface * / cable source-verify
+     which causes the source-verify leaves to be wrapper in hidden container.
+    (CISCOIOS-183)
+
+  - Performance improvement: removed cli-case-insensitive from ip route.
+    (RT23692)
+
+  - Return error in live-status exec and config exec when missing answer to prompt.
+    (RT23686)
+
+  - Fixed vrf vs ip nat translation vrf dependency issue, correct order is:
+     no ip nat translation max-entries vrf *
+     no vrf definition *
+    (CISCOIOS-184)
+
+  - Fixed problem with live-status exec ping and crypto key export commands.
+    (RT23640)
+
+
+cisco-ios v4.3.2 [June 24, 2016]
+================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     aaa accounting nested
+     aaa accounting send stop-record authentication failure vrf *
+     aaa authentication attempts login
+     line * / login tacacs
+     tacacs-server last-resort
+    (RT23615)
+
+  - Additions to the YANG model:
+     aaa authentication login * local-case
+     platform qos marker-statistics
+     snmp mib persist v3mibs
+    (RT23550)
+
+Corrections:
+
+  - Fixed problem with live-status exec any copy command.
+    Added command ignore pattern on: [OK] and [Done]
+    (RT23602)
+
+  - API CHANGE: Added route-map set community choice for 'none' value.
+    (RT23596)
+
+  - Yet another interface speed auto vs duplex auto dependency fix.
+    Correct order for FastEthernet on cat3550:
+     interface *
+      duplex auto
+      speed auto
+    Correct order for all else:
+     interface *
+      speed auto
+      duplex auto
+    (RT23163)
+
+  - Fixed interface ip ospf vs switchport order dependency, correct order is:
+     interface *
+      no ip ospf
+      switchport
+    (RT23163)
+
+  - Do not prompt for question on live-status exec show command.
+
+  - API CHANGE
+     snmp mib persist cbqos changed from enum leaf to leaf in container.
+    (RT23550)
+
+  - API CHANGE
+     class-map * / match protocol *
+    changed from individual leaves to multi-word-key list.
+    (CISCOIOS-167)
+
+  - API CHANGE:
+     class-map * / match packet length *
+    changed from container to multi-word-key list to support multiple entries.
+
+  - Removed tailf:cli-delete-when-empty on interface * / standby * preempt
+    (RT23553)
+
+  - Fixed vlan vs interface switchport order dependency, correct order is:
+     interface *
+      no switchport access vlan 1
+      no switchport
+     vlan 101
+    (RT23538)
+
+  - Added default statement '1' on interface * / switchport access vlan.
+
+
+cisco-ios v4.3.1 [June 17, 2016]
+================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / ip authentication key-chain eigrp *
+     interface * / ip authentication mode eigrp *
+     interface * / ipv6 summary-address eigrp *
+     interface * / no ip split-horizon
+     interface * / ip split-horizon eigrp no-list *
+     router * / distribute-list prefix-list
+     router eigrp * / address-family ipv6 unicast vrf *
+     router eigrp * / address-family ipv6
+     router eigrp * / summary-metric *
+    (RT23457)
+
+  - API CHANGE:
+    ip community-list <number> has been changed to a single list, from two
+    separate ones, in order to allow for easier handling of the new ned-setting
+    cisco-ios-auto / ip-community-list-repopulate. This setting is used to
+    restore the ip community-list on gateways which delete the entire list when
+    one entry is deleted. NCS will then restore the list if the option is set.
+    (RT23405)
+
+  - Additions to the YANG model:
+     router eigrp * / metric
+    (RT23438)
+
+Corrections:
+
+  - Fixed interface vrf and ip address dependency problem, correct order is:
+     interface * /
+      [ip] vrf
+      ip address
+    (CISCOIOS-166)
+
+  - Fixed support for multiple address entries in
+     ip dns view * / domain name-server vrf *
+    (RT23464)
+
+  - NCS/NSO workaround:
+    Trim quotes erronously inserted by service node in live-status exec cmd.
+    (RT23355)
+
+  - API CHANGE:
+     Added support for configuring vrf in:
+      flow exporter * / destination
+    (RT23438)
+
+  - API CHANGE:
+     interface Cable* / cable upstream * rate-limit
+     interface Cable* / cable upstream * shutdown
+    changed from show-no type empty to boolean-no type boolean.
+    (CISCOIOS-161)
+
+  - If answer (sent by prompts) is only one character, don't send NL (newline).
+
+
+cisco-ios v4.3 [June 10, 2016]
+==============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - API CHANGE:
+    All access-list's collected in a single list /access-list/access-list
+    Fixed bug with editing entries. The device deleted the entire acl when a
+    single rule was deleted but NSO did not. This has now been fixed by having
+    NCS repopulate the ACL list after a rule delete.
+    (RT23353)
+
+  - Additions to the YANG model:
+    interface * / ip ospf authentication key-chain
+    key chain * / key * / cryptographic-algorithm
+    router ospf * / area * authentication key-chain
+   (RT23350)
+
+  - Additions to the YANG model:
+     ip dhcp pool * / host
+     ip dhcp pool * / hardware-address
+     ip dhcp pool * / client-identifier
+    (CISCOIOS-156)
+
+  - Additions to the YANG model:
+     router ospfv3 * / address-family ipv6 unicast vrf *
+    (RT23350)
+
+  - Additions to the YANG model:
+     interface * / service instance * ethernet / encapsulation untagged , dot1q
+    (RT23328)
+
+  - Rewrote the implementation for replacing encrypted device secrets with
+    the cleartext cdb value in order to avoid compare-config diff and out
+    of sync with service. The new design requires support for tailf:meta-data
+    which means the minimum NCS/NSO versions had to be raised accordingly.
+    All transformed secrets on the device should now be supported.
+   (RT22669)
+
+  - Added support for passing answers to prompts in live-status exec and
+    config exec commands. Append '| prompts <answer1> [answer2]' to command.
+    Note: For hitting enter only on a prompt, add the prompt key 'ENTER'
+    Examples:
+     admin@ncs(config-config)# exec "key config-key password-encrypt cisco123 | prompts cisco123"
+
+    Also implemented a ned-setting - cisco-ios-auto-prompts - which can be
+    used to register standard answers to standard questions. For example:
+    devices global-settings ned-settings cisco-ios-auto-prompts Q1 question
+      "System configuration has been modified" answer "no"
+    See README file for more info.
+   (RT22669)
+
+Corrections:
+
+  - API CHANGE:
+     interface * / service instance * ethernet / encapsulation
+    changed to a choice instead of separate entries.
+
+  - Fixed service instance dependency problem, correct order is:
+     interface * / service instance * ethernet /
+      encapsulation
+      bridge-domain
+    (RT23328)
+
+  - Improved suppport for setting type 6 passwords on device.
+
+  - Fixed switchport vs ip address dependency using Java, correct order:
+     interface *
+      no switchport
+      ip address
+    (RT23219)
+
+  - Warning: Ignore info string "propagating wred configuration to" when
+    modifying wrr-queue random-detect no-list
+    (RT23001)
+
+  - Default: Fixed default value problem with line * / login authentication
+    (RT22801)
+
+
+cisco-ios v4.2.3 [June 3, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+    event manager applet * / event timer * name|ratelimit
+   (RT23265)
+
+  - Additions to the YANG model:
+     ip msdp
+   (RT22924)
+
+  - Additions to the YANG model:
+     policy-map * / class * / random-detect *-based aggregate
+     policy-map * / class * / random-detect precedence values *
+    (RT23235)
+
+  - Added new optional method to show running-config: cisco-ios-show-running-method
+    Example:
+    devices device <devname> ned-settings cisco-ios-show-running-method "show running-config full"
+
+  - Added cisco-ios-inject-config ned-settings in order to inject config to
+    top of running-config. Example:
+     devices global-settings ned-settings cisco-ios-inject-config test config "version TEST"
+    (RT23163)
+
+  - Set ned-settings cisco-ios-cached-show-enable to default to true.
+
+
+Corrections:
+
+  - Fixed another bridge-domain dependency issue, correct order is:
+     no interface BDI *
+     no bridge-domain *
+    (RT23020)
+
+  - API CHANGE:
+     route-map * / match route-type *
+    In order to support multiple output syntax.
+    (RT23150)
+
+  - Added unique statement on vrf definition / rd
+    If duplicate, device responds: '% "rd" 1:1 already in use by VRF X'
+    (RT21072)
+
+  - Added missing default values:
+    ip ssh time-out 120
+    ip ssh authentication-retries 3
+   (RT22801)
+
+  - Removed confusing ip prefix-list config without seq number.
+    Note: always specify seq, because the device always shows it.
+    (CISCOIOS-55)
+
+  - BUGFIX: do not insert delete of policy-map / class / bandwidth|priority percent
+    unless also adding numbers back.
+
+  - API CHANGE:
+     policy-map * / class * / random-detect *-based due to support for 'aggregate'
+    (RT23235)
+
+  - API CHANGE:
+    route-map * / set as-path prepend remodelled. Changed to same design as
+    in cisco-nx, a multi-value string instead of 10 leaves.
+    (RT22669)
+
+  - Fixed the interface switchport order dependency;
+     - interface *
+        no ip address
+        switchport
+    (RT23219)
+
+  - Modified the last sethook (interface / switchport create) to set
+   'no ip address' instead of delete '[no] ip address' if C650* device
+    since those devices show:
+     interface *
+      switchport
+      no ip address
+    where most IOS devices only show:
+     interface *
+      switchport
+    (RT23219)
+
+  - Removed two more sethooks due to not working well with FASTMAP:
+     interface / switchport
+      (delete: set 'no ip address' on interface)
+     interface Port-channel.
+      (delete: deleted channel-group on all Ethernet interfaces with same id)
+    Add/delete dynamic config manually in transaction to avoid config diff.
+    (RT23219)
+
+  - Fixed the following interface switchport order dependencies:
+     - interface *
+        no ip address X
+        switchport
+     - interface *
+        speed X
+        duplex full
+     - interface *
+        no switchport port-security
+        no switchport mode access
+     - interface *
+        mode access
+        no switchport trunk encapsulation dot1q
+    WARNING: including description may breaks dependencies due to NCS/NSO bug
+    (RT23163)
+
+
+cisco-ios v4.2.2 [May 27, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - API CHANGE:
+     Changed back aaa new-model to type empty or dependencies break.
+    (RT22176)
+
+  - Additions to the YANG model:
+     route-map * / match route-type *
+    (RT23150)
+
+  - Additions to the YANG model:
+     route-map * / set interface
+    (RT23149)
+
+  - Additions to the YANG model:
+     radius-server host * timeout
+     radius-server host * retransmit
+    (CISCOIOS-138)
+
+  - Additions to the YANG model:
+     controller SONET * / ais-shut
+     controller SONET * / overhead j0
+     controller SONET * / au-4 * tug-3 * / tug-2 * channel-group * timeslots
+     controller SONET * / au-4 * tug-3 * / tug-2 * framing no-crc4
+     interface * / no flowcontrol bidirectional
+     interface * / frame-relay interface-dlci / class
+     interface * / ip header-compression
+     interface * / ip tcp compression-connections
+     interface * / multilink-group
+     interface * / ppp multilink min-links
+     interface * / no ppp multilink fragmentation
+     map-class frame-relay *
+    (CISCOIOS-134)
+
+  - Additions to the YANG model:
+     crypto isakmp profile * / qos-group
+     crypto ipsec profile * / set security-association dfbit
+     crypto ipsec profile * / set security-association dummy
+     crypto ipsec profile * / set security-association ecn
+     crypto ipsec profile * / set security-association idle-time
+     crypto ipsec profile * / set security-association replay
+    (RT23111)
+
+Corrections:
+
+  - Raised ip sla * / request-data-size range from 1400 to 1500.
+    (CISCOIOS-146)
+
+  - API CHANGE:
+     route-map * / match
+    (RT23150)
+
+  - API CHANGE:
+     access-list id changed from uint16 to string in:
+      router bgp * / neighbor * filter-list *
+      ip as-path access-list *
+    (RT23078)
+
+
+cisco-ios v4.2.1 [May 20, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Support for NSO-4.2.
+
+  - Additions to the YANG model:
+     router bgp * / redistribute * include-connected
+     ip igmp vrf *
+     ip msdp vrf *
+     ip multicast vrf * route-limit
+     ip pim send-rp-announce
+     ip pim send-rp-discovery scope
+     ipv6 dhcp pool *
+     ipv6 router eigrp * / eigrp router-id
+     ipv6 router rip * / distribute-list prefix-list *
+     ntp access-group ipv6
+   (RT22924)
+
+  - Additions to the YANG model:
+     parameter-map type inspect * / icmp idle-time ? ageout-time
+     parameter-map type inspect * / max-incomplete ? aggresive-aging
+     parameter-map type inspect * / udp idle-time ? ageout-time
+     parameter-map type inspect * / udp half-open
+     parameter-map type inspect * / session total
+    (CISCOIOS-130)
+
+  - Additions to the YANG model:
+     crypto gdoi group * / server local / sa ipsec * / tag cts sgt
+     interface * / ip lisp source-locator
+     router lisp / ipv4 map-cache site-registration
+     router lisp / ipv4 route-export site-registration
+    (RT22785)
+
+  - Additions to the YANG model:
+     interface * / ip verify source vlan dhcp-snooping
+    (CISCOIOS-129)
+
+  - Additional support for configuring passwords/keys in cleartext which get
+    encrypted on the device, and still avoid a compare-config diff.
+    The following secrets/keys/passwords were added:
+     ip wccp * key
+     mpls ldp neighbor *
+     radius-server host * key
+     tacacs-server host * key
+     username * password
+     username * secret
+    (RT22801)
+
+Corrections:
+
+  - API CHANGE:
+    Changed 'crypto ikev2 keyring * / peer * / pre-shared-key' YANG in order
+    to support cleartext to encrypted device conversion without config diff.
+    (RT22669)
+
+  - API CHANGE:
+     Type change uint16 to string: route-map * / match as-path *
+     Removed string pattern on: route-map * / match ipv6 address
+    (RT23078)
+
+  - API CHANGE:
+     aaa new-model - empty to boolean in order to support 'no aaa new-model'
+     platform - generic list to detailed model in order to support no-commands
+     logging rate-limit - in order to support 'no logging rate-limit'
+    (CISCOIOS-135)
+
+  - Fixed dependency problem with bridge-domain / member and interface.
+    (RT23020)
+
+  - Fixed problem with live-status exec commands not showing complete output.
+    (RT23071)
+
+  - Fixed switchport vs ip address dependency issue, correct order is:
+     interface *
+      no switchport
+      ip address
+    (RT23067)
+
+  - Improved password model to reset password type when only changing the
+    secret.
+    (RT22801)
+
+  - Fixed dependency problem with ipv6 neighbor and interface.
+    (RT22978)
+
+
+cisco-ios v4.2.0 [May 13, 2016]
+===============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     cable service class * activity-timeout
+     cable service class * admission-timeout
+     cable service class * max-latency
+     cable service class * min-packet-size
+     cable service class * req-attr-mask
+     cable service class * req-trans-policy
+     cable service flow activity-timeout
+     cable multicast mdf-disable WB-Incapable-CM
+     cable trust *
+     cable dsg chan-list * index * freq
+     cable load-balance d20-ggrp-default
+     cable metering ipdr ? session
+     cable rf-change-dampen-time
+     cable tag * / service-type-id
+     controller Modular-Cable * / rf-channel * network-delay
+     interface Modular-Cable* / no cable cm-status enable
+      NOTE: Use: cable cm-status enable no-list
+     interface Wideband-Cable* / cable ds-resiliency
+    (RT22958)
+
+  - Additions to the YANG model:
+     interface * / ip flow monitor * input
+     interface * / ip flow monitor * output
+     interface * / no nhrp route-watch
+     router eigrp * / address-family ipv4 / af-interface * / summary-address
+     router eigrp * / address-family ipv4 / af-interface * / authentication
+    (CISCOIOS-125)
+
+  - Additions to the YANG model:
+     l2tp-class * / authentication
+     l2tp-class * / password
+     pseudowire-class * / ip local interface
+     pseudowire-class * / protocol
+    (CISCOIOS-123)
+
+  - Additions to the YANG model:
+     interface * / bfd template
+    (RT22871)
+
+  - Added 'any' exec command under live-status to be able to execute any IOS
+    command on the device. For example:
+    admin@ncs# devices device ios1921-2 live-status exec any "show ppp summary"
+
+  - Added 'verify' exec command under live-status.
+    (CISCOIOS-116)
+
+  - Support for configuring shared secrets in cleartext which get encrypted
+    on the device. The encrypted secret from the device is replaced with the
+    clear text from the CDB if the device config has not changed. If the
+    secret is changed out-of-band the new value will be shown, i.e. cause
+    a compare-config diff, which it should.
+    The following secrets/keys/passwords are supported:
+     enable password
+     enable secret
+     ip ftp password
+     mpls ldp password fallback
+     radius-server key
+     tacacs-server key
+    (RT22801)
+
+  - Added info from output of 'show version in cached-show container in
+    tailf-ned-cisco-ios module for fast access in service code. Info is
+    updated upon login, i.e. may change if output of show version changes.
+    Enable by setting: ned-settings cisco-ios-cached-show-enable version true
+    Example output:
+      cached-show version version 15.4(3)S4
+      cached-show version model ME-3800X-24FS-M
+      cached-show version license level MetroIPServices
+      cached-show version license type Permanent
+    Note: Even though this info is in config, obviously it is not config
+          and can not be set on the device.
+    (RT22867)
+
+Corrections:
+
+  - Changed most cli-diff-dependency statements to use relative paths instead
+    of absolute paths to avoid a bug in ncs-3.4 branch.
+    As a result, the following config has changed YANG path:
+     ipv6 routing
+    (CISCOIOS-127)
+
+  - API CHANGE:
+    Changed 'ip forward protocol udp' API in order to allow support for
+    no-entries and entries. Remodelled as a list using optional disabled
+    keyword. For example: set 'ip forward-protocol udp tftp disabled" for
+    'no ip forward-protocol udp tftp'.
+    (RT22958)
+
+  - API CHANGE (internal leaves renamed) due to support for hidden secrets:
+     aaa group server tacacs+ * / server-private * key
+     interface * / standby * authentication md5 key-string
+     interface * / vrrp * authentication md5 key-string
+     ip ftp password
+     key chain * / key * / key-string
+     radius server * key
+     router lisp / ipv4 etr map-server * key
+     tacacs-server host * key
+     tacacs-server key
+     username * password
+
+  - Removed sethook on crypto pki trustpoint. Add dynamic config manually.
+    (CISCOIOS-115)
+
+  - Redesigned confirmation handling when applying config. Always begin by
+    sending a 'y'. If no prompt after 1 second, send 'es\n' in order to
+    complete a 'yes\n' to avoid getting stuck at questions. Reason for change
+    is that now almost all confirmation prompts will be supported.
+    (CISCOIOS-115)
+
+
+cisco-ios v4.1.6 [May 4, 2016]
+==============================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     router lisp / locator-table
+     router lisp / loc-reach-algorithm rloc-probing
+     router ospf * / redistribute lisp subnets
+    (RT22785)
+
+  - Additions to the YANG model:
+     mpls ldp password fallback
+    (RT22800)
+
+  - Additions to the YANG model:
+     interface * / ethernet oam link-monitor receive-crc window
+     interface * / isis bfd disable
+     interface * / isis hello-multiplier
+     router ospf * / prefix-priority high route-map
+    (RT22802)
+
+  - Additions to the YANG model:
+     call-home / vrf
+     interface * / tunnel mode ipv6
+     ip dhcp use vrf remote
+     ip dns name-list *
+     ip dns view vrf * *
+     ip dns view * / domain name-server vrf *
+     ip dns view-list * / view vrf * *
+     ip dns view-list * / view vrf * / restrict
+     parameter-map type inspect-vrf *
+     parameter-map type inspect * / tcp syn-flood limit
+     parameter-map type inspect * / max-incomplete ?
+     parameter-map type inspect * / threat-detection rate fw-drop
+     parameter-map type inspect * / threat-detection rate inspect-drop
+     parameter-map type inspect * / vrf * inspect
+     virtual-service / ip shared host-interface
+     virtual-service / activate
+    (CISCOIOS-90)
+
+Corrections:
+
+  - Fixed compare-config diff when setting line * / exec, hidden default.
+
+  - Removed ordered-by "user" on snmp-server enable traps list.
+    (RT22801)
+
+  - Corrected spelling in 'mpls ldp neighbor * labels accept', was lables
+    (RT22803)
+
+  - Special reorder fix for NCS bug manifesting in router ospf / max-metric
+    (Fixed in NCS 3.4.5 or newer)
+
+  - Fixed ordering isssues in router * / distribute-list when adding and
+    deleting entries.
+
+  - Reviewed and added several vrf dependency cli annotations.
+
+  - Added ipv6 unicast-routing dependency on router bgp * / address-family ipv6.
+
+
+cisco-ios v4.1.5 [April 28, 2016]
+=================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Expanded the YANG model in:
+     interface * / dialer map ip *
+    (RT22769)
+
+  - sdm prefer expansions to the YANG model.
+    (RT22734)
+
+  - Improved and bugfixed login code.
+    (RT22712)
+
+  - Additions to the YANG model:
+     router odr
+     router ospfv3 * / shutdown
+
+  - Improved drned test system. Removed old lux tests.
+    (CISCOIOS-87)
+
+Corrections:
+
+  - Fixed switchport dependency issue, correct order is:
+     interface *
+      no switchport nonegotiate
+      no switchport mode access
+    (RT22766)
+
+  - Fixed interface * / mls qos vlan-based vs interface * / service-policy
+    dependency problem.
+    (RT22748)
+
+  - Added cli-replace-all on 'line * / transport input|output'.
+    (RT22717)
+
+  - Removed sethook on 'ip vrf' which used to automatically clear
+    'ip vrf forwarding' on all interfaces as well as delete all routes
+    using the same vrf. Reason being dynamic sethooks have proven to
+    cause problems with FASTMAP as well as cauing unwanted config changes.
+    If you want to mimic the device behaviour of cleaning vrf config when
+    a vrf is deleted, you have to add those deletes to your transaction
+    as well in order to avoid config diff.
+    (RT22686)
+
+  - Removed sethook on 'ip routing'. See reason above.
+
+  - Fixed problem with banner in newer NCS/NSO versions.
+
+  - Fixed support for live-status exec reload without giving an error.
+
+
+cisco-ios v4.1.4 [April 20, 2016]
+=================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Made the automatic ip address reconfiguration upon vrf forwarding change
+    on interfaces configurable. Default is off. To enable:
+     devices device <devname> ned-settings cisco-ios-auto vrf-forwarding-restore true
+    (RT20304)
+
+  - Answer yes on 'ACCEPT? (yes/[no])' pattern.
+
+Corrections:
+
+  - Fixed interface * /crypto map vs crypto map dependency.
+    (RT22592)
+
+  - Answer 'yes' instead of 'y' if prompt regarding destroying certificates.
+
+  - Ignore retry on 'please remove .* from .* first' pattern.
+
+  - Do not accept cisco-ios-inject-interface-config without interface config.
+
+
+cisco-ios v4.1.3 [April 11, 2016]
+=================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+Enhancements:
+
+  - Additions to the YANG model:
+     Add output of BOOT path-list from 'show boot' to boot system config
+     in order to avoid a diff. Note: For devices which only support one
+     boot system entry you have to delete the old entry explicitly since
+     cisco-ios supports multiple entries.
+    (RT22491)
+
+  - Additions to the YANG model:
+     interface * / lacp min-bundle
+     interface * / vrrp * vrrs leader
+     interface * / vrrp * address
+     interface * / vrrs pathway *
+     ipv6 neighbor *
+    (CISCOIOS-90)
+
+  - Additions to the YANG model:
+     boot config
+     ip dhcp pool * / bootfile
+     interface * / ipv6 dhcp client information refresh minimum
+     interface * / ipv6 verify unicast source reachable-via
+     interface * / isdn termination multidrop
+     interface * / l2protocol peer|forward
+     interface * / soak link notification
+     interface * / wrr-queue min-reserve
+     ip ssh pubkey-chain / username * / key-hash *
+     ip ssh rsa keypair-name
+     ipv6 spd queue
+     line * / logging synchronous level
+     mac-address-table move update
+     mls qos min-reserve *
+     radius-server attribute * mandatory
+     route-map * / set ip qos-group
+    (CISCOIOS-87)
+
+  - Added a new optional method for NETSIM to calculate transaction id:
+     cisco-ios-transaction-id-method confd-state-trans-id
+    which uses 'show confd-state internal cdb datastore running transaction-id'
+
+  - Improved login code to be more robust in order to improve chance of
+    logging in on devices with banner(s) confusing the login process.
+
+  - Disable additional show commands for show() if non existant to save
+    bandwidth.
+
+
+Corrections:
+
+  - Fixed interface * / channel-group vs interface * / mls dependency.
+    (RT22459)
+
+  - Reverted the bad fix in 4.0.5.1 where Port-channel interfaces did not
+    show "no shutdown" when shutdown. The reason being, without it it was
+    not possible to bring down a newly created Port-channel interface since
+    nothing was sent and the interface default to 'shutdown' when created.
+    For those who want to create a shutdown Port-channel interface they
+    have to set shutdown explicitly when creating the interface to match
+    the device which usually brings up Port-channel as shutdown.
+    (RT22456)
+
+  - Removed all use of cli-trigger-on-delete since it turns out it has
+    no other effect than negating cli-trigger-on-set, making it into a
+    normal cli-diff-dependency.
+    (TRAC 14332)
+
+  - API CHANGE: mgcp behavior changed from hardcoded config to a list.
+
+  - Ignore set/delete of unsupported injected interface config.
+
+  - Improved snmp-server user config creation from 'show snmp user' and
+    added support for access-list info.
+
+  - Set verbose logging to default false. Enable with cisco-ios-log-verbose
+    ned-settings option.
+
+
+cisco-ios v4.1.2 [April 06, 2016]
+=================================
+
+General:
+
+    Look for 'API CHANGE' below to see what changes have been made that may
+    not be backwards compatible.
+
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / isis password
+    (RT22402)
+
+  - Additions to the YANG model:
+     router bgp * / address-family * / bgp nexthop route-map
+     clock summer-time date
+     cns config partial
+     cns id string
+     controller dwdm *
+     hw-module slot * process-max-time
+     interface * / arp frame-relay
+     interface * / clns mtu
+     interface * / clns router isis
+     interface * / ip accounting precedence
+     interface * / ip ospf mtu-ignore
+     interface * / mpls propagate-cos
+     ip admission max-login-attempts
+     ip auth-proxy max-login-attempts
+     ip radius source-interface ? vrf *
+     ip sla key-chain
+     ip telnet tos
+     line * / rotary
+     l2 vfi * / rd
+     l2 vfi * / route-target
+     memory free low-watermark processor
+     mls aging long
+     port-channel per-module load-balance
+     process cpu statistics limit
+     process-max-time
+     route-map * / match source-protocol *
+     route-map * / set ip precedence
+     scheduler runtime netinput
+     tacacs-server administration
+     track * / ip vrf
+
+  - Additions to the YANG model:
+    ip cef load-sharing algorithm universal
+    no ip routing protocol purge interface
+    ip sla * / udp-jitter * num-packets
+
+  - Additions to the YANG model:
+     aqm-register-fnf
+     no cdp tlv location|app
+     controller ISA *
+     interface * / ipv6 address * link-local
+     interface * / backup interface
+     interface * / ip summary-address eigrp *
+     interface * / ip ospf database-filter all out
+     interface * / ip ospf lls
+     interface * / mls qos cos
+     interface * / srr-queue bandwidth limit
+     ip auth-proxy|admission max-nodata-conns
+     ip dhcp bootp ignore
+     ip nat translation tcp-timeout
+     ip sla reaction-trigger *
+     isdn leased-line
+     logging message-counter
+     mac-address-table synchronize
+     no mac-address-table aging-type routed-mac
+     resource policy
+     router bgp * / address-family * / aggregate-address <ipv6>
+     router bgp * / neighbor * path-mtu-discovery
+     router eigrp * / default-metric
+     router eigrp * / distance
+     router eigrp * / network *
+     no setup express
+     no shell processing
+     switch * provision
+     track * rtr
+     udld enable
+     no vstack
+    (RT22339)
+
+
+Corrections:
+
+  - Bugfixed support for special characters \ ? and " in 'crypto isakmp key'.
+    (RT22356)
+
+  - Fixed support for ? character in description strings.
+
+  - API CHANGE:
+     Removed config mode from ip sla * / udp-jitter|icmp-echo|udp-echo etc.
+     in order to support reconfiguration of contents. Reason was IOS jumped
+     to submode if ip sla was re-entered.
+    (RT22339)
+
+  - API CHANGES:
+     route-map * / match tag changed from leaf to leaf-list
+     monitor session * entries changed to multi-word-key lists
+    (RT22339)
+
+  - Fixed several bugs in: 'router ospf * / mpls traffic-eng'
+
+
+cisco-ios v4.1.1 [March 23, 2016]
+=================================
+
+Enhancements:
+
+  - The method to use by the NED for calculating transaction ID is now a
+    configurable option.
+    The config option cisco-ios-transaction-id-method is available under:
+     /ncs:devices/global-settings/ned-settings/
+     /ncs:devices/ncs:profiles/profile:cisco-ios/ned-settings/
+     /ncs:/device/devices/device:<dev name>/ned-settings/
+    Four values are supported:
+     config-hash - Calculate MD5 on a snapshot of the entire running
+                   config for calculation. (Default)
+     last-config-change - Use the 'Last configuration change' timestamp
+                          in running config only (WARNING: changed at reboot)
+     config-id - Use the 'show configuration id' command to determine
+                 if config changed. (WARNING: changed at reboot)
+     config-history - Use the 'show configuration history' command to
+                      determine if config changed. (WARNING: changed at reboot)
+    (RT20096)
+
+  - CBR additions to the YANG model:
+     cable downstream qam-profile *
+     cable load-balance d30-ggrp-default policy
+     cable load-balance d30-ggrp-default threshold
+     cable video
+     controller Upstream-Cable *
+     interface Cable* / upstream *
+     interface Cable* / no cable upstream * equalization-error-recovery
+     interface Integrated-Cable *
+     interface  Wideband-Cable* / cable rf-channels channel-list *
+     interface  Wideband-Cable* / cable rf-channels controller *
+     packetcable authorize vanilla-docsis-mta
+    (CISCOIOS-76)
+
+  - Expanded the YANG model in:
+     card *
+     controller Integrated-Cable *
+     interface Cable* / cable
+    (CISCOIOS-76)
+
+  - Additions to the YANG model:
+     interface * / ipv6 dhcp relay source-interface
+     interface * / ipv6 nd reachable-time
+     interface Video *
+     logging linecard
+
+  - Additions to the YANG model:
+     interface * / dot1x timeout quiet-period
+     interface * / dot1x timeout ratelimit-period
+     interface * / dot1x timeout held-period
+    (CISCOIOS-75)
+
+  - Additions to the YANG model:
+     tacacs server * / single-connection
+     tacacs server * / send-nat-address
+
+  - Additions to the YANG model:
+     tacacs server * / port
+    (RT22321)
+
+Corrections:
+
+  - API CHANGE: cable fiber-node * / downstream *
+    API CHANGE: interface Cable* / downstream *
+    Made cable fiber-node * / upstream * into a list.
+    (CISCOIOS-76)
+
+  - Dequote key string when configuring 'crypto isakmp key' in order to
+     support key characters like quotation marks.
+    (CISCOIOS-77)
+
+  - Improved java code to retrieve IOS version, solving issue with XE.
+    (RT22208)
+
+  - Moved crypto exec commands into 'exec' action to avoid being triggered
+     by malformed or missing crypto config. Hence, to run exec commands you
+     now must start with 'exec <command> [options]'. For example:
+     > admin@ncs(config-config)# exec crypto key generate rsa general-keys
+    (RT21754)
+
+  - Fixed problem with logging discriminator * drops|includes strings.
+    (RT22321)
+
+  - API CHANGE: 'table-map * / map from' due to bugfixing and support for
+     multiple 'from' entries per 'to'.
+    (RT22321)
+
+
+cisco-ios v4.1 [March 17, 2016]
+===============================
+
+General:
+
+Enhancements:
+
+  - Added 'show verbose' toggle to live-status exec for increased logging.
+
+  - Additions to the YANG model:
+     interface * / ip bandwidth-percent
+     interface * / ip next-hop-self eigrp no-list *
+      (note: implements: interface * / no ip next-hop-self eigrp *)
+     interface * / vrrp * address-family ipv4
+     interface * / vrrp * address-family ipv6
+     ip cef load-sharing algorithm original
+     ip dhcp pool * / class *
+     ip route static install-routes-recurse-via-nexthop
+     ipv6 cef load-sharing algorithm original
+     ipv6 icmp error-interval
+     fhrp version vrrp
+     flow exporter * / option interface-table
+     flow exporter * / option exporter-stats
+     flow exporter * / option sampler-table
+     parameter-map type inspect-zone *
+     zone security * / protection
+    Expanded the YANG model in:
+     flow record * /
+     flow monitor * /
+    (RT22111)
+
+  - Additions to the YANG model:
+     class-map * / match protocol attribute traffic-class *
+     class-map * / match protocol attribute business-relevance *
+     domain * / vrf * / master hub / monitor-interval *
+     domain * / vrf * / border / + / password
+    (RT22068)
+
+  - Moved vrrp config from interface Vlan to all Ethernet interface.
+     API CHANGE: ip icmp rate-limit unreachable
+    (RT22111)
+
+  - Additions to the YANG model:
+     class-map * / match protocol attribute traffic-class *
+     class-map * / match protocol attribute business-relevance *
+     domain * / vrf * / master hub / monitor-interval *
+     domain * / vrf * / border / + / password
+    (RT22068)
+
+  - no macro auto monitor
+    (CISCOIOS-62)
+
+  - Added support for 'encrypted' option in 'snmp-server user <user> <group> v3'
+    (RT21908)
+
+  - Added new global, profile and device pre-configuration to inject config
+     in interface when syncing from device (parsing running-config).
+     See README file for details on 'cisco-ios-inject-interface-config'.
+
+  - Additions to the YANG model:
+     class-map type control subscriber *
+     device-sensor accounting
+     device-sensor notify
+     interface * / dot1x timeout supp-period
+     interface * / snmp trap mac-notification change
+     interface * / source template
+     ip device tracking probe auto-source
+     template
+    (CISCOIOS-62)
+
+  - Additions to the YANG model:
+     account config in policy-map * / class * / bandwidth remaining
+    (RT21973)
+
+
+Corrections:
+
+  - API CHANGE: ip forward-protocol udp changed from leaf to leaf-list.
+    (RT22007)
+
+  - Reworked switchport API:
+     IMPORTANT NOTE: Devices which do not show 'switchport' when enabled
+      must configure cisco-ios-inject-interface-config to inject it.
+      See the README file.
+     'no switchport' is shown on all Ethernet and Port-channel interfaces
+      by default (with help of a static global config inject)
+     API CHANGES:
+      Removed interface * / no-switchport and yes-switchport
+       (always use interface * / switchport container)
+      Removed tailfned switchport config (show-no and show-yes)
+      Removed cisco-ios-switchport-format ned-setting.
+      Removed switchport on wlan-ap, BDI, Vlan and Virtual-Template if.
+    (CISCOIOS-33)
+
+  - API CHANGE: ipv6 cef
+
+  - Added 'presence true' in 'domain * / vrf * / border' container.
+    (RT22068)
+
+  - Added non-strict leafref on 'interface * / domain'
+
+  - Added vrf definition dependencies on 'crypto ? profile * / match fvrf'
+
+  - API CHANGE: interface * / service-policy type performance-monitor
+
+  - Added 'presence true' in 'domain * / vrf * / border' container.
+    (RT22068)
+
+  - Raised interface * / ip mtu from 9198 to 9216.
+    (RT22083)
+
+  - Changed vrf forwarding ip address code to show in transaction prepareDry.
+    (RT20304)
+
+  - Fixed multiple VRF support in ip nat inside|outside source static.
+    (RT22104)
+
+  - Fixed diff problem with interface / logging event link-status using
+     new cisco-ios-inject-interface-config to insert defaults.
+    (RT21612) (RT22102)
+
+  - Completely reworked switchport dependencies due to yet another problem.
+    (RT22066)
+
+  - Removed sethooks on interface * / vrf forwarding | ip vrf forwarding
+     which deleted all IP addresses on interface, introduced in 3.11.0.9.
+     One reason was that it stopped reconfiguration of IP address in fastmap.
+     Introduced new Java code which automatically writes back the primary IP
+     from the CDB to the device if vrf forwarding is modified.
+     This will preserve the interface IP address configuration in CDB.
+     Note: Code needs to be expanded to also write back secondary addresses.
+    (RT20304) (CISCOIOS-61)
+
+  - Added subinterface dependencies to base interface to fix delete problem.
+
+  - API CHANGE: removed support for 'random-detect' without argument.
+
+  - Always use 'random-detect precedence-based' to enable precedence.
+     On a real device this config is hidden, showing only 'random-detect',
+     but the NED auto-converts that to 'random-detect precedence-based.
+    (RT21996)
+
+  - Fixed more mls qos clean up bugs.
+    (RT21705)
+
+  - Fixed policy-map * / class * / shape vs queue-limit dependency.
+    (RT21989)
+
+  - Joined switchport enable switch and config for show-no devices in order
+     to be able to delete separate config when disabling switchport.
+    (RT21933)
+
+
+cisco-ios v4.0.6 [February 26, 2016]
+====================================
+
+General:
+
+Enhancements:
+
+  - Additions to the YANG model:
+     crypto isakmp fragmentation
+     crypto isakmp identity
+     crypto isakmp invalid-spi-recovery
+     crypto isakmp profile * / match identity host
+     diagnostic monitor syslog
+     gw-accounting
+     interface * / ip mask-reply
+     no ip spd enable & no spd enable
+     ip ssh dh min size
+     ip ssh server algorithm encryption
+     no ip ssh server authenticate user publickey
+     no ip ssh server authenticate user keyboard
+     no ip ssh server authenticate user password
+     line * / timeout login response
+     logging rate-limit * except warnings
+     no parser cache
+     no snmp-server trap authentication unknown-context
+     no snmp-server sparse-tables
+     vstack director|basic
+    (RT21939) (CISCOIOS-55)
+
+  - Added three new static warnings in mls qos area.
+
+  - Support for SSH/TELNET proxy login configuration.
+    Configure cisco-ios-proxy-settings under ned-settings to enable.
+    See README file for example.
+
+  - Additions to the YANG model:
+    crypto map * ipsec-isakmp / set security-association dummy
+
+  - Additions to the YANG model:
+     interface * / access-session closed
+     interface * / access-session port-control
+     interface * / service-policy type control subscriber
+     policy-map type control subscriber
+    (CISCOIOS-21)
+
+  - Support for exec proxy login configuration.
+    Configure cisco-ios-proxy-settings under ned-settings to enable.
+    See README file for example.
+    (CISCOIOS-21)
+
+  - Additions to the YANG model:
+     bridge *
+     bridge irb
+     cns dhcp
+     crypto call admission limit ike
+     dot11 ssid *
+     interface BVI *
+     interface Dot11Radio1 *
+     interface * / bridge-group
+     ip http help-path
+     line * / flowcontrol
+     line * / speed
+     service-module wlan-ap 0 bootimage
+
+  - New ned-setting to configure switchport mode (see README file)
+    devices device <devname> ned-settings cisco-ios-switchport-format
+    (RT21751)
+
+  - Additions to the YANG model:
+     monitor session * type local / source interface
+     policy-map * / class * / queue-limit percent
+   (RT21543)
+
+  - API CHANGE: 'license feature' now implemented as a list.
+    (RT21543)
+
+  - Additions to the YANG model:
+     arp *
+     arp vrf *
+    (CISCOIOS-32)
+
+  - Additions to the YANG model:
+     interface * / ip igmp max-groups
+     interface * / ip igmp filter
+     interface * / service instance * ethernet / storm-control
+     interface * / vlan-range * / service-policy
+    (RT21617)
+
+Corrections:
+
+  - API CHANGE: crypto ipsec transform-set * / mode, added mode transport require
+   (CISCOIOS-55)
+
+  - Additions to the YANG model:
+     event manager applet * / action * cli
+    (CISCOIOS-53)
+
+  - Rewrote mls qos srr-queue code to fix several problems with it.
+    (RT21705)
+
+  - Added missing connectTimeout in NED setup.
+
+  - Bugfix in router distribute-list lists. Removed bad choice statement.
+
+  - Ignore warning for delete of non-existant vrf definition in order to
+    not break retry loop for 'in progress' message.
+
+  - Fixed dependency problem with crypto keyring and crypto isakmp profile.
+
+  - API CHANGE: Changed mls qos srr-queue config. Fixed bugs.
+    (RT21705)
+
+  - Added hard coded error checks for 'Error Message '
+    and 'HARDWARE_NOT_SUPPORTED'.
+    (RT21706)
+
+  - New dependency rule on:
+     interface / mls qos trust dscp|cos|ip-precedence
+    (RT21723)
+
+  - API CHANGE: interface BRI key changed from uint16 to string.
+    (RT21480)
+
+  - interface / logging event link-status type change for C3550 devices.
+    (RT21612)
+
+  - Discard duplicate 'no mls qos srr-queue ..' lines
+    (RT21705)
+
+  - New dependency rule on:
+     interface * / xconnect vfi
+    (RT20880)
+
+  - More interface * / switchport depdendency fixes
+     (interface / ip igmp | ip dhcp | service-policy)
+    (RT21617)
+
+  - Added cli-recursive-delete to Port-channel interface
+    (RT21617)
+
+  - Revisited dependency rule on:
+     interface * / service instance * ethernet / bridge-domain
+    (RT21477)
+
+  - Removed (debug) show strip of 'switchport mode dynamic desirable'.
+    (RT21554)
+
+  - New bridge-domain dependency rule on:
+     l2 vfi *
+    (RT20880)
+
+  - Do not show (send) 'no shutdown' on Port-channel interfaces.
+
+  - Removed sethook for add/del ip route-cache with switchport & me340x.
+
+  - API CHANGE: interface * / switchport port-security maximum
+
+  - New dependency rule on:
+     interface * / switchport port-security
+    (RT21617)
+
+
+cisco-ios v4.0.5 [January 29, 2016]
+===================================
+
+General:
+
+Enhancements:
+
+Corrections:
+
+  - New dependency rule on:
+     router ospf * / disable passive-interface *
+    (RT21266)
+
+  - New dependency rule on:
+     ip route * interface
+    (CISCOIOS-34)
+
+  - New dependeny rule on:
+     interface * / service instance * ethernet / bridge-domain
+    (RT21477)
+
+  - New dependency rule on:
+     interface * / switchport nonegotiate
+    (RT21542)
+
+  - New dependency rules on:
+     interface Vlan*
+     bridge-domain *
+    (RT20880)
+
+  - New dependency rules on:
+     interface * / switchport trunk allowed vlan
+     interface * / switchport mode
+
+  - Reworked switchport re-ordering routines in NED.
+    (RT21470)
+
+  - Changed type used for the ipv4 addresses to one standard type.
+    (CISCOIOS-38)
+
+
+cisco-ios v4.0.4 [January 22, 2016]
+===================================
+
+General:
+
+Enhancements:
+
+  - The NED is now configurable regarding how an applied configuration is
+     saved to persistent memory on the device. See README for further details.
+    (RT21318)
+
+  - Additions to the YANG model:
+     interface Port-channel * / port-channel load-balance
+     interface Port-channel * / port-channel min-links
+    (RT21365)
+
+Corrections:
+
+  - Fixed an parser issue in the NED that could happen when
+     reading vlan config from the device.
+    (RT21352)
+
+  - Added dependency rule on:
+     router ospf * / passive-interface
+    (RT21266)
+
+  - Fixed a dependency rule on:
+     interface * / switchport / mode
+    (RT21116)
+
+  - Changes done to correct behavior of the interface * switchport command.
+    (RT21415)
+
+
+cisco-ios v4.0.3 [January 6, 2016]
+===================================
+
+Changes that might affect a package upgrade from release 4.0.2:
+   - Configurations using ipv6 addresses. The data type for ipv6
+     addresses has been changed in the YANG model (see corrections info below).
+
+General:
+  - Increased <ncs-min-version> to 3.4.2 (tr13900)
+
+  - Changed <ncs-min-version> support to 3.4.2, 4.0 and 4.1
+
+Enhancements:
+
+  - The NED can now be manually configured regarding which
+    format to use when setting police configurations on the
+    device. See README for further info.
+
+  - Additions to the YANG model:
+     interface Virtual-Template * / ppp ipcp address
+     vpdn-group *
+    (CISCOIOS-14)
+
+  - Additions to the YANG model:
+     router bgp * / template peer-policy * / send-label
+     router bgp * / template peer-policy * / inherit
+     router bgp * / template peer-session * / inherit
+     router ospf * / nsr
+     router ospf * / fast-reroute
+     interface * / ipv6 nd ra lifetime
+     controller SONET * / alarm-report
+     controller SONET * / description
+     controller SONET * / shutdown
+     crypto pki trustpoint * / enrollment pkcs12
+     file verify
+     license feature port
+     service prompt
+    (RT21182)
+
+  - Additions to the YANG model:
+     interface * / medium
+     interface * / crypto engine
+     crypto map * ipsec-isakmp / set security-association replay
+     crypto map * ipsec-isakmp / reverse-route
+    (CISCOIOS-1)
+
+Corrections:
+
+  - Changed type used for the ipv6 addresses to deal with expanded
+     address formats as well as upper/lower case letter formats.
+    (RT21194)
+
+  - New dependency rule on:
+     router bgp * / neighbor * inherit peer-session
+
+  - Changed ranges in:
+     interface * / bfd interval
+     controller SONET * / au-4 *
+    (RT21182)
+
+  - Added tailf:cli-display-separated on:
+     router bgp * / address-family * / redistribute connected
+     router bgp * / address-family * / redistribute static
+     router bgp * / address-family * / redistribute mobile
+     router bgp * / address-family * / redistribute odr
+    (RT21216)
+
+  - Moved to interface-ethernet-post-grouping:
+     interface * / channel-group
+
+  - Added dependency rules on:
+     interface * / isis ipv6
+     interface * / isis three-way-handshake
+     interface * / channel-group
+    (RT21074)
+
+  - Fixed interface negotiation auto and speed dependency problem.
+    (RT20969)
+
+  - Removed compact-syntax from policy-map/class/police rate percent.
+    (RT20968)
+
+  - crypto map * ipsec-isakmp / set peer changed from leaf to leaf-list.
+    (RT20964)
+
+  - Removed all 'mandatory true' keywords.
+
+  - Removed reset-container workaround in pir-be due to NCS bug. Now
+     requires minimum NCS-3.4.4 to work.
+    (RT20959)
+
+
+cisco-ios v4.0.2 [November 18, 2015]
+====================================
+
+Enhancements:
+
+  - Additions to the YANG model:
+     interface * / mac access-group * in
+     interface * / no ip mroute-cache
+    Expanded:
+     interface * / ip arp inspection limit
+
+  - Additions to the YANG model:
+     interface * / speed 10000
+
+  - Additions to the YANG model:
+     file prompt
+      (RT20831)
+     interface * / ip nbar protocol-discovery
+
+  - Reworked config exec command 'crypto' to support all exec sub-commands.
+
+  - Additions to the YANG model:
+     aaa group server radius * / backoff exponential
+     aaa group server tacacs+ * / server name *
+     cns
+     crypto map * ipsec-isakmp / set security-association lifetime
+     crypto pki trustpoint * / auto-enroll
+     crypto pki trustpoint * / fqdn
+     crypto pki trustpoint * / password
+     crypto pki trustpoint * / source interface
+     interface * / authentication
+     interface * / dot1x
+     interface * / ip hello-interval eigrp *
+     interface * / ip hold-time eigrp *
+     interface * / ip inspect * in|out
+     interface * / ip nhrp map *
+     interface * / ipv6 eigrp *
+     interface Wlan-GigabitEthernet *
+     ip dhcp pool * / next-server *
+     ip http authentication aaa exec-authorization
+     ip inspect name *
+     ip local policy route-map
+     no ip rcmd domain-lookup
+     ipv6 router eigrp *
+     login block-for
+     radius-server dead-criteria
+     radius-server deadtime
+     security authentication failure rate
+     tacacs server *
+
+  - Support for 'no spanning-tree vlan' using no-list construct:
+     spanning-tree vlan no-list 1234
+     (and to remove no-entry) no spanning-tree vlan no-list 1234
+
+  - Added static warning '%Pool nat-pool mask .* too small'
+    (RT20728)
+
+  - Additions to the YANG model:
+     interface * / link state group
+     link state track *
+    (RT20522)
+
+  - route bgp clean up. Minor API changes.
+
+
+Corrections:
+
+  - Fixed dependency: service-policy vs interface service instance
+     and interface switchport.
+    (RT20833,20834)
+
+  - Fixed dependency: bridge-domain vs interface service instance.
+    (RT20880)
+
+  - Revisited. Order dependency between interface / duplex & speed.
+    (RT20803)
+
+  - Changed logging host ipv6 type to inet:host to avoid case diff.
+    (RT20735)
+
+  - Removed 'license udi' from yang since not config.
+    (RT20819)
+
+  - API change: cns exec
+
+  - Reenabled write memory in revert & commit. Was accidently disabled
+    in earlier patch releases.
+
+  - Fixed order dependency when setting interface duplex (vs speed).
+    (RT20803)
+
+  - Added 1..4094 range on switchport vlan config.
+    (RT20824)
+
+  - Retry oper command when get 'Device or resource busy'.
+    (RT20818)
+
+  - Renamed crypto isakmp policy * / encryption to encr to match show.
+    (RT20831)
+
+  - Added cli-case-insensitive to logging host ipv6.
+
+  - Fixed order dependency when modifying ip route vrf interface.
+    (RT20746)
+
+  - API change: crypto isakmp keepalive
+
+  - API change: crypto pki trustpoint * / rsakeypair
+
+  - API change: event manager applet * / event timer
+
+  - API change: ip dhcp pool * / netbios-name-server *
+
+  - API change: spanning-tree vlan
+
+  - Removed three unused hooks.
+
+  - Show 'router bgp * / no bgp log-neighbor-changes'.
+    (RT20549)
+
+  - Add all and replace-as to outer bgp * / neighbor * remove-private-as.
+    (RT20435)
+
+This NED does require NCS version 3.2.3 or later.
+
+
+cisco-ios v4.0.1 [October 15, 2015]
+===================================
+
+Enhancements:
+
+  - Additions to the YANG model:
+     router eigrp * / offset-list
+     interface * / traffic-shape
+    (RT20383)
+
+  - Additions and expansions to the YANG model:
+     arp access-list *
+     mac-address-table aging-time
+     interface * / ipv6 nd raguard
+     ip arp inspection filter *
+     ip rcmd
+     vlan access-map *
+     wsma agent *
+     wsma profile *
+    (RT20274)
+
+  - Added support for add&remove when modifying allowed vlan list in.
+     interface * / switchport trunk allowed vlan.
+    Note: Vlan's still in single 'vlans' list. add/remove keywords are
+    inserted automatically by the NED when modifying list.
+   (RT17385,RT20282)
+
+  - Additions to the YANG model:
+     router lisp / site * / eid-prefix * route-tag|accept-more-specifics
+     router lisp / site * / allowed-locator *
+
+Corrections:
+
+  - Fixed router mpls * bug.
+    (RT20508)
+
+  - Removed distance from key in 'router rip|bgp / distance *'. API change.
+
+  - Fixed issue with changing a 'crypto isakmp key' entry.
+    (RT20466)
+
+  - Fixed bug with 'mpls ip'.
+
+  - Removed initial NETSIM router and ipv6 config.
+
+  - Added default value to set security-association lifetime seconds.
+    (RT20359)
+
+  - Fixed order dependency when modifying ip access-list object-group rule.
+    (RT18823)
+
+  - Fix for class-map modifications (removed obu-diffs).
+
+  - Fixed problem with confirmation code when deleting user.
+    (RT20354)
+
+  - Added 3 second sleep after 'do clear crypto ikev2 sa fast'.
+    (RT20042)
+
+  - Dependency fix: Remove crypto isakmp profile before crypto keyring.
+    (RT20321)
+
+  - Restored vrf support in 'ip nat inside source route-map'.
+    (RT20380)
+
+  - Fixed dependency problem with interface ppp and dialer.
+    (RT20386)
+
+This NED does require NCS version 3.2.3 or later.
+
+
+cisco-ios v4.0 [Sept 23, 2015]
+==============================
+
+Enhancements:
+
+  - Support for NSO-4.1.
+
+  - Additions to the YANG model:
+     boot system *
+     ip nat translation max-entries all-host
+     ip nat translation max-entries list
+
+  - Added static warning:
+    'for vrf .* scheduled for deletion'
+
+  - EPN 4.0 support for MEF and TI (Transport infrastructure).
+    Additions to the YANG model:
+     ethernet lmi
+     interface * / ethernet cfm mip level *
+     interface * / mpls igp ldp sync
+     ip sla enable timestamp
+     ip sla ethernet-monitor
+     ip sla * / ethernet jitter * mpid * domain *
+     route-map * / set mpls-label
+     router isis * / fast-reroute per-prefix
+    Expanded the YANG model in:
+     ethernet cfm
+     interface * / ethernet oam link-monitor. API change.
+    (RT18226, RT18277)
+
+  - Added support for:
+     snmp-server user *
+    Note: v3 auth&priv passwords are retrieved from CDB since hidden on device
+    (RT19569)
+
+  - Additions to the YANG model:
+     interface * / clock source
+     interface * / crc
+     interface * / dsu mode
+     interface * / mls netflow sampling
+     interface * / ip ospf authentication-key
+     interface * / ip ospf dead-interval
+     interface * / ip pim sparse-dense-mode
+     interface * / scramble
+     interface * / serial restart-delay
+     interface POS*
+    (19814)
+
+  - Additions to the YANG model:
+     card type e3 *
+     interface POS* / pos
+     ip nat translation icmp-timeout
+     ip nat service list * ftp tcp port *
+     ip rcmd source-interface
+     ipv6 route static bfd *
+     macro name (as a quoted string with \\r\\n for newline and no @)
+     snmp-server tftp-server-list
+    (RT19823)
+
+  - Implemented support for terminal server telnet login without user, pw.
+    (RT19766)
+
+  - Implemented basic IWAN support.
+    Additions to the YANG model:
+     domain
+     flow
+     interface * / domain
+     ip default-network *
+    (RT19342)
+
+  - Additions to the YANG model:
+     aaa accounting auth-proxy *
+     aaa accounting dot1x *
+     aaa authentication username-prompt
+     aaa authorization auth-proxy *
+     aaa server radius dynamic-author / client *
+     access-list dynamic-extended
+     crypto isakmp profile * / self-identify
+     interface * / down-when-looped
+     interface * / isis three-way-handshake
+     ip nat translation max-entries vrf *
+     ip nat translation max-entries all-host
+     ip nat translation max-entries list
+     ip wccp *
+     mac address-table notification
+     radius-server attribute *
+    (RT19411)
+
+  - Additions to the YANG model:
+     crypto ipsec profile * / set pfs|isakmp-profile|mixed-mode|identity
+     crypto isakmp profile * / keepalive|local-address
+     crypto ikev2 profile * / lifetime
+     interface * / platform ring
+     object-group service * / icmp *
+     track * ip sla
+    (RT19672, RT19673, RT19675, RT19727, RT18823, RT20035)
+
+  - Expanded 'ip route vrf *' configuration with vasi interfaces.
+    Expanded the YANG model in:
+     interface vasileft *
+     interface vasiright *
+    (RT19411)
+
+  - Additions to the YANG model:
+     interface Vlan * / vrrp *
+    (RT19569)
+
+  - Additions to the YANG model:
+    Expanded object-group service * / tcp * config.
+    Expanded object-group service * / udp * config.
+    object-group service * / tcp-udp *
+
+  - Expanded interface * / ip nhrp config.
+    Other addditions to the YANG model:
+     interface * / ip pim nbma-mode
+     interface * / tunnel key|vrf
+     policy-map * / class * / set dscp tunnel
+
+  - Additions to the YANG model:
+     interface ATM * / atm route-bridged
+     interface ATM * / pvc * / class-vc
+     interface ATM * / pvc * / pppoe-client / dial-pool-number *
+     interface * / mls qos bridged
+     interface * / no wrr-queue random-detect *  (note: use no-list ..)
+     interface * / tunnel mode gre
+     ip pim register-source
+     router isis * / nsf ietf
+     router eigrp * (Virtual-Instance config)
+     no ip pim autorp
+     vc-class atm * / vbr-nrt
+    (RT19074)
+
+Corrections:
+
+  - Fixed problem with changing police values in policy-map / class
+    (RT19880)
+
+  - Added 'do clear crypto ikev2 sa fast' before 'no crypto ikev2 keyring'
+     config
+    (RT20042)
+
+  - Added cli-recursive-delete to Virtual-Template interface.
+    (RT20042)
+
+  - Fail commit (write memory) and throw exception if flash is full.
+    (RT16197)
+
+  - Reworked 'mac access-list extended' list. API change.
+     Note: old implementation only allowed one entry and no options.
+
+  - Reworked 'interface * / ip helper-address' from a container to a list.
+
+  - Bugfixing in 'ip nat outside source'. Bad vrf support. API change.
+
+  - Removed ordered-by user to ip access-list extended.
+    (RT18927)
+
+  - Reworked 'logging source-interface' to support multiple entries.
+
+  - Fail commit (write memory) and throw exception if flash is full.
+    (RT16197)
+
+  - Reworked 'mac access-list extended' list. API change.
+    Note: old implementation only allowed one entry and no options.
+
+  - Reworked 'interface * / ip helper-address' from a container to a list.
+
+  - Reworked 'logging source-interface' to support multiple entries.
+
+  - Fixed tailfned police cirflat mode, actions were not on same line.
+
+  - Bug fixed ip nat inside source list, vrf did not work. API change.
+
+  - Bugfixing in 'ip nat outside source'. Bad vrf support. API change.
+
+  - Eased up ip nat inside source config by removing sequence on options.
+    (RT20020)
+
+  - Added static warning 'removed due to vrf change'.
+
+  - Quote and dequote description strings.
+
+  - Removed compact-syntax from police rate submode actions.
+
+  - Removed ordered-by user from class-map list.
+
+  - Added 'policy-map * / class class-default' to fix diff. API change.
+
+  - Bugfixed object-group service * / icmp|udp|tcp
+    (RT18823)
+
+  - Broke out 'interface * / xconnect' in order to fix dependency problem.
+
+  - Broke out 'cable l2vpn * / service instance * ethernet / xconnect' in
+     order to change 'backup peer *' to a list with maximum 3 entries.
+
+  - Raised config command retry from 60 seconds to 66 seconds.
+
+  - Fixed interface * / ip virtual-reassembly in|out config.
+
+  - Support for ipv6 in snmp-server group access. API change.
+
+  - Added subslot key to 'card type t3 *' config. API change.
+
+  - Changed ipv6 source-route to boolean. API change.
+
+  - Fixed ip dhcp snooping problem. API change.
+
+  - Made 'router bgp * / aggregate-address' into a list instead of container.
+
+  - Fixed problem in crypto isakmp key for IPv4 address.
+
+  - Retry delete of crypto isakmp profile for one minute when getting
+     getting 'is still in use and cannot be removed'.
+    (RT19977)
+
+  - Remove IP address(es) when vrf forwarding set on interface.
+
+  - Do not wait for echo with 'copy system:running-config tftp'
+    (RT19968)
+
+  - Fixed serious bug in getTrandId causing bad checksum due to NVRAM
+     comment not being stripped.
+    (RT19521)
+
+  - Fixed bug in isakmp key. Added support for ipv6.
+
+  - Fixed bug in isakmp key by splitting list. NOTE: API change.
+
+  - Added cli-no-value-on-delete extension to banners.
+
+  - Changed crypto isakmp profile * / match identity address * to a list.
+
+  - Redesigned policy-map / class / police rate config to work on asr1000.
+     NOTE: API change.
+
+  - Delete all contents in interface Tunnel before deleting it.
+    (RT19667)
+
+  - Bug fixed 'interface * / no wrr-queue random-detect *'
+    (RT19239)
+
+  - Fixed problem with deleting crypto ikev2 proposal.
+    (RT19674)
+
+  - Treat '% interface .* hsrp [a-f0-9:]* removed due to vrf change'
+     as warning, i.e. ignore.
+    (RT19520)
+
+  - Treat '%no specific protocol configured in class (.*) for inspection'
+     as warning, i.e. ignore.
+    (RT19478)
+
+  - Fix for copy exec command prompting for remote host and filename.
+
+  - Bugfixed router isis * / hello padding
+
+  - Remove zone-pair / service-policy before adding it back.
+
+  - Do not log enable password in trace.
+    (RT20243)
+
+This NED does require NCS version 3.2.3 or later.
+
+
+cisco-ios v3.10.0 [June 24, 2015]
+=================================
+
+Enhancements:
+
+  - Support for NSO-4.0 (note: NSO is new name for NCS)
+
+  - Added README file.
+
+  - The NED is now compliant with NSO 4.0 regarding registering
+    platform information. Run 'show devices device platform'
+
+  - Additions to the YANG model:
+     interface * / isis hello-interval
+     ip pim autorp listener
+     no mls flow ipv6
+
+  - Additions to the YANG model:
+     clns routing
+     crypto keyring * / pre-shared-key address *
+     interface Dialer *
+     interface * / auto qos voip cisco-phone
+     interface * / ip dns view-group
+     ip dns server view-group
+     ip dns spoofing
+     ip dns view *
+     ip dns view-list *
+     ip nat outside source static
+     mls rate-limit all mtu-failure
+     mls rate-limit multicast ipv4 *
+     snmp ifmib trap throttle
+     snmp-server file-transfer access-group *
+   (RT19153, RT19068)
+
+  - Additions to the YANG model:
+     ip sla * /  service-performance type ethernet
+     policy-map * / class * / dbl
+     vlan configuration *
+    (RT19088, RT19124)
+
+  - Additions to the YANG model:
+     cable load-balance group *
+     controller Integrated-Cable *
+     interface * / cable upstream bonding-group * / description
+     interface * / tx-queue
+     interface * / qos trust
+     qos
+     qos dbl
+     qos map dscp *
+     qos map cos *
+    (RT19085, RT19044)
+
+  - Additions to the YANG model:
+     cable downstream
+     cable linecard *
+     interface Asi *
+     interface Qam-red * / cable
+     interface * / lacp rate
+     line * / location
+     logging event trunk-status global
+     logging origin-id
+     redundancy / linecard-group * / class
+     service heartbeat, three new timer config
+    (RT18815, RT19044)
+
+  - Expanded router bgp * / template config.
+    (RT19011)
+
+  - New error detection method. Any text output when a config is set is
+     now treated as an error. Except for warning texts, static (hard coded)
+     or dynamic (added by user). Additional warnings (regexp expressions)
+     can be configured in ned-settings/cisco-ios-config-warning.
+     See README file for more information.
+     (#12532)
+
+  - Added exec command to see warning message since last commit:
+     # devices device <devname> live-status exec show warnings
+
+  - Expanded interface * / service instance * ethernet / l2protocol tunnel
+
+  - Other additions to the YANG model:
+     aaa group server tacacs+ * / ip vrf forwarding
+     ip access-list logging hash-generation|interval
+     object-group network *
+     object-group service * / tcp-udp *
+     object-group security *
+     parameter-map type inspect-global
+     policy-map * / class * / police / conform-color
+     template
+     (RT18823)
+
+  - Added basic support for BGP flowspec.
+    (RT18776)
+
+  - Expanded crypto ikev2 config.
+    (RT18823)
+
+  - Expanded event config.
+
+  - Additions to the YANG model:
+     crypto isakmp client configuration group *
+     exception crashinfo file
+     flowspec
+     interface Qam-red *
+     interface * / cable carrier-id
+     ip options drop
+     router bgp * / address-family * flowspec
+    (RT18823)
+
+  - Additions to the YANG model:
+     interface * / ip ospf ttl-security
+     router bgp * / redistribute * subnets
+    (RT18750)
+
+  - Additions to the YANG model:
+     no cdp advertise-v2
+     class-map * / match cos inner
+     class-map * / match service instance ethernet
+     no crypto isakmp default policy
+     ethernet evc * / oam protocol ldp
+     pseudowire-class * / interworking
+    (RT18671)
+
+  - Additions to the YANG model:
+     crypto map * ipsec-isakmp / description
+     crypto map * ipsec-isakmp / set pfs
+     spanning-tree portfast edge trunk
+   (RT18529)
+
+  - Append a 'default crypto ikev2 authorization policy' cfg-exec after
+     a 'no crypto ikev2 authorization policy default' config command.
+
+  - Added NCS version and NETSIM confd&NED version in ned trace.
+
+  - Insert vlan's shown with 'show vlan-switch' into config.
+    (RT18450 / #12833)
+
+  - Additions to the YANG model:
+     aaa group server tacacs+ * / server *
+     mpls traffic-eng auto-tunnel primary
+     interface / autonomic *
+     autonomic, autonomic registrar / whitelist|shut
+     (#12834)
+
+  - Additions to the YANG model:
+     aaa accounting update periodic
+     boot network
+     interface * / auto qos voip
+     interface * / ethernet uni id
+     interface * / ip arp inspection limit
+     interface * / vlan-id dot1q *
+     interface * / xconnect vfi
+     ip pim snooping
+     line * / accounting
+     line * / authorization commands *
+     login on-failure|on-success
+     mac-address-table limit vlan *
+     mls flow ipv6
+     mls rate-limit layer2 mac-security
+     password encryption aes
+     vlan filter *
+    (RT18285, RT18297, #12755, #12756)
+
+  - Expanded and improved controller SONET config.
+
+  - Additions to the YANG model:
+     call-home
+     class cem *
+     controller SONET *
+     controller * / cem-group *
+     controller * / ima-group
+     crypto ikev2 client flexvpn *
+     crypto ikev2 redirect client
+     crypto pki trustpoint * / usage
+     exception crashinfo buffersize
+     hw-module ism *
+     interface ATM *
+     interface CEM *
+     ip tftp blocksize
+     ip sla * / ethernet y1731 delay * / aggregate interval
+     line * / authorization exec
+     network-clock
+     pseudowire-class * / sequencing
+   (RT18249 / #12721)
+
+  - Expanded config in the YANG model:
+     interface * / isis
+     interface * / peer
+     interface * / ppp
+     interface * / tunnel mpls
+     monitor session *
+     ptp clock ordinary domain *
+     router bgp *
+     router isis *
+
+  - Build pnp erlang code in netsim if erlc is in path.
+
+
+Corrections:
+
+  - Exit interface mode before each new interface config to avoid
+    adding config from unknown interface type to previous one.
+    (RT19240)
+
+  - route-map * / set as-path prepend * should be able to take identical number
+
+  - interface * / mls qos trust API change.
+
+  - Changed Modular-Cable rf-channel leaf interleave-depth to interleave.
+
+  - Added ordered-by user to policy-map / class and class-map lists.
+
+  - Made cable fiber-node * / downstream * into a list.
+    Made Interface Cable * / downstream * into a list.
+    (RT19044)
+
+  - Changed interface Async key to string.
+
+  - Changed line * * from uint16 to string.
+
+  - Fixed order dependency in ip access-list with object-group's.
+    (RT18823)
+
+  - Fixed router bgp neighbor delete dependencies. Minor api change.
+    (RT18670)
+
+  - Fixed dependency problem with pw-class and pseudowire-class list.
+    (RT18924, RT19093)
+
+  - Add 'do clear crypto session' before 'no crypto ikev2 keyring' config.
+    (RT18897)
+
+  - Fixed problem with deleting mac-address-table limit vlan *
+
+  - Fixed bug in interface-name-grouping. Mixup between ToP and Tunnel.
+    (RT18880)
+
+  - Fixed dependency problem with policy-map / class and class-map.
+    (RT18808)
+
+  - Corrected interface * / no bfd echo (type empty -> type boolean).
+    Corrected interface * / no standby bfd (type empty -> type boolean).
+    Corrected interface * / no ip redirects (type empty -> type boolean).
+    (RT18823)
+
+  - Remove service-policy before changing it.
+    (RT18804)
+
+  - Fixed bug with error text causing exit from config mode upon commit.
+
+  - Fixed dependency problem with l2 vfi and interface xconnect vfi.
+    (RT18759)
+
+  - Switched aaa accounting stragegy to suppressed mode due to lack of mode
+    support on some devices. Convert mode-syntax upon read from device.
+    (RT18576)
+
+  - Fixed ordering issue in switchport (mode access vs trunk encap.)
+
+  - Once again reworked switchport yang model. This time as a choice
+     statement with support for 'show-yes' devices (e.g. 7600) that
+     does now show 'no switchport' but shows 'switchport'. The other
+     devices ('show-no' type) got an extra boolean leaf variable to
+     fix a bug where 'no switchport' was not sent to device.
+
+  - Fixed bug with 'switchport trunk allowed vlan add' triggering
+    conversion of description text.
+
+  - Added 'tailf:cli-preformatted' to all description leaves to suppress
+    quoting of non-config elements when displaying them.
+
+  - Ignore insertion of vlan's into config for VTP Clients.
+
+  - Changed interface * / autonomic connect to type empty.
+
+  - Use 'show vlan' first, fallback to 'show vlan-switch'.
+
+  - Also ignore 'no switchport' incomplete command error.
+
+  - Cleaned netsim/ios.xml start config.
+
+  - Ignore 'switchport' incomplete command error due to the confusing design
+    where some ios devices need it and some don't.
+
+  - Fixed order dependency in interface / service instance / encapsulation.
+
+  - Added explicit exit in router lisp / eid-table * mode.
+    (#12725)
+
+  - Bugfixed router isis.
+
+  - Reworked router isis / distance.
+
+  - Reworked logging host to support vrf and ipv6 properly.
+
+  - Bugfixed router bgp * / address-family * / redistribute ospf.
+
+  - Bugfixed router lisp / ipv4|ipv6 etr|itr enable.
+
+  - Treat 'already in use by' as an error.
+
+  - Treat 'VLAN .* does not exist, creating vlan' as warning, i.e. ignore.
+
+
+This NED does require NCS version 3.2.3 or later.
+
+
+cisco-ios v3.8.0 [March 16, 2015]
+=================================
+
+Enhancements:
+
+  - Support for NCS-3.4.
+
+  - Additions to the YANG model:
+     csdb tcp|udp|icmp|session
+     snmp-server queue-limit notification-host
+    (#12674 / RT18132)
+
+  - Additions to the YANG model:
+     router bgp * / bgp additional-paths
+     interface pseudowire * / service-policy
+    (#12675 / RT17994)
+
+  - Additions to the YANG model:
+     interface * / xconnect encapsulation / mtu
+    (#12676 / RT18079)
+
+  - Additions to the YANG model:
+     interface * / switchport private-vlan
+    (#12679 / RT18009)
+
+  - Additions to the YANG model:
+     interface * / wrr-queue dscp-map *
+     interface * / priority-queue dscp-map *
+     interface * / priority-queue queue-limit
+    (#12681 / RT18170)
+
+  - Additions to the YANG model:
+     interface * / l2protocol-tunnel lldp
+     interface * / l2protocol point-to-point
+    (RT18073)
+
+  - Added interface BRI and Async basic configuration.
+
+  - Populated router bgp * / peer-policy & peer-session lists.
+
+  - Expanded policy-map class random-detect config.
+
+  - Merged cloudvpn-develop (commit: 13d3dc9 from 2015-03-05):
+    Enhancements:
+     Added license command under live-status, e.g.:
+      devices device csr1000v live-status exec license smart deregister
+     Implemented support for 'default' exec commands in config mode, e.g.:
+      devname(config) default crypto ikev2 authorization policy
+     Additions to the YANG model:
+      aaa attribute list *
+      class-map * / match protocal attribute category *
+      crypto dynamic-map *
+      crypto ikev2 profile * / aaa authorization group
+      crypto ikev2 authorization policy *
+      crypto ikev2 keyring * / peer * / identity
+      crypto ikev2 profile * / nat keepalive
+      crypto ikev2 profile * / match fvrf
+      crypto isakmp nat
+      crypto isakmp profile *
+      crypto keyring *
+      crypto map * ipsec-isakmp|ipsec-manual
+      crypto logging ikev2
+      ip dhcp pool * / vrf
+      ip nat inside source route-map *
+      ip sla * / * / vrf
+      ip ssh stricthostkeycheck
+      logging source-interface * vrf
+      pnp startup-vlan
+      pnp tag
+      .. and more minor additions ..
+    Corrections:
+     Remove ip sla entry before modifying it upon error from device.
+     Modifications in the YANG model:
+      aaa accounting exec *
+      crypto ikev2 profile * / authentication
+      crypto isakmp policy * / encryption
+      crypto map *
+      interface * / ipv6 nd ra suppress
+      interface * / ntp multicast client
+      ip nat outside source
+      pnp profile * / transport
+      .. and more minor various bugfixes ..
+
+Corrections:
+
+  - Numerous router rip,ospf,ospfv3,isis and bgp bug fixes.
+
+  - Fixed dependency issues:
+    On Catalyst devices there is a dependency between:
+     interface * / switchport and interface * / l2protocol-tunnel.
+    The config under l2protocol-tunnel must always be deleted before
+     switchport is deleted.
+    The same dependency also applies to
+     interface * / switchport and interface * / service.
+    (RT18073)
+
+  - Removed all specific snmp-server enable traps. Replaced by generic list.
+
+  - Changed router * / passive-interface from a leaf to a list.
+    Fixed deletion of 'no passive-interface' on router config.
+    (#12683)
+
+  - Fixed order dependancy between service instance and ethernet evc.
+    (#12686 / RT18200)
+
+This NED does require NCS version 3.2.2 or later.
+
+
+cisco-ios v3.6.0 [February 13, 2015]
+====================================
+
+Enhancements:
+
+  - Implemented cable config support for 10000 Software.
+    (#12353 / RT17563)
+
+  - Added support for sub-interface Port-channel #.#
+
+  - Automatically delete channel-group and shutdown dependant ethernet
+    interfaces when Port-channel interface is deleted.
+    (#12304 / RT17422)
+
+  - General config expansion for improved MPLS and L2VPN support.
+
+  - Expanded router lisp config.
+    (#12432 / RT17707)
+
+  - Improved expect of sent commands at login, solving login problems
+    on XE devices.
+    (#12482 / RT17798)
+
+  - Expanded ethernet cfm config.
+
+  - Added aaa accounting update periodic config.
+    (#12484 / RT17825)
+
+  - Added support for aaa accounting connection.
+    (RT17164)
+
+  - Added interface ip ospf authentication config.
+    (#12483 / R17835)
+
+  - Added numerous ASR903/ASR920 L2 config.
+    (#12481 / RT17687)
+
+  - Added ip tcp mss config.
+    (#12480 / RT17774)
+
+  - Added copy, reload and traceroute commands under live-status.
+    (#12479 / RT17836)
+
+  - Support for vlan ranges in service instance encapsulation dot1q config.
+    (#12430 / RT17629)
+
+  - Added generic snmp-server enable traps list accepting all entries.
+
+  - Added basic support for cable l2vpn and cable  dot1q-vc-map
+
+Corrections:
+
+  - Reworked aaa authentication and authorization lists method options.
+    Non-backwards compatible 'aaa authorization network' model.
+    (#12353 / RT17164)
+
+  - Fixed bug in router ospf * / redistribute bgp|eigrp config.
+
+  - Fixed bug with setting banners. Removed delimiter config to avoid
+    compare config diff.
+    (#12300 / RT17300)
+
+  - Fixed ordering problem when deleting switchport mode trunk and
+    switchport trunk encapsulation dot1q.
+    (#12312 / RT17421)
+
+  - Do not delete switchport container when member leaves are deleted.
+
+  - Made index value mandatory in ip explicit-path in order to modify and
+    delete entries.
+    (#12341 / RT17511)
+
+  - Restored router bgp / address family ipv6 configuration mode.
+
+  - Remodelled ethernet cfm service evc to list.
+
+  - Removed auto-create of vlan when configuring bridge-domain.
+    Fixed order dependancy problem with service-policy.
+    (#12506 / RT17782)
+
+  - Do not delete config in set-hook's if talking Netconf.
+    (#12525)
+
+This NED does require NCS version 3.2.2 or later.
+
+
+cisco-ios v3.4.0 [December 1, 2014]
+===================================
+
+Enhancements:
+
+  - Support for NCS-3.3.
+
+  - Added ping and clear exec commands under live-status, e.g.:
+     devices device c7200 live-status exec ping 192.168.1.1
+     devices device c7200 live-status exec clear ppp queues
+
+  - YANG data model updates
+     mls qos map ip-prec-dscp
+
+    (RT17250)
+
+  - Added basic support for new L2VPN config, YANG data model updates
+     interface pseudowire
+     l2vpn xconnect context
+
+    (#12180 / RT17250)
+
+  - Added route-map / continue configuration.
+
+  - Updated for new NCS features 'trim-defaults' which hides config set
+    to default values.
+
+    (#12181)
+
+Corrections:
+
+  - Fixed problem with route-map * / set community reordering values.
+    (#12140)
+
+  - Remove ip prefix sequence entry before modifying it.
+
+  - Fixed problem with deleting ip vrf *, bad prefix used.
+    (#12150)
+
+  - Ignore incomplete crypto profile warning.
+
+  - Moved policy-map description to before class.
+
+
+This NED does require NCS version 3.2.2 or later.
+
+
+cisco-ios v3.2.0 [November 5, 2014]
+===================================
+
+Enhancements:
+
+  - Added minimal router eigrp support.
+
+  - Populated ip dhcp pool config.
+
+  - Reworked card config.
+
+  - Added version string in NED trace. Grep for 'NED VERSION:'
+
+  - Added support for show commands under live-status exec show, e.g.
+     devices device <devname> live-status exec show running-config.
+
+  - Added ncs java log and ned trace print of TransactionId.
+
+  - Added 'tailfned police' options: cirmode|cirflat|bpsflat|numflat
+     in order to support various versions of policy-map / class /
+     police config styles. This config disables non used versions
+     of police config.
+
+  - Added support for c3750 policy-map / class / police config syntax.
+
+  - Added support for match config in router bgp redistribute ospf list.
+    (Issue tracker: #15339)
+
+  - Added support for PPP/Ethernet/Frame Relay Bundled Service and
+     Ethernet MPLS L2VPN.
+     (Issue tracker: #15601)
+
+  - Implemented basic crypto ikev2 config support.
+
+  - Implemented support for 'crypto pki server <cs-lbl> [rollover [cancel]]
+     exec commands in config mode.
+
+  - Implemented full support for NTP configuration, modified/expanded:
+     ntp and interface / ntp commands.
+
+  - Implemented full support for SNTP configuration, implemented:
+     sntp command.
+
+  - Implemented full support for DNS configuration, modified/expanded:
+     ip host, ip name-server and ip domain commands.
+
+  -  Added crypto ssl support and crypto pki enroll <name> command.
+     (Issue tracker: #16986)
+
+  -  Added support for policy-map / class / random-detect dscp[-based].
+     (Issue tracker: #16914)
+
+  -  Added 'backup peer' and 'synchronous mode' interface config.
+     Reworked xconnect in interface and interface service instance.
+     Added bridge-domain hook for auto creating vlans with same <id>.
+     Added connect config.p
+     (Issue tracker: #16792)
+
+  -  Implemented support for 'crypto key' exec commands in config mode.
+     Added basic crypto isakmp and crypto ipsec support.
+     Expanded mobile ip and dialer config.
+     (Issue tracker: #16556)
+
+  -  Added crypto pki trustpoint create&remove hook for automatic creation
+     and removal of corresponding pki certificate chain.
+
+  -  Added remove hooks on /ip/vrf and /vrf/definition lists to automatically
+     delete routes on same vrf.
+
+  -  Implemented basic VoIP config support.
+
+  -  YANG data model updates
+      ip mobile router
+      controller Cellular
+     (Issue tracker: #16556)
+
+  -  YANG data model updates
+      mls qos srr-queue
+
+  -  YANG data model updates
+      ip dhcp pool
+
+  -  Added interface-ethernet-grouping to Port-channel interface.
+
+  -  Added storm-control action shutdown|trap config items.
+     (Issue tracker: #16046)
+
+  -  Added support for 'sequence' keyword to ipv6 access-list
+     (Issue tracker: #16156)
+
+  -  YANG data model updates
+     ip pim vrf
+     (Issue tracker: #15682)
+
+  -  YANG data interface model updates
+     interface LISP
+     interface Tunnel
+     interface Ethernet (for XE)
+     interface MFR - Multilink Frame Relay bundle
+     interface * / switchport
+
+  -  YANG data routing model updates
+     router rip
+     router eigrp
+     router ospf vrf
+     router * / distribute-list
+
+  -  New YANG data model top containers
+      track
+      pnp profile
+      pseudowire-class
+
+  -  YANG data model updates
+     event manager applet / action
+
+  -  YANG data model updates
+     l3vpn encapsulation
+
+  -  YANG data model updates
+      card
+
+  -  YANG data model updates
+      ip explicit-path
+      ip flow-aggregation cache
+
+  - Expanded mobile ip and dialer config.
+
+  - Expanded LISP config.
+
+  - Expanded crypto config.
+
+
+Corrections:
+
+  - Fixed order dependency issues in policy-map/class/police when switching
+     between an aggregate and policer.
+     NOTE: Requires support for 'tailf:cli-trigger-on-set' option.
+
+  - Fixed issue with remove before change on the following leafs:
+     interface * / service-policy / input
+     interface * / service-policy / output
+
+  - Added cli-show-no to shutdown leaf in in order to be able to bring
+     down (send 'no shutdown') interface after creation.
+
+  - Moved policy-map/class/police aggregate out of police choice.
+
+  - Change argument to setTimeout() from seconds to millisecs in
+     NED Java code due to NCS NED API change.
+
+  -  Moved table-map,mls,policer,class-map and policy-map to before interface.
+     (Issue tracker: #16091, #15854)
+
+  -  Added error checks:
+     'please remove the service-policy on the zone-pair'
+     'in use, cannot'
+     (Issue tracker: #16093)
+
+  -  Remodelled interface/ip access-group to support both in and out entries.
+     (Issue tracker: #16045)
+
+  -  Display 'switchport port-security' on a separate line.
+
+  -  Fixed order dependency issues in policy-map/class/police when
+     switching between an aggregate and policer.
+     (Issue tracker: #16574)
+
+  -  Fixed dependency between interface switchport and service instance
+     delete.
+     (Issue tracker: #16792)
+
+  -  Fixed problem with 'no media-type' clearing duplex on interface.
+     (Issue tracker: #16792)
+
+  -  Fixed policy-map / class / bandwidth percent modification order
+     dependency problem.
+
+  -  Fixed order dependency problems in policy-map / class / random-detect
+     dscp, discard and precedence.
+     (Issue tracker: #16914)
+
+  -  Repaired support for multiple certificates.
+
+  -  Fixed typo in access-list.
+     (Issue tracker: #15626)
+
+  -  YANG data routing model bugfixes
+      ip
+      ipv6
+
+  -  YANG data routing model bugfixes
+      service
+
+  -  YANG data routing model bugfixes
+      snmp-server host vrf
+
+  -  YANG data routing model bugfixes
+      vrf definition
+
+  -  YANG data routing model bugfixes
+      aaa
+
+  -  YANG data routing model bugfixes
+      interface * / service-policy
+
+  -  YANG data routing model bugfixes
+      access-list
+
+  -  YANG data routing model bugfixes
+      ip domain-name
+      ip domain-list
+      ip domain-lookup
+
+This NED does require NCS version 3.2.2 or later.
+
+
+cisco-ios v3.0.2 [April 30, 2014]
+=================================
+
+Enhancements:
+
+  -  Implemented support for interface service instances
+     (Issue tracker: #15246)
+
+  -  Added check in java for commit error "not configured"
+
+  -  Updated YANG data model
+
+
+cisco-ios v3.0.1 [April 7, 2014]
+================================
+
+Enhancements:
+
+  -  Added basic support for Locator/ID Separation Protocol (LISP)
+
+  -  Added support for config overwrite after OS upgrade.
+     (Issue tracker: #14618)
+
+
+cisco-ios v3.0 [March 4, 2014]
+==============================
+
+This release is function wise equivalent to the previous release, which was 1.8.
+The only difference is that this NED now is maintained using
+a new product life-cycle which is independent of the NCS release life-cycle.
+
+The version number 3.0 has been chosen to indicate a common baseline for
+all NEDs, which is higher than any previous NED version.
+
+For this NED no upgrades are necessary.
+
+The Tail-f package: cisco-ios NED was initially imported 2014-02-25
+
+=============================================

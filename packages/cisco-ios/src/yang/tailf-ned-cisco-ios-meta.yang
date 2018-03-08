@@ -1,0 +1,432 @@
+module tailf-ned-cisco-ios-meta {
+  namespace 'urn:ios-meta';
+  prefix cisco-ios-meta;
+
+  import tailf-common {
+    prefix tailf;
+  }
+
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+
+  grouping cisco-ios-ned-settings-grouping {
+
+    // cisco-ios
+    container cisco-ios {
+      tailf:info "cisco-ios ned-settings";
+
+      // cisco-ios connection-settings
+      container connection-settings {
+        tailf:info "Configure settings specific to the connection between NED and device";
+
+        // cisco-ios connection-settings prompt-timeout
+        leaf prompt-timeout {
+          tailf:info "Timeout in milliseconds before sending a newline to wake the device";
+          type uint32 {
+            tailf:info "NUM;;milliseconds";
+          }
+        }
+
+        // cisco-ios connection-settings device-output-delay
+        leaf device-output-delay {
+          tailf:info "Delay in milliseconds after each config command output to the device";
+          type uint32 {
+            tailf:info "NUM;;milliseconds (default 0)";
+          }
+        }
+      }
+    }
+
+    // cisco-ios-log-verbose
+    leaf cisco-ios-log-verbose {
+      tailf:info "Enabled extra verbose logging in NED (for debugging)";
+      type boolean;
+    }
+
+    // cisco-ios-config-warning *
+    list cisco-ios-config-warning {
+      tailf:info "Device warning regexp entry list.";
+      tailf:cli-suppress-mode;
+      tailf:cli-delete-when-empty;
+      key warning;
+      leaf warning {
+        tailf:cli-multi-word-key;
+        type string {
+          tailf:info "WORD;;Warning regular expression, "+
+            "e.g. vlan.* does not exist.* creating vlan";
+        }
+      }
+    }
+
+
+    // cisco-ios-auto-prompts *
+    list cisco-ios-auto-prompts {
+      tailf:info "Pre-stored answers to device prompting questions.";
+      tailf:cli-suppress-mode;
+      tailf:cli-delete-when-empty;
+      tailf:cli-compact-syntax;
+      tailf:cli-incomplete-command;
+      key id;
+      leaf id {
+        type string {
+          tailf:info "WORD;;List id, any string.";
+        }
+      }
+      leaf question {
+        tailf:info "Device question, regular expression";
+        type string {
+          tailf:info "WORD;;Question, regexp format";
+        }
+      }
+      leaf answer {
+        tailf:info "Answer to device question";
+        type string {
+          tailf:info "WORD;;Answer to device question or the word 'ENTER' for LF+CR";
+        }
+      }
+    }
+
+    // cisco-ios-write-memory-method
+    leaf cisco-ios-write-memory-method {
+      tailf:info "Change method to write config to memory";
+      type string {
+        tailf:info "WORD;;Command to write config to memory (default: 'write memory')";
+      }
+    }
+
+    // cisco-ios-write-memory-setting
+    // Controls how and when the NED performs a save to persistent memory.
+    leaf cisco-ios-write-memory-setting {
+      tailf:info "Configure how and when an applied config is saved"
+        +" to persistent memory on the device.";
+      type enumeration {
+        enum "on-commit" {
+          tailf:info "Save configuration immediately after the config"
+            +" has been successfully applied on the device. If an error"
+            +" occurs when saving the whole running config will be"
+            +" rolled back (default).";
+        }
+        enum "on-persist" {
+          tailf:info "Save configuration during the NED persist handler. Called "
+            +"after the config has been successfully applied and commited "
+            +"If an error occurs when saving an alarm will be triggered. "
+            +"No rollback of the running config is done.";
+        }
+        enum "disabled" {
+          tailf:info "Disable saving the applied config to persistent memory.";
+        }
+      }
+    }
+
+    // cisco-ios-inject-config *
+    // Insert config first in running-config when running sync-from
+    list cisco-ios-inject-config {
+      tailf:info "Additional config to insert first in top of running-config.";
+      tailf:cli-suppress-mode;
+      tailf:cli-delete-when-empty;
+      tailf:cli-compact-syntax;
+      tailf:cli-incomplete-command;
+      key id;
+      leaf id {
+        type string {
+          tailf:info "WORD;;List id, any string.";
+        }
+      }
+      leaf regexp {
+        tailf:info "Insert after each match in show running-config [OPTIONAL]";
+        tailf:cli-incomplete-command;
+        type string {
+          tailf:info "WORD;;Regular expression";
+        }
+      }
+      leaf "config" {
+        tailf:info "Additional config that should be inserted";
+        type string {
+          tailf:info "WORD;;Config entry";
+        }
+      }
+    }
+
+    // cisco-ios-inject-interface-config
+    // Insert config first in interface config when running sync-from
+    list cisco-ios-inject-interface-config {
+      tailf:info "Additional config to insert first in an interface config.";
+      tailf:cli-suppress-mode;
+      tailf:cli-delete-when-empty;
+      tailf:cli-compact-syntax;
+      tailf:cli-sequence-commands;
+      tailf:cli-incomplete-command;
+      key id;
+      leaf id {
+        type string {
+          tailf:info "WORD;;List id, any string.";
+        }
+      }
+      leaf interface {
+        tailf:info "Affected interface(s)";
+        tailf:cli-incomplete-command;
+        type string {
+          tailf:info "WORD;;Regular expression specifying interface";
+        }
+      }
+      leaf "config" {
+        tailf:info "Additional config that should be inserted";
+        type string {
+          tailf:info "WORD;;Config entry";
+        }
+      }
+      // leaf last
+    }
+
+    // cisco-ios-inject-command *
+    list cisco-ios-inject-command {
+      tailf:info "Inject command (before or after) specified config-line upon commit.";
+      tailf:cli-suppress-mode;
+      tailf:cli-delete-when-empty;
+      tailf:cli-compact-syntax;
+      tailf:cli-sequence-commands;
+      tailf:cli-incomplete-command;
+      key id;
+      leaf id {
+        type string {
+          tailf:info "WORD;;List id, any string.";
+        }
+      }
+      leaf config-line {
+        tailf:info "The config line where command should be injected (regexp)";
+        tailf:cli-incomplete-command;
+        type string {
+          tailf:info "WORD;;Config line";
+        }
+      }
+      leaf command {
+        tailf:info "The command to inject after|before config-line. "+
+          "Start with 'do' if exec command";
+        tailf:cli-incomplete-command;
+        type string {
+          tailf:info "WORD;;Command line";
+        }
+      }
+      leaf where {
+        tailf:cli-drop-node-name;
+        type enumeration {
+          enum before-each {
+            tailf:info "insert command before each matching config-line";
+          }
+          enum before-first {
+            tailf:info "insert command before first matching config-line";
+          }
+          enum after-each {
+            tailf:info "insert command after each matching config-line";
+          }
+          enum after-last {
+            tailf:info "insert command after last matching config-line";
+          }
+        }
+      }
+    }
+
+    // cisco-ios-transaction-id-method
+    leaf cisco-ios-transaction-id-method {
+      tailf:info "Method of the cisco-ios NED to use for calculating "
+        +"a transaction id. Typically used for check-sync operations";
+      type enumeration {
+        enum config-hash {
+          tailf:info "Calculate MD5 on a snapshot of the entire running "+
+            "config for calculation. (Default)";
+        }
+        enum last-config-change {
+          tailf:info "Use the 'Last configuration change' timestamp "+
+            "in running config only. (WARNING: changed at reboot)";
+        }
+        enum config-id {
+          tailf:info "Use the 'show configuration id' command "+
+            "(WARNING: changed at reboot)";
+        }
+        enum config-history {
+          tailf:info "Use the 'show configuration history' command "+
+            "(WARNING: changed at reboot)";
+        }
+        enum confd-state-trans-id {
+          tailf:info "Use the confd 'show confd-state internal cdb datastore "+
+            "running transaction-id (NETSIM only)";
+        }
+      }
+    }
+
+    // cisco-ios-show-running-method
+    leaf cisco-ios-show-running-method {
+      tailf:info "Change method to show running-connfig";
+      type string {
+        tailf:info "WORD;;Command to show running-config (default: 'show running-config')";
+      }
+    }
+
+    // cisco-ios-police-format
+    leaf cisco-ios-police-format {
+      tailf:info "Configure the format used by the device for police settings.";
+      type enumeration {
+        enum "auto" {
+          tailf:info "Let the NED probe the device for the correct format"
+            +" (default).";
+        }
+        enum "cirmode" {
+          tailf:info "police cir <bps> [[bc <burst-normal>] [be <burst-max>]]"
+            +"[pir <bps> [be <burst-bytes>]] ACTIONS.";
+        }
+        enum "bpsflat" {
+          tailf:info "police <bps> bps <byte> byte ACTIONS.";
+        }
+        enum "numflat" {
+          tailf:info "police <bps> <burst> exceed-action "
+            +"{drop | policed-dscp-transmit}].";
+        }
+        enum "cirflat" {
+          tailf:info "police cir <bps> bc <burst-normal> ACTIONS.";
+        }
+      }
+      default "auto";
+    }
+
+    // auto - container for dynamic behaviour
+    container cisco-ios-auto {
+      tailf:info "Configure auto (dynamic behaviour)";
+
+      // cisco-ios-auto vrf-forwarding-restore
+      leaf vrf-forwarding-restore {
+        tailf:info "Restore interface ip address after vrf forwarding change (default: true)";
+        type boolean;
+      }
+
+      // cisco-ios-auto ip-community-list-repopulate
+      leaf ip-community-list-repopulate {
+        tailf:info "Restore ip community-list after delete of individual entry (for e.g. 3550)";
+        type boolean;
+      }
+
+      // cisco-ios-auto interface-switchport-status
+      leaf interface-switchport-status {
+        tailf:info "Auto set interface switchport status using 'show interface <name> switchport";
+        type boolean;
+      }
+    }
+
+    // cisco-ios-api
+    container cisco-ios-api {
+      tailf:info "Configure API (new API features/changes)";
+
+      // cisco-ios-api new-ip-access-list
+      leaf new-ip-access-list {
+        tailf:info "Use the new combined ip access-list with sequence numbers only";
+        type boolean;
+      }
+    }
+
+    // cached-show - container for caching output of show
+    container cisco-ios-cached-show-enable {
+      tailf:info "Enable cached-show";
+      leaf version {
+        tailf:info "Enable caching of some output of 'show version'";
+        type boolean;
+      }
+    }
+
+    // cisco-ios-use-ip-mroute-cache-distributed
+    // Set to true, if 'ip mroute-cache distributed' should be used instead of 'ip mroute-cache'
+    // cat3560/3750 allow 'ip mroute-cache distributed'
+    // cat4506 allows 'ip mroute-cache'
+    // Both just shows 'ip mroute-cache' when show running-config is executed.
+    // To avoid compare-config diff and rollback issue, we use this ned-settings
+    leaf cisco-ios-use-ip-mroute-cache-distributed {
+      tailf:info "Use ip mroute-cache distribute instead of ip mroute-cache";
+      type boolean;
+    }
+  }
+
+
+  // cisco-ios-proxy-settings
+  grouping config-proxy-settings-grouping {
+    container cisco-ios-proxy-settings {
+      tailf:info "cisco-ios proxy ned-settings";
+
+      // cisco-ios-proxy-settings remote-connection
+      leaf remote-connection {
+        tailf:info "Connection type between proxy and device";
+        type enumeration {
+          enum "exec" {
+            tailf:info "master to slave board proxy";
+          }
+          enum "ssh" {
+            tailf:info "SSH jump host proxy";
+          }
+          enum "telnet" {
+            tailf:info "TELNET jump host proxy";
+          }
+          enum "serial" {
+            tailf:info "terminal server proxy";
+          }
+        }
+      }
+
+      leaf remote-address {
+        tailf:info "Address of host behind the proxy";
+        tailf:display-when "not (../remote-connection='exec')";
+        type inet:ip-address;
+      }
+      leaf remote-port {
+        tailf:info "Port of host behind the proxy";
+        tailf:display-when "not (../remote-connection='exec')";
+        type uint16;
+      }
+      leaf proxy-prompt {
+        tailf:info "Prompt pattern on the proxy host";
+        tailf:display-when "not (../remote-connection='exec')";
+        type string;
+      }
+
+      leaf remote-command {
+        tailf:info "Connection command used to initiate proxy on device";
+        tailf:display-when "(../remote-connection='exec')";
+        type string;
+      }
+      leaf remote-prompt {
+        tailf:info "Prompt pattern on the remote (proxy) host";
+        type string;
+      }
+
+      leaf remote-name {
+        tailf:info "User name on the device behind the proxy";
+        type string;
+      }
+      leaf remote-password {
+        tailf:info "Password on the device behind the proxy";
+        type string;
+      }
+      leaf remote-secondary-password {
+        tailf:info "Second password (e.g. enable) on the device behind the proxy";
+        type string;
+      }
+    }
+  }
+
+  augment "/ncs:devices/ncs:global-settings/ncs:ned-settings" {
+    uses cisco-ios-ned-settings-grouping;
+  }
+
+  augment "/ncs:devices/ncs:profiles/ncs:profile/ncs:ned-settings" {
+    uses cisco-ios-ned-settings-grouping;
+  }
+
+  augment "/ncs:devices/ncs:device/ncs:ned-settings" {
+    when "../ncs:device-type/ncs:cli/ncs:ned-id = 'ios-id:cisco-ios'";
+    uses cisco-ios-ned-settings-grouping;
+
+    uses config-proxy-settings-grouping;
+  }
+}
