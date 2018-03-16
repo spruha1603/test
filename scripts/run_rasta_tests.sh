@@ -20,7 +20,7 @@ echo Start RASTA test...
 ## Start tests: || true means that process will not stop because of failure.
 ## Once the tests are done, they can be collected by the robot plugin,
 ## which will determine success/failure according the plugin configs
-cd ${WORKSPACE}/rasta/tests/check-dc-vlan-service
+cd ${WORKSPACE}/MyFirstPipeline/tests/check-dc-vlan-service
 python -m robot *.robot || true
 
 deactivate
