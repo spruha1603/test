@@ -1,0 +1,36 @@
+testbed:
+  tacacs:
+    login_prompt: "sername:"
+    password_prompt: "assword:"
+    username: admin
+  passwords:
+    linux: admin
+
+devices:
+  ncs:
+    type: nso
+    os: nso
+    tacacs:
+      username: admin
+    passwords:
+      tacacs: admin
+      line: admin
+      enable: admin
+    connections:
+      defaults:
+        class: unicon.Unicon
+      con:
+        command: ncs_cli -C
+      cli:
+        #protocol: ssh
+        #ip: 127.0.0.1
+        #port: 2024
+        #username: admin
+        password: admin
+        command: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no admin@localhost -p 2024
+      restconf:
+        protocol: http
+        ip: 127.0.0.1
+        port: 8080
+        username: admin
+        password: admin

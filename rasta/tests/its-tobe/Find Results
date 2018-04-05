@@ -1,0 +1,67 @@
+Searching 8 files for "GRACIS2" (regex, case sensitive)
+
+/Users/mmalysz/rasta/playground/maciek/its-tobe/001-config.yaml:
+   55                        "Provider_Edge_Port_Config": [
+   56                          {
+   57:                           "ROUTER_NAME": "GRACIS2",
+   58                            "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/10",
+   59                            "PHYSICAL_MTU": 9192
+
+/Users/mmalysz/rasta/playground/maciek/its-tobe/005-config.yaml:
+   44                        "Provider_Edge_Port_Config": [
+   45                          {
+   46:                           "ROUTER_NAME": "GRACIS2",
+   47                            "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/10",
+   48                            "PHYSICAL_MTU": 9192,
+   ..
+   54                          },
+   55                          {
+   56:                           "ROUTER_NAME": "GRACIS2",
+   57                            "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/4",
+   58                            "PHYSICAL_MTU": 9192,
+   ..
+  135                        "Provider_Edge_Port_Config": [
+  136                          {
+  137:                           "ROUTER_NAME": "GRACIS2",
+  138                            "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/10",
+  139                            "PHYSICAL_MTU": 9192,
+  ...
+  141                          },
+  142                          {
+  143:                           "ROUTER_NAME": "GRACIS2",
+  144                            "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/4",
+  145                            "PHYSICAL_MTU": 9192,
+  ...
+  232    }
+  233  
+  234: HealthCheckuri: /api/running/devices/device/GRACIS2/tbs/_operations/HealthCheck
+  235  
+  236  ServiceChecksuri: |
+
+/Users/mmalysz/rasta/playground/maciek/vpn-tobe/005-config.yaml:
+   99                            "INTERFACE_ID_PE": "GigabitEthernet0/0/0/10",
+  100                            "IP_LOOPBACK_PE": "172.16.1.1",
+  101:                           "PE_ACCESS_OR_NNIL2": "GRACIS2"
+  102                          }
+  103                        }
+  ...
+  155    }
+  156  
+  157: HealthCheckuri: /api/running/devices/device/GRACIS2/tbs/_operations/HealthCheck
+  158  
+  159  ServiceChecksuri: |
+
+/Users/mmalysz/rasta/playground/maciek/vpn-tobe/201-config.yaml:
+   71                "L3NNI_CONFIG_NC_ID": 1,
+   72                "INTERFACE_ID_L3NNI": "GigabitEthernet0/0/0/10",
+   73:               "PE_L3NNI": "GRACIS2",
+   74                "L3NNI_VCConfig": {
+   75                  "C_TAG_L3NNI": 100
+   ..
+  124    }
+  125  
+  126: HealthCheckuri: /api/running/devices/device/GRACIS2/tbs/_operations/HealthCheck
+  127  
+  128  ServiceChecksuri: |
+
+10 matches across 4 files

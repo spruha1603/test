@@ -1,0 +1,5 @@
+ip route 0.0.0.0 0.0.0.0 20.1.1.1
+interface GigabitEthernet0/0
+ media-type rj45
+ duplex     full
+ ip address 20.1.1.2 255.255.255.0

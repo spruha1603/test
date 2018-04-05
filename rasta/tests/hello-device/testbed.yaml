@@ -1,0 +1,27 @@
+testbed:
+  tacacs:
+    login_prompt: "sername:"
+    password_prompt: "assword:"
+    username: admin
+  passwords:
+    linux: admin
+    tacacs: cisco
+    line: cisco
+    enable: cisco
+
+devices:
+  R1:
+    type: ios
+    os: ios
+    tacacs:
+      username: cisco
+    passwords:
+      tacacs: cisco
+    connections:
+      defaults:
+        class: unicon.Unicon
+      cli:
+        protocol: telnet
+        ip: 127.0.0.1
+        port: 64001
+

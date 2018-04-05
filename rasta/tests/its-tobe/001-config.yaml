@@ -1,0 +1,145 @@
+#
+# Variables used within the robot testcase files
+
+# all devices are configured in this file, it is used by pyATS/unicon library
+testbed: testbed.yaml
+
+nso: ncs                        # the device name of the NSO as defined in the testbed files
+cli_style: cisco                # CLI style we want to use for NSO (cisco or juniper)
+
+cfgdir: ./cfg                   # to store the device configs (subdirectories before/ and after/
+                                # are created at runtime
+
+itsrfsuri: /api/running/ITS_RFS
+
+itsServiceUnituri: /api/running/ITS_RFS/ITS_Service_Unit_RFS/41990
+
+createInStatePreparePayload: |
+  { 
+    "ITS_RFS": {
+      "ITS_Service_Unit_RFS": [
+        {
+          "ADMINISTRATIVE_ID_ITS": "41990",
+          "CUSTOMER_NAME_LONG": "CASE1L01",
+          "CUSTOMER_NAME_SHORT": "CASE1SHORT",
+          "ITS_Technical_Functional_Unit": {
+            "STATE_Technical_Functional_Unit": "prepare",
+            "Access": {
+              "ITS_Access": {
+                "APS_SCENARIO": "NONE",
+                "BFD_REQUIRED": "No",
+                "EC-VRRP_REQUIRED": "None",
+                "IP_VERSION_ACCESS": "IPv4",
+                "TECHNOLOGY_ITS": "Ethernet",
+                "IPV4_MTU": 9100,
+                "AGGREGATION_ITS": "No",
+                "VLAN_REQUIRED_ITS": "Yes",
+                "PE_Endpoint": [
+                  {
+                    "PE_ENDPOINT_NC_KEY": 1,
+                    "PE_Endpoint_ServicePoint": {
+                      "STATE_PE_ENDPOINT": "prepare"
+                    },
+                    "IP_Config": {
+                      "IPV4_WAN_CE": "216.184.113.117",
+                      "IPV4_WAN": "216.184.113.116",
+                      "MASKV4_WAN": 31
+                    },
+                    "ITS_Subinterface": {
+                      "SUBINTERFACE_ID": 307
+                    },
+                    "VLAN_Config": {
+                      "VLAN_ID": 307
+                    },
+                    "Direct": {
+                      "Provider_Edge_Port_Config": [
+                        {
+                          "ROUTER_NAME": "GRACIS0",
+                          "INTERFACE_ID_PE": "GigabitEthernet 0/0/0/10",
+                          "PHYSICAL_MTU": 9192
+                        }
+                      ]
+                    },
+                    "Technology": {
+                      "Ethernet": {
+                        "ACCESS_SPEED_ETHERNET": "10Gb"
+                      }
+                    }
+                  }
+                ],
+                "Access_Features": {
+                  "ITS_QOS": {
+                    "QoS_DIRECTION": "BOTH"
+                  }
+                }
+              }
+            },
+            "Connection": {
+              "ITS_Connection": [
+                {
+                  "IP_VERSION_CONNECTION": "IPv4",
+                  "BGP_MULTIPATH": "No",
+                  "BLACK_HOLE_ROUTING": "No",
+                  "MD5_AUTH": "No",
+                  "QOS_ACCESS": "Best_Effort",
+                  "ROUTING_PROTOCOL": "PR-E (BGP)",
+                  "USE_CONTROL_COMMUNITIES": "No",
+                  "USE_DEFAULT_ROUTING": "No",
+                  "USE_FULL_ROUTING": "Yes",
+                  "USE_ORIGIN_TAGGED_COMMUNITIES": "No",
+                  "USE_SELECTIVE_ROUTING": "No",
+                  "BGP_MAX_ROUTES": 200,
+                  "BGP_MULTIHOP": "No",
+                  "BGP_WARNING_PERCENT": 80,
+                  "CUSTOMER_TYPE_CONNECTION": "ITS_Transit",
+                  "ITS_CONNECTION_NC_KEY": 11,
+                  "SCENARIO": "EC-E: Independent connections",
+                  "ITS_Addressing": {
+                    "ADDRESSING_ASSIGNMENT": "AD-T (Tiws)"
+                  },
+                  "ITS_AS": {
+                    "AS_PRIVATE_ASSIGNMENT": "No",
+                    "CUSTOMER_PUBLIC_AS": 6403,
+                    "STI_CUSTOMER_ASNs": [
+                      {
+                        "STI_CUSTOMER_ASNs_value": 26210
+                      },
+                      {
+                        "STI_CUSTOMER_ASNs_value": 27860
+                      },
+                      {
+                        "STI_CUSTOMER_ASNs_value": 27970
+                      }
+                    ],
+                    "STI_CUSTOMER_COMM": 10500
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+
+modifyToStateuri: /api/running/ITS_RFS/ITS_Service_Unit_RFS/41990/ITS_Technical_Functional_Unit/Access/ITS_Access/PE_Endpoint/1/PE_Endpoint_ServicePoint/STATE_PE_ENDPOINT
+
+modifyToStatePPayload: |
+  {
+    "tbs-its-rfs:STATE_PE_ENDPOINT": "p"
+  }
+
+modifyToStateActivatePayload: |
+  {
+    "tbs-its-rfs:STATE_PE_ENDPOINT": "activate"
+  }
+
+modifyToStateReadyPayload: |
+  {
+    "tbs-its-rfs:STATE_PE_ENDPOINT": "ready"
+  }
+
+HealthCheckuri: /api/running/devices/device/GRACIS0/tbs/_operations/HealthCheck
+
+ServiceChecksuri: |
+  /api/running/ITS_RFS/ITS_Service_Unit_RFS/41990/ITS_Technical_Functional_Unit/Access/ITS_Access/PE_Endpoint/1/_operations/tbs-its-checks:

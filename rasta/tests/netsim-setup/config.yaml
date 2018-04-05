@@ -1,0 +1,55 @@
+#
+# Variables used within the robot testcase files
+
+# all devices are configured in this file, it is used by pyATS/unicon library
+testbed: testbed.yaml
+
+nso: ncs                        # the device name of the NSO as defined in the testbed files
+cli_style: juniper              # CLI style we want to use for NSO (cisco or juniper)
+server: localhost               # the device of the hosting Linux/Mac host as defined in testbed file
+
+# The following commands are issued when setting up netsim devices and setting up 
+# NCS. 
+
+createEnvironment_1: |
+  mkdir -p netsim;
+  ncs-netsim --dir netsim create-network $NCS_DIR/packages/neds/cisco-ios 2 ce;
+  ncs-netsim --dir netsim add-to-network $NCS_DIR/packages/neds/cisco-iosxr 2 pe;
+  ncs-netsim start
+createEnvironment_2: |
+  ncs-setup --netsim-dir ./netsim --dest ncs-run;
+  cd ncs-run;
+  ncs;
+  cd ..
+createEnvironment_3: |
+   ncs-netsim ncs-xml-init > devices.xml;
+   ncs_load -l -m devices.xml && rm -f devices.xml
+
+deleteEnvironment: |
+   ncs-netsim delete-network
+   ncs --stop
+   rm -rf ncs-run
+
+# Base config to apply to the Netsim devices
+# here we only need to make sure the Interfaces exist 
+# we use a Yaml construct of a list to send each command individually. The unicon library 
+# will send the commit
+deviceBaseConfig: 
+   - set devices device pe0 config cisco-ios-xr:interface GigabitEthernet 0/0/0/0
+   - set devices device pe1 config cisco-ios-xr:interface GigabitEthernet 0/0/0/0
+   - set devices device ce0 config ios:interface GigabitEthernet 0/0
+   - set devices device ce1 config ios:interface GigabitEthernet 0/0
+
+# Once the setup is created, we are checking if the below devices are active in NCS
+netsimDevices:
+   - ce0
+   - ce1
+   - pe0
+   - pe1
+
+# Once the setup is created, we are checking if the below packages are loaded
+packages:
+   - cisco-ios      5.2.7
+   - cisco-iosxr    5.3.1
+   - sw-init-l3vpn  1.0
+

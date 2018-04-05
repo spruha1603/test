@@ -1,0 +1,129 @@
+#
+# Variables used within the robot testcase files
+
+# all devices are configured in this file, it is used by pyATS/unicon library
+testbed: testbed.yaml
+
+nso: ncs                        # the device name of the NSO as defined in the testbed files
+cli_style: cisco                # CLI style we want to use for NSO (cisco or juniper)
+
+cfgdir: ./cfg                   # to store the device configs (subdirectories before/ and after/
+                                # are created at runtime
+VPNuri: /api/running/VPN
+
+VPN_NAMEuri: /api/running/VPN/MPLS_VPN/vpn_12956_201
+
+VPN_Aggregateuri: /api/running/VPN_Aggregate
+
+MPLS_VPN_Aggregateurl: /api/running/VPN_Aggregate/MPLS_VPN_Aggregate/vpn_agg_201_1
+
+createVPNPayload: |
+  {
+    "VPN": {
+      "MPLS_VPN": [
+        {
+          "VPN_NAME": "vpn_12956_201",
+          "ADMINISTRATIVE_NUMBER_VPN": "22222",
+          "NUMBER_OF_ROUTES": 3000,
+          "INTERNAL_VPN_ID": 33333,
+          "VPN_EXPORT_RT": "12345:11",
+          "VPN_ID": 201,
+          "VPN_IMPORT_RT": "12345:22",
+          "SERVICE_ID": "11",
+          "VPN_CONNECTION_MODEL": "End-Service",
+          "SUMMARIZATION": "No",
+          "CUSTOMER_NAME": "Repsol",
+          "CUST_SHORT_NAME": "RPL",
+          "VPN_Management": {
+            "MANAGEMENT_ENTITY": "TBS",
+            "ADDRESSING": "Customer",
+            "VPN_TBS_Management": {
+              "Customer_Addressing_Management": {
+                "IP_CUST_LOOPBACK_REAL_RANGE": [
+                  {
+                    "IP_CUST_LOOPBACK_REAL_RANGE_value": "10.200.1.0/24"
+                  },
+                  {
+                    "IP_CUST_LOOPBACK_REAL_RANGE_value": "10.200.2.0/24"
+                  }
+                ],
+                "CPE_MONITORING_RT": "61333:32",
+                "CIC_MONITORING_RT": "61333:14"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+
+createVPNAggregateInStatePreparePayload: |
+  {
+    "VPN_Aggregate": {
+      "MPLS_VPN_Aggregate": [
+        {
+          "AGGREGATE_ID": "vpn_agg_201_1",
+          "LOAD_SHARING": "No",
+          "STATE_AGGREGATE": "Prepare",
+          "AGG_VPN_REFERENCE": "vpn_12956_201",
+          "L3NNI_Config": [
+            {
+              "L3NNI_CONFIG_NC_ID": 1,
+              "INTERFACE_ID_L3NNI": "GigabitEthernet0/0/0/10",
+              "PE_L3NNI": "GRACIS0",
+              "L3NNI_VCConfig": {
+                "C_TAG_L3NNI": 100
+              },
+              "L3NNI_IP_Config": {
+                "IP_WAN_L3NNI": "10.0.1.1",
+                "MASK_WAN_L3NNI": 31,
+                "IP_MTU_L3NNI": 1400
+              },
+              "Routing_BGP_NNI": {
+                "L3NNI_MODE": "Main",
+                "IP_WAN_NEIGHBOR": "1.0.1.2"
+              },
+              "L3NNI_Config_ServicePoint": {
+                "STATE_AGGREGATE_L3NNI": "Prepare"
+              }
+            }
+          ],
+          "Route_Aggregation": {
+            "ROUTE_AGGREGATION": "No"
+          },
+          "Routing": {
+            "ROUTING_ROLE": "Main",
+            "ROUTING_TYPE": "BGP",
+            "Routing_BGP": {
+              "BGP_MAX_PREFIX": 100,
+              "HOLDTIME": 150,
+              "KEEPALIVE": 150,
+              "Routing_BGP_AGGR": {
+                "AS_OVERRIDE_NNI": "No",
+                "L3NNI_BGP_MD5": "No",
+                "NEIGHBOR_AS": 65010
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+
+modifyToStateuri: /api/running/VPN_Aggregate/MPLS_VPN_Aggregate/vpn_agg_201_1/L3NNI_Config/1/L3NNI_Config_ServicePoint/STATE_AGGREGATE_L3NNI
+
+
+modifyToStatePEPayload: |
+  {
+    "tbs-vpn-rfs-aggregate:STATE_AGGREGATE_L3NNI": "PE"
+  }
+
+modifyToStateReadyPayload: |
+  {
+    "tbs-vpn-rfs-aggregate:STATE_AGGREGATE_L3NNI": "Ready"
+  }
+
+HealthCheckuri: /api/running/devices/device/GRACIS0/tbs/_operations/HealthCheck
+
+ServiceChecksuri: |
+  /api/running/VPN_Aggregate/MPLS_VPN_Aggregate/vpn_agg_201_1/L3NNI_Config/1/_operations/

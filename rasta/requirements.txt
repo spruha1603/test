@@ -1,0 +1,10 @@
+setproctitle>=1.1.10
+robotframework
+six
+openpyxl
+requests
+selenium
+terminaltables
+docutils
+htmlmin
+ciscoconfparse

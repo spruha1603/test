@@ -1,0 +1,160 @@
+#
+# Variables used within the robot testcase files
+
+# all devices are configured in this file, it is used by pyATS/unicon library
+testbed: testbed.yaml
+
+nso: ncs                        # the device name of the NSO as defined in the testbed files
+cli_style: cisco                # CLI style we want to use for NSO (cisco or juniper)
+
+cfgdir: ./cfg                   # to store the device configs (subdirectories before/ and after/
+                                # are created at runtime
+VPNuri: /api/running/VPN
+
+VPN_NAMEuri: /api/running/VPN/MPLS_VPN/vpn_12956_5
+
+VPN_SITEuri: /api/running/VPN_SITE
+
+MPLS_Accessuri: /api/running/VPN_SITE/MPLS_VPN_SITE/test_site_5/Technical_Functional_Unit/1/Access/MPLS_Access/1
+
+MPLS_VPN_SITEurl: /api/running/VPN_SITE/MPLS_VPN_SITE/test_site_5
+
+createVPNPayload: |
+  {
+    "VPN": {
+      "MPLS_VPN": [
+        {
+          "VPN_NAME": "vpn_12956_5",
+          "ADMINISTRATIVE_NUMBER_VPN": "22222",
+          "NUMBER_OF_ROUTES": 3000,
+          "INTERNAL_VPN_ID": 33333,
+          "VPN_EXPORT_RT": "12345:11",
+          "VPN_ID": 5,
+          "VPN_IMPORT_RT": "12345:22",
+          "SERVICE_ID": "11",
+          "VPN_CONNECTION_MODEL": "End-Service",
+          "SUMMARIZATION": "No",
+          "CUSTOMER_NAME": "Repsol",
+          "CUST_SHORT_NAME": "RPL",
+          "VPN_Management": {
+            "MANAGEMENT_ENTITY": "Carrier/Customer"
+          }
+        }
+      ]
+    }
+  }
+
+createVPNSiteInStatePreparePayload: |
+  {
+    "VPN_SITE": {
+      "MPLS_VPN_SITE": [
+        {
+          "ADMINISTRATIVE_NUMBER_SITE": "test_site_5",
+          "SITE_TOPOLOGY": "1",
+          "STATE_SITE": "Prepare",
+          "MULTIVRF": "No",
+          "MANAGEMENT_ENTITY": "Carrier/Customer",
+          "Technical_Functional_Unit": [
+            {
+              "TECHNICAL_FUNCTIONAL_UNIT_NC_ID": 1,
+              "STATE_SITE_TFU": "Prepare",
+              "VPN_REFERENCE": "vpn_12956_5",
+              "Access": {
+                "MPLS_Access": [
+                  {
+                    "MPLS_ACCESS_NC_ID": 1,
+                    "ROUTING_TYPE": "Static",
+                    "ASSOCIATED_LINK_MPLS": 1,
+                    "Access_Features": {
+                      "Routing": {
+                        "ROUTING_ROLE": "Main",
+                        "Routing_STATIC": {
+                          "IP_STATIC_PREFIX": [
+                            {
+                              "IP_STATIC_PREFIX_value": "10.0.0.0/16"
+                            },
+                            {
+                              "IP_STATIC_PREFIX_value": "10.1.0.0/16"
+                            }
+                          ]
+                        }
+                      },
+                      "QoS_Profile": {
+                        "TOTAL_DOWN_BANDWIDTH": 2000,
+                        "BRONZE_DOWN_BANDWIDTH": 2000
+                      }
+                    },
+                    "PE_Endpoint": {
+                      "Direct": {
+                        "PE_VCConfig": {
+                          "C_TAG_PE": 101,
+                          "SUBINTERFACE_ID_PE": 101
+                        },
+                        "PE_IP_Config": {
+                          "IP_WAN_PE": "10.0.0.10",
+                          "MASK_WAN_PE": 30,
+                          "IP_MTU_PE": 1400
+                        },
+                        "Provider_Edge_Port": {
+                          "INTERFACE_ID_PE": "GigabitEthernet0/0/0/10",
+                          "IP_LOOPBACK_PE": "172.16.1.1",
+                          "PE_ACCESS_OR_NNIL2": "GRACIS0"
+                        }
+                      }
+                    },
+                    "CE_Endpoint": {
+                      "Physical": {
+                        "CE_IP_Config": {
+                          "IP_WAN_CE": "5.6.7.8"
+                        }
+                      }
+                    },
+                    "MPLS_Access_ServicePoint": {
+                      "STATE_SITE_TFU_ACCESS": "Prepare"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "Commercial_Functional_Unit": {
+            "Physical_Link": {
+              "MPLS_Link": [
+                {
+                  "MPLS_LINK_NC_ID": 1,
+                  "COUNTRY_SITE": "ESP",
+                  "CITY_SITE": "MAD",
+                  "LINK_TECHNOLOGY": "Ethernet",
+                  "Link_Technology": {
+                    "Fixed": {
+                      "Ethernet_Link": {
+                        "TBS_PE_ACCESS_MODE": "Direct",
+                        "BFD": "No"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+
+modifyToStateuri: /api/running/VPN_SITE/MPLS_VPN_SITE/test_site_5/Technical_Functional_Unit/1/Access/MPLS_Access/1/MPLS_Access_ServicePoint/STATE_SITE_TFU_ACCESS
+
+modifyToStatePEPayload: |
+  {
+    "tbs-vpn-rfs-site:STATE_SITE_TFU_ACCESS": "PE"
+  }
+
+modifyToStateReadyPayload: |
+  {
+    "tbs-vpn-rfs-site:STATE_SITE_TFU_ACCESS": "Ready"
+  }
+
+HealthCheckuri: /api/running/devices/device/GRACIS0/tbs/_operations/HealthCheck
+
+ServiceChecksuri: |
+  /api/running/VPN_SITE/MPLS_VPN_SITE/test_site_5/Technical_Functional_Unit/1/Access/MPLS_Access/1/_operations/

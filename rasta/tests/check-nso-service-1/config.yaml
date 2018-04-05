@@ -1,0 +1,100 @@
+#
+# Variables used within the robot testcase files
+
+# all devices are configured in this file, it is used by pyATS/unicon library
+testbed: testbed.yaml
+
+nso: ncs                        # the device name of the NSO as defined in the testbed files
+cli_style: cisco                # CLI style we want to use for NSO (cisco or juniper)
+
+cfgdir: ./cfg                   # to store the device configs (subdirectories before/ and after/
+                                # are created at runtime
+
+createPayload: |
+      <sw-init-l3vpn xmlns="http://com/example/swinitl3vpn">
+        <name>VRFNAME</name>
+        <endpoint>
+          <pe>pe0</pe>
+          <pe-interface>0/0/0/0</pe-interface>
+          <ce>ce0</ce>
+          <ce-interface>0/0</ce-interface>
+          <pe-address>20.1.1.1</pe-address>
+          <ce-address>20.1.1.2</ce-address>
+        </endpoint>
+      </sw-init-l3vpn>
+
+interfacesUri: /api/running/devices
+
+interfacesPayload: |
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>ce0</name>
+      <config>
+      <interface xmlns="urn:ios">
+      <GigabitEthernet>
+        <name>0/0</name>
+        <ip>
+          <no-address>
+            <address>false</address>
+          </no-address>
+        </ip>
+      </GigabitEthernet>
+      </interface>
+      </config>
+  </device>
+  <device>
+    <name>pe0</name>
+      <config>
+      <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+      <GigabitEthernet>
+        <id>0/0/0/0</id>
+      </GigabitEthernet>
+      </interface>
+      </config>
+  </device>
+  </devices>
+
+
+# Device diffs in the format of the config_compare.py module
+diffExpectedAdd:
+  ce0: |
+    interface GigabitEthernet0/0
+     media-type rj45
+     duplex     full
+     no shutdown
+     no switchport
+     ip address 20.1.1.2 255.255.255.0
+    !
+    ip route 0.0.0.0 0.0.0.0 20.1.1.1
+
+diffExpectedRemoved:
+  ce0: |
+    interface GigabitEthernet0/0
+     no shutdown
+     no switchport
+     no ip address
+    !
+
+# Device diffs using ciscocompare method
+diffCiscoCompareExpectedAdded:
+  ce0: |
+    ip route 0.0.0.0 0.0.0.0 20.1.1.1
+    interface GigabitEthernet0/0
+     media-type rj45
+     duplex     full
+     ip address 20.1.1.2 255.255.255.0
+
+diffCiscoCompareExpectedRemoved:
+  ce0: |
+    interface GigabitEthernet0/0
+     no ip address
+
+
+# different way to check the config, here through a check on NSO level
+diffCheckCommand: show running-config devices device ce0 config ios:interface GigabitEthernet 0/0
+
+# we check for multiple values
+diffExpected:
+  - ip address 20.1.1.2 255.255.255.0
+  - media-type rj45
+  - duplex     full
